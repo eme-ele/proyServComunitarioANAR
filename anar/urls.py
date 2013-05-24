@@ -11,6 +11,8 @@ urlpatterns = patterns('',
     # url(r'^yacimientos/$', 'anarapp.views.index'),
     # url(r'^mapa/$', 'geoespacial.views.mapa'),
     url(r'^anarapp/', include('anarapp.urls')),
+
+
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
