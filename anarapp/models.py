@@ -248,6 +248,8 @@ class Yacimiento(models.Model):
         (1, 'WGS 84'),
         (2, 'La Canoa - Provisional Suramérica 1956'),
     )
+
+    codigo = models.CharField('0. Codigo del Yacimiento', max_length=20)#, primary_key=True)        
     nombre = models.CharField(max_length=100)
     longitud = models.FloatField()
     latitud = models.FloatField()
@@ -278,9 +280,6 @@ class Yacimiento(models.Model):
     fotografia = models.ManyToManyField(Fotografia, related_name='fotografias_yacimiento',blank=True)
 
     tipoSitio = models.ManyToManyField(TipoYacimiento, blank=True)
-
-    def _unicode_(self):
-        return self.nombre
 
     ubicacionYacimiento = models.ManyToManyField(UbicacionYacimiento,blank=True)
     orientacionYacimiento = models.ManyToManyField(OrientacionYacimiento,blank=True)
@@ -337,6 +336,9 @@ class Yacimiento(models.Model):
     mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion,blank=True)
 
     otrosValoresSitio = models.CharField('Otros valores del sitio', max_length = 150,blank=True)
+
+    def __unicode__(self):
+        return 'PB1-' + self.codigo + '-' + self.nombre
 
 
 class CronologiaTentativa (models.Model):
@@ -626,9 +628,11 @@ class Piedra(models.Model):
 
     revisoFicha = models.CharField('17a. Ficha rellena por', max_length=40)
 
+    materialesApoyo = models.ManyToManyField(MaterialApoyo, blank=True)
+    mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion, blank=True )
 
-    materialesApoyo = models.ManyToManyField(MaterialApoyo)
-    mecanismosObtencionInformacion = models.ManyToManyField(MecanismoObtencionInformacion)
+    def __unicode__(self):
+        return 'Pa-' + self.codigo + '-' + self.nombre
 
 class TratamientoFotografia(models.Model):
     
@@ -643,16 +647,16 @@ class TratamientoFotografia(models.Model):
 class CaraTrabajada(models.Model):
 
     OPCIONES_ORIENTACION_CARA_TRABAJADA = (
-        (0, 'Tope'),
-        (1, 'Norte'),
-        (2, 'Noreste'),
-        (3, 'Este'),
-        (4, 'Sureste'),
-        (5, 'Sur'),
-        (6, 'Suroeste'),
-        (7, 'Oeste'),
-        (8, 'Noroeste'),
-        (9, 'Piso o plano inclinado'),
+        (0, '0-Tope'),
+        (1, '1-Norte'),
+        (2, '2-Noreste'),
+        (3, '3-Este'),
+        (4, '4-Sureste'),
+        (5, '5-Sur'),
+        (6, '6-Suroeste'),
+        (7, '7-Oeste'),
+        (8, '8-Noroeste'),
+        (9, '9-Piso o plano inclinado'),
     )
 
     OPCIONES_LUMINOSIDAD = (

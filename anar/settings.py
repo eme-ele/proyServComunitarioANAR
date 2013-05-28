@@ -1,5 +1,8 @@
 # Django settings for anar project.
 
+import os
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -102,11 +105,14 @@ ROOT_URLCONF = 'anar.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'anar.wsgi.application'
 
+MEDIA_ROOT = PROJECT_PATH + '/media/'
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/hector/Dropbox/uni/ServicioComunitario/code/anar/anar/templates',
+
+    PROJECT_PATH + '/templates/'    
 )
 
 INSTALLED_APPS = (
@@ -123,6 +129,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'anarapp',
     'south',
+    'joins'
 )
 
 # A sample logging configuration. The only tangible logging
