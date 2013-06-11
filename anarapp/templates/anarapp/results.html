@@ -5,11 +5,12 @@
 		<link rel="stylesheet" type="text/css" href="{% static "anarapp/formstyle.css" %}">
 		<link rel="stylesheet" type="text/css" href="{% static "anarapp/avanzada.css" %}">
 		<link rel="stylesheet" href="jquery-ui-1.10.1.custom/css/smoothness/jquery-ui-1.10.1.custom.css" />
+		<title>Archivo Nacional de Arte Rupestre</title>
 	</head>
 <body>
 
 	<ul id="nav">
-		<li><a href="#inicio">Inicio</a></li>
+		<li><a href="/">Inicio</a></li>
 		<li><a href="#quienes">Quienes Somos</a></li>
 		<li><a href="#patrimonio">Patrimonio Rupestre Venezolano</a></li>
 		<li><a href="#programa">Programa de Educacion</a></li>
@@ -55,53 +56,34 @@
 
 		</div>
 
-		{% if lista_yacimientos %}
+        {% if query %}
 		<div id="res">
 			<p><label id="titulo">Resultados</label></p><br>
-
 				<div class="resultados">
-					{% for yacimiento in lista_yacimientos %}
-						<div class="resultado" style="width:100%">
-							<div id="resImagen">
-								<img src="images/piedra.jpg" height="100">
-							</div>
-							<div id="resTexto">
-								<p>Codigo: {{ yacimiento.codigo }}</p>
-								<table>
-									<tr><td >Nombre: {{ yacimiento.nombre }}</td></tr>
-									<tr><td >Yacimiento</td></tr>
-									<tr><td >Municipio: {{ yacimiento.municipio }}</td></tr>
-									<tr><td >Estado: {{ yacimiento.estado }}</td></tr>
-								</table>
-							</div>
-							<img src="images/lineaGris.gif" >
-						</div>
-					{% endfor %}
-				</div>	
 
-				<div class="resultados">
-					{% for piedra in lista_piedras %}
-						<div class="resultado" style="width:100%">
-							<div id="resImagen">
-								<img src="images/piedra.jpg" height="100">
-							</div>
-							<div id="resTexto">
-								<p>Codigo: {{ piedra.codigo }}</p>
-								<table>
-									<tr><td >Nombre: {{ piedra.nombre }}</td></tr>
-									<tr><td >Piedra</td></tr>
-									<tr><td >Municipio: {{ piedra.municipio }}</td></tr>
-									<tr><td >Estado: {{ piedra.estado }}</td></tr>
-								</table>
-							</div>
-							<img src="images/lineaGris.gif" >
-						</div>
-					{% endfor %}
-				</div>	
-
-
+	            {% for result in page.object_list %}
+				<div class="resultado" style="width:100%">
+					<div id="resImagen">
+						<img src="images/piedra.jpg" height="100">
+					</div>
+					<div id="resTexto">
+                		<p>Codigo: {{ result.object.codigo }}</p>
+						<table>
+							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
+							<tr><td >Yacimiento</td></tr>
+							<tr><td >Municipio: {{ result.object.municipio }}</td></tr>
+							<tr><td >Estado: {{ result.object.estado }}</td></tr>
+						</table>
+					</div>
+					<img src="images/lineaGris.gif" >
+				</div>
+				{% empty %}
+                <p>No se ha encontrado ning&uacute;n resultado.</p>
+            	{% endfor %}
 		</div>
-		{% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
 
 	</div>
 

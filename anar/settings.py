@@ -129,7 +129,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'anarapp',
     'south',
-    'joins'
+    'joins',
+    'haystack',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -159,4 +160,11 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'xapian_backend.XapianEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'xapian_index'),
+    },
 }

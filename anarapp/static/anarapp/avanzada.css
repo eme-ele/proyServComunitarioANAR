@@ -126,7 +126,7 @@ html, body, head {
     text-align: center;
 }
 
-#buscador input{
+#buscador input[type="text"]{
     font-size:1.5em;
     width: 30em;
 }
