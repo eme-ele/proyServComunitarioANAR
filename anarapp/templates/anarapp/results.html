@@ -2,8 +2,8 @@
 <html>
 	<head>
 		{% load staticfiles %}
-		<link rel="stylesheet" type="text/css" href="{% static "anarapp/formstyle.css" %}">
-		<link rel="stylesheet" type="text/css" href="{% static "anarapp/avanzada.css" %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/formstyle.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/avanzada.css' %}">
 		<link rel="stylesheet" href="jquery-ui-1.10.1.custom/css/smoothness/jquery-ui-1.10.1.custom.css" />
 		<title>Archivo Nacional de Arte Rupestre</title>
 	</head>
@@ -56,8 +56,9 @@
 
 		</div>
 
-        {% if query %}
 		<div id="res">
+        {% if query %}
+		
 			<p><label id="titulo">Resultados</label></p><br>
 				<div class="resultados">
 
@@ -67,24 +68,39 @@
 						<img src="images/piedra.jpg" height="100">
 					</div>
 					<div id="resTexto">
-                		<p>Codigo: {{ result.object.codigo }}</p>
+                		<p>C&oacute;digo: {{ result.object.codigo }}</p>
 						<table>
 							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
-							<tr><td >Yacimiento</td></tr>
+							<tr><td >{{ result.model_name }}</td></tr>
 							<tr><td >Municipio: {{ result.object.municipio }}</td></tr>
 							<tr><td >Estado: {{ result.object.estado }}</td></tr>
 						</table>
 					</div>
-					<img src="images/lineaGris.gif" >
+					<br/>
+					<hr>
 				</div>
 				{% empty %}
                 <p>No se ha encontrado ning&uacute;n resultado.</p>
             	{% endfor %}
-		</div>
-        {% else %}
-            {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}
 
+				 {% if page.has_previous or page.has_next %}
+					<div>
+						{% if page.has_previous %}
+						<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">
+						{% endif %}&laquo; Anterior 
+						{% if page.has_previous %}</a>{% endif %}
+						|
+						{% if page.has_next %}
+						<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">
+						{% endif %}Siguiente &raquo;{% if page.has_next %}</a>
+				{% endif %}
+                </div>
+            {% endif %}
+
+        {% else %}
+            <p>No ha realizado ninguna b&uacute;squeda.</p>
+        {% endif %}
+		</div>
 	</div>
 
 </body>
