@@ -131,6 +131,10 @@ html, body, head {
     width: 30em;
 }
 
+#buscador label {
+    display: none;
+}
+
 .button {
     margin-left: 2em;
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;

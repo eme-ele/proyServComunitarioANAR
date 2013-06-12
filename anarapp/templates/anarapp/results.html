@@ -79,6 +79,7 @@
 					<br/>
 					<hr>
 				</div>
+				
 				{% empty %}
                 <p>No se ha encontrado ning&uacute;n resultado.</p>
             	{% endfor %}
@@ -92,10 +93,10 @@
 						|
 						{% if page.has_next %}
 						<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">
-						{% endif %}Siguiente &raquo;{% if page.has_next %}</a>
-				{% endif %}
-                </div>
-            {% endif %}
+						{% endif %}Siguiente &raquo;{% if page.has_next %}</a>{% endif %}
+                	</div>
+           	 	{% endif %}
+				<p>Mostrando {{ page.start_index }} - {{ page.end_index }} de {{ page.paginator.count }} resultados.</p>
 
         {% else %}
             <p>No ha realizado ninguna b&uacute;squeda.</p>
