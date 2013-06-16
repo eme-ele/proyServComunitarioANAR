@@ -131,8 +131,14 @@ html, body, head {
     width: 30em;
 }
 
-#buscador label {
-    display: none;
+#buscador th {
+	display: none;
+}
+
+#buscador li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 10px;
 }
 
 .button {
