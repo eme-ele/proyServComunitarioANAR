@@ -188,7 +188,6 @@ $RECYCLE.BIN/
 #############
 
 *.py[co]
-*.pyc
 
 # Packages
 *.egg
@@ -214,3 +213,14 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+##############
+# Nested inlines
+##############
+src/
+
+
+#############
+# Archivos a ocultar del repo
+############
