@@ -2,5 +2,5 @@
 {{ object.yacimiento }}
 {{ object.nombre }}
 {{ object.manifiestacionAsociada }}
-{{ object.nombrefiguras }}
+{{ object.nombreFiguras }}
 {{ object.autorficha }}
