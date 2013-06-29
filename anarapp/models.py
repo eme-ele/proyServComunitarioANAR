@@ -243,7 +243,7 @@ class ManifestUbicacionYacimiento (models.Model):
     tipoManifestacion = models.IntegerField('13. Tipo de Manifestacion',choices = OPCIONES_TIPO_MANIFEST, blank = True,null = True)
     ubicacionManifestacion = models.IntegerField('14. Ubicación de la Manifestacion',choices = OPCIONES_UBI_MANIFEST, blank = True,null = True)
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='manifestacion')
 
     class Meta:
         verbose_name = '13. Tipo de Manifestación'

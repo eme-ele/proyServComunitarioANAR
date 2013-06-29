@@ -224,3 +224,5 @@ src/
 #############
 # Archivos a ocultar del repo
 ############
+*.pyc
+anar/xapian_index/

@@ -68,7 +68,6 @@
 						<img src="images/piedra.jpg" height="100">
 					</div>
 					<div id="resTexto">
-					{% if result.model_name == 'yacimiento' %}
                 		<p>C&oacute;digo: {{ result.object.codigo }}</p>
 						<table>
 							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
@@ -76,14 +75,6 @@
 							<tr><td >Municipio: {{ result.object.municipio }}</td></tr>
 							<tr><td >Estado: {{ result.object.estado }}</td></tr>
 						</table>
-					{% elif result.model_name == 'piedra' %}
-						<p>C&oacute;digo: {{ result.object.codigo }}</p>
-						<table>
-							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
-							<tr><td >Piedra</td></tr>
-							<tr><td >Estado: {{ result.object.estado }}</td></tr>
-						</table>
-					{% endif %}	
 					</div>
 					<br/>
 					<hr>
