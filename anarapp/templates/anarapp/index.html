@@ -3,7 +3,17 @@
 <head>
 	{% load staticfiles %}
 	{% load url from future %}
+	<title>Archivo Nacional de Arte Rupestre</title>
+	
 	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/avanzada.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
+	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
+	<script>
+		$(document).ready(function(){$(".chosen").chosen()})
+	</script>
+	
 </head>
 <body>
 

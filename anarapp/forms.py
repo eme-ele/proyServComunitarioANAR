@@ -30,7 +30,9 @@ OPCIONES_TIPO_MANIFEST = (
 
 
 class BasicForm(SearchForm):
-	manifestacion = forms.ChoiceField(choices=OPCIONES_TIPO_MANIFEST,required=False)
+	manifestacion = forms.MultipleChoiceField(choices=OPCIONES_TIPO_MANIFEST,required=False)
+	manifestacion.widget.attrs['class'] = 'chosen'
+	manifestacion.widget.attrs['data-placeholder'] = 'Manifestacion'
 	
 	def search(self):
 		sqs = super(BasicForm, self).search()
@@ -39,7 +41,7 @@ class BasicForm(SearchForm):
 			return self.no_query_found()
 			
 		if self.cleaned_data['manifestacion']:
-			sqs = sqs.filter(manifestacion=self.cleaned_data['manifestacion'])
+			sqs = sqs.filter(manifestacion__in=self.cleaned_data['manifestacion'])
 			
 		return sqs
 
