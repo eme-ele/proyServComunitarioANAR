@@ -30,20 +30,21 @@ OPCIONES_TIPO_MANIFEST = (
 
 
 class BasicForm(SearchForm):
-	manifestacion = forms.MultipleChoiceField(choices=OPCIONES_TIPO_MANIFEST,required=False)
-	manifestacion.widget.attrs['class'] = 'chosen'
-	manifestacion.widget.attrs['data-placeholder'] = 'Manifestacion'
-	
-	def search(self):
-		sqs = super(BasicForm, self).search()
-		
-		if not self.is_valid():
-			return self.no_query_found()
+    manifestacion = forms.MultipleChoiceField(choices=OPCIONES_TIPO_MANIFEST,required=False)
+    manifestacion.widget.attrs['class'] = 'chzn-select'
+    manifestacion.widget.attrs['data-placeholder'] = 'Seleccione el tipo de Manifestación'
+    manifestacion.widget.attrs['style'] = 'width:350px;'
+
+    def search(self):
+        sqs = super(BasicForm, self).search()
+
+        if not self.is_valid():
+            return self.no_query_found()
 			
-		if self.cleaned_data['manifestacion']:
-			sqs = sqs.filter(manifestacion__in=self.cleaned_data['manifestacion'])
+        if self.cleaned_data['manifestacion']:
+            sqs = sqs.filter(manifestacion__in=self.cleaned_data['manifestacion'])
 			
-		return sqs
+        return sqs
 
 class YacimientoForm(forms.ModelForm):
     """

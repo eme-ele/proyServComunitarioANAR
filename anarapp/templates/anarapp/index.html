@@ -5,13 +5,13 @@
 	{% load url from future %}
 	<title>Archivo Nacional de Arte Rupestre</title>
 	
-	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/avanzada.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/anar.css' %}">
 	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
 	<script>
-		$(document).ready(function(){$(".chosen").chosen()})
+		$(document).ready(function(){$(".chzn-select").chosen()})
 	</script>
 	
 </head>
@@ -26,8 +26,10 @@
 		<li><a href="#contacto">Contacto</a></li>
 	</ul>
 
-	<div id="buscador">
+	<div id="logo">
 		<img src="{% static 'anarapp/logo.png' %}" height="100"><br/><br/>
+	</div>
+	<div id="buscador">
     	<form method="get" action="{% url 'results' %}">
 		    <table style="margin:auto">
 		        {{ form.as_table }}
@@ -39,6 +41,8 @@
 		    </table>
 		</form>
 	</div>
+
+
 
 </body>
 </html>
