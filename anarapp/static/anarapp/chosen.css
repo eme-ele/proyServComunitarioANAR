@@ -28,6 +28,7 @@
 
 .chzn-container.chzn-with-drop .chzn-drop {
   left: 0;
+  text-align: left !important;
 }
 
 /* @end */
@@ -277,6 +278,7 @@
 .chzn-container .chzn-results .active-result {
   cursor: pointer;
   display: list-item;
+  text-align: left !important;
 }
 .chzn-container .chzn-results .highlighted {
   background-color: #3875d7;
