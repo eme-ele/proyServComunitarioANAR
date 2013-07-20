@@ -226,3 +226,4 @@ src/
 ############
 *.pyc
 anar/xapian_index/
+anar/whoosh_index/
