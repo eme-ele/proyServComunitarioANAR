@@ -166,7 +166,7 @@ class FotografiaYac (models.Model):
     esSatelital = models.BooleanField('Satelital')
     fecha = models.DateField('Fecha',blank = True, null= True)
     urlImagen = models.CharField('11. Url de la Imagen', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='fotografia')
     
     class Meta:
         verbose_name = '11. Fotografia'
@@ -261,7 +261,7 @@ class OrientacionYacimiento (models.Model):
     otros = models.CharField('15.6 Otros', max_length = 400, blank = True)
     orientacion = models.CharField('15.7 Orientacion Cardinal', max_length = 400, blank = True)
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='orientacion')
 
     class Meta:
         verbose_name = '15. Orientacion del Yacimiento'
