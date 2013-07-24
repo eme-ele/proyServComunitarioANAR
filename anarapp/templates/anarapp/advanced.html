@@ -38,10 +38,14 @@
 
     <p>Nombre: <input type="text"></p>
     <p>Localidad: <input type="text"> </p>
-    <p>--Centro de Poblado <input type="checkbox"></p>
-    <p>---Urbano <input type="checkbox"></p>
-    <p>---Rural<input type="checkbox"></p>
-    <p>---Indigena<input type="checkbox"></p>
+    <p>--Centro de Poblado
+      <select size="1">
+	<option selected></option>
+	<option>Urbano</option>
+	<option>Rural</option>
+	<option>Indigena</option>
+      </select>
+    </p>
     <p>---Nombre <input type="text"></p>
     <p>Uso Actual del Suelo: </p>
     <p>---Forestal <input type="checkbox"></p>
@@ -55,32 +59,45 @@
     <p>---Satelital <input type="checkbox"></p>
     <p>---Fecha <input type="text"></p>
 
-    <p>Tipo de Yacimiento: </p>
-    <p>--Pared Rocosa <input type="checkbox"></p>
-    <p>--Roca <input type="checkbox"></p>
-    <p>--Dolmen (Natural) <input type="checkbox"></p>
-    <p>--Abrigo <input type="checkbox"></p>
-    <p>--Cueva <input type="checkbox"></p>
-    <p>--Cueva de Recubrimiento <input type="checkbox"></p>
-    <p>--Terreno Superficial <input type="checkbox"></p>
-    <p>--Terreno Profundo <input type="checkbox"></p>
+    <p>Tipo de Yacimiento: 
+      <select size="1">
+	<option selected></option>
+	<option>Pared Rocosa</option>
+	<option>Roca</option>
+	<option>Dolmen</option>
+	<option>Abrigo</option>
+	<option>Cueva</option>
+	<option>Cueva de Recubrimiento</option>
+	<option>Terreno Superficial</option>
+	<option>Terreno Profundo</option>
+      </select>
+    </p>
 
-    <p>Hidrología: </p>
-    <p>--Rio <input type="checkbox"></p>
-    <p>--Laguna <input type="checkbox"></p>
-    <p>--Arroyo <input type="checkbox"></p>
-    <p>---Perenne <input type="checkbox"></p>
-    <p>--Manantial <input type="checkbox"></p>
-    <p>---Intermitente <input type="checkbox"></p>
+    <p>Hidrologia:
+      <select size="1">
+	<option selected></option>
+	<option>Rio</option>
+	<option>Laguna</option>
+	<option>Arroyo</option>
+	<option>Arroyo Perenne</option>
+	<option>Manantial</option>
+	<option>Manantial Intermitente</option>
+	<option>Otro</option>
+      </select>
+    </p>
     <p>--Otros <input type="text"></p>
     <p>--Nombre <input type="text"></p>
     <p>--Distancia del Yacimiento <input type="text"></p>
     <p>--Observaciones <input type="text"></p>
 
-    <p>Exposicion: </p>
-    <p>--Expuesto <input type="checkbox"></p>
-    <p>--No Expuesto <input type="checkbox"></p>
-    <p>--Expuesto Periodicamente <input type="checkbox"></p>
+    <p>Exposicion:
+    <select size="1">
+	<option selected></option>
+	<option>Expuesto</option>
+	<option>No Expuesto</option>
+	<option>Expuesto Periodicamente</option>
+    </select>
+    </p>
     <p>--Observaciones <input type="text"></p>
 
     <p>Constitucion: </p>
@@ -92,52 +109,64 @@
     
     <p>Manifestacion</p>
     
-    <p>Tipo: </p>
-    <p>--Geoglifo <input type="checkbox"></p>
-    <p>--Pintura Rupestre <input type="checkbox"></p>
-    <p>--Petroglifo <input type="checkbox"></p>
-    <p>---Petroglifo Pintado <input type="checkbox"></p>
-    <p>--Micro-Petroglifo <input type="checkbox"></p>
-    <p>--Piedra Mitica Natural <input type="checkbox"></p>
-    <p>--Cerro Mitico Natural <input type="checkbox"></p>
-    <p>---con Petroglifo <input type="checkbox"></p>
-    <p>---con Pintura <input type="checkbox"></p>    
-    <p>---con Dolmen <input type="checkbox"></p>    
-    <p>--Monumentos Megaliticos <input type="checkbox"></p>
-    <p>---Monolitos <input type="checkbox"></p>
-    <p>----con Grabados <input type="checkbox"></p>
-    <p>---Menhires <input type="checkbox"></p>
-    <p>----con Puntos Acoplados <input type="checkbox"></p>
-    <p>----con Petroglifo <input type="checkbox"></p>
-    <p>----con Pintura <input type="checkbox"></p>
-    <p>---Dolmen (artificial) <input type="checkbox"></p>
-    <p>----con Petroglifo <input type="checkbox"></p>
-    <p>----con Pintura <input type="checkbox"></p>
-    <p>--Amolador <input type="checkbox"></p>
-    <p>--Batea <input type="checkbox"></p>
-    <p>--Puntos Acoplados <input type="checkbox"></p>
-    <p>--Cupulas <input type="checkbox"></p>
-    <p>--Mortero o Metate <input type="checkbox"></p>
+    <p>Tipo: 
+      <select>
+	<option selected></option>
+	<option>Geoglifo</option>
+	<option>Pintura Rupestre</option>
+	<option>Petroglifo</option>
+	<option>Petroglifo Pintado</option>
+	<option>Micropetroglifo</option>
+	<option>Piedra Mitica Natural</option>
+	<option>Cerro Mitico Natural</option>
+	<option>Monumentos Megaliticos</option>
+	<option>Monolitos</option>
+	<option>Monolitos con Grabados</option>
+	<option>Menhires</option>
+	<option>Menhires con Puntos Acoplados</option>
+	<option>Dolmen (artificial)</option>
+	<option>Amolador</option>
+	<option>Batea</option>
+	<option>Puntos Acoplados</option>
+	<option>Cupulas</option>
+	<option>Mortero o Metate</option>
+      </select>
+      Con: 
+      <select>
+	<option selected></option>
+	<option>Petroglifo</option>
+	<option>Pintura</option>
+	<option>Dolmen</option>
+      </select>
+    </p>
 
     <p>Ubicacion: </p>
-    <p>--Cerro <input type="checkbox"></p>
-    <p>---Cima <input type="checkbox"></p>
-    <p>---Ladera <input type="checkbox"></p>
-    <p>---Falda <input type="checkbox"></p>
-    <p>---Pie de Monte <input type="checkbox"></p>
-    <p>---Barranco <input type="checkbox"></p>
-    <p>---Acantilado <input type="checkbox"></p>
+    <p>--Cerro <input type="checkbox"> en
+      <select>
+	<option selected></option>
+	<option>Cima</option>
+	<option>Ladera</option>
+	<option>Falda</option>
+	<option>Pie de Monte</option>
+	<option>Barranco</option>
+	<option>Acantilado</option>
+      </select>
+    </p>
     <p>--Valle <input type="checkbox"></p>
-    <p>--Rio <input type="checkbox"></p>
-    <p>---Lecho <input type="checkbox"></p>
-    <p>---Margen Derecha <input type="checkbox"></p>
-    <p>---Margen Izquierda <input type="checkbox"></p>
-    <p>---Isla <input type="checkbox"></p>
-    <p>---Raudal <input type="checkbox"></p>
+    <p>--Rio <input type="checkbox"> en
+    <select>
+      <option selected></option>
+      <option>Lecho></option>
+      <option>Margen Derecha</option>
+      <option>Margen Izquierda</option>
+      <option>Isla</option>
+      <option>Raudal</option>
+    </select></p>
     <p>--Costa <input type="checkbox"></p>
 
-    <p>Orientacion: </p>
+    <p>Orientacion:
     <select size="1">
+      <option selected></option>
       <option>Cerro</option>
       <option>Valle</option>
       <option>Rio</option>
@@ -147,11 +176,15 @@
    </p>
 
    <p>Material: </p>
-    <p>--Roca <input type="checkbox"></p>
-    <p>---Ignea <input type="checkbox"></p>
-    <p>---Metamorfica <input type="checkbox"></p>
-    <p>---Sedimentaria <input type="checkbox"></p>
-    <p>---Tipo <input type="text"></p>
+   <p>Roca: 
+     <select size="1">
+       <option selected></option>
+       <option>Ignea</option>
+       <option>Sedimentaria</option>
+       <option>Metamorfica</option>
+     </select>
+     de tipo <input type="text">
+   </p>
     <p>--Tierra <input type="checkbox"></p>
     <p>--Hueso <input type="checkbox"></p>
     <p>--Corteza de Arbol <input type="checkbox"></p>
@@ -164,38 +197,55 @@
     <p>--Geoglifo <input type="checkbox"></p>
     <p>---Tenicas de Construccion <input type="text"></p>
 
-    <p>--Pintura Rupestre <input type="checkbox"></p>
-    <p>---Dedo <input type="checkbox"></p>
-    <p>---Fibra <input type="checkbox"></p>
-    <p>---Soplado <input type="checkbox"></p>
-    <p>---Otros <input type="text"></p>
+    <p>--Pintura Rupestre <input type="checkbox"> con 
+    <select size="1">
+      <option selected></option>
+      <option>Dedo</option>
+      <option>Fibra</option>
+      <option>Soplado</option>
+      <option>Otros</option>
+    </select>
+    </p>
 
-    <p>--Petroglifo <input type="checkbox"></p>
-    <p>---Grabado <input type="checkbox"></p>
-    <p>----Percusion <input type="checkbox"></p>
-    <p>-----Directa <input type="checkbox"></p>
-    <p>-----Indirecta <input type="checkbox"></p>
-    <p>----Abrasion <input type="checkbox"></p>
-    <p>-----Piedra <input type="checkbox"></p>
-    <p>-----Arena <input type="checkbox"></p>
-    <p>-----Concha <input type="checkbox"></p>
-    <p>----Otros  <input type="text"></p>
+    <p>--Petroglifo <input type="checkbox"> con
+      <select>
+	<option selected></option>
+	<option>Grabado</option>
+	<option>Percusion</option>
+	<option>Percusion Directa</option>
+	<option>Percusion Indirecta</option>
+	<option>Abrasion</option>
+	<option>Abrasion con Piedra</option>
+	<option>Abrasion con Arena</option>
+	<option>Abrasion con Concha</option>
+	<option>Combinacion</option>
+	<option>Otros</option>
+      </select>
+    </p>
+    <p>--Micropetroglifo<input type="checkbox">
+      <select>
+	<option selected></option>
+	<option>Grabado</option>
+	<option>Percusion</option>
+	<option>Percusion Directa</option>
+	<option>Percusion Indirecta</option>
+	<option>Abrasion</option>
+	<option>Abrasion con Piedra</option>
+	<option>Abrasion con Arena</option>
+	<option>Abrasion con Concha</option>
+	<option>Combinacion</option>
+	<option>Otros</option>
+      </select>
+    </p>
 
-    <p>--Micropetroglifo<input type="checkbox"></p>
-    <p>---Grabado<input type="checkbox"></p>
-    <p>----Percusion<input type="checkbox"></p>
-    <p>-----Directa<input type="checkbox"></p>
-    <p>-----Indirecta<input type="checkbox"></p>
-    <p>----Abrasion<input type="checkbox"></p>
-    <p>-----Piedra<input type="checkbox"></p>
-    <p>-----Arena<input type="checkbox"></p>
-    <p>-----Concha<input type="checkbox"></p>
-    <p>----Otros <input type="text"></p>
-
-    <p>--Monumentos Megaliticos <input type="checkbox"></p>
-    <p>---Monolitos <input type="checkbox"></p>
-    <p>---Menhires<input type="checkbox"></p>
-    <p>---Dolmen<input type="checkbox"></p>
+    <p>--Monumentos Megaliticos <input type="checkbox">
+      <select>
+	<option selected></option>
+	<option>Monolito</option>
+	<option>Menhires</option>
+	<option>Dolmen</option>
+      </select>
+    </p>
     <p>---Tecnicas de Construccion <input type="text"></p>
     <p>---Otros<input type="text"></p>
 
@@ -204,15 +254,27 @@
     <p>--Petroglifo <input type="checkbox"></p>
     <p>--Ancho: de <input type="text"> a <input type="text"> </p>
     <p>--Profundidad: de <input type="text"> a <input type="text"> </p>
-    <p>---Base <input type="checkbox"></p>
-    <p>----Redonda <input type="checkbox"></p>
-    <p>----Aguda <input type="checkbox"></p>
-    <p>---Bajo Relieve<input type="checkbox"></p>
-    <p>----Lineal <input type="checkbox"></p>
-    <p>----Planar <input type="checkbox"></p>
-    <p>---Areas Interlineales<input type="checkbox"></p>
-    <p>----Pulidas <input type="checkbox"></p>
-    <p>----Rebajadas <input type="checkbox"></p>
+    <p>---Base <input type="checkbox">
+      <select>
+	<option selected></option>
+	<option>Redonda</option>
+	<option>Aguda</option>
+      </select>
+    </p>
+    <p>---Bajo Relieve<input type="checkbox">
+      <select>
+	<option selected></option>
+	<option>Lineal</option>
+	<option>Planar</option>
+      </select>
+    </p>
+    <p>---Areas Interlineales<input type="checkbox">
+      <select>
+	<option selected></option>
+	<option>Pulidas</option>
+	<option>Rebajadas</option>
+      </select>
+    </p>
     <p>---Grabados Superpuestos <input type="checkbox"></p>
     <p>---Grabados Rebajados <input type="checkbox"></p>
     <p>--Amoladores <input type="checkbox"></p>
@@ -233,45 +295,43 @@
     <p>---Ancho<input type="text">cm</p>
 
    <p>Caracteristicas de la Pintura: </p>
-    <p>--Pintura Rupestre <input type="checkbox"></p>
-    <p>---Tecnica<input type="checkbox"></p>
-    <p>----Dactilar<input type="checkbox"></p>
-    <p>----Fibra<input type="checkbox"></p>
-    <p>----Otros<input type="text"></p>
-    <p>---Tipo de Linea<input type="checkbox"></p>
+    <p>--Pintura Rupestre <input type="checkbox"> de tipo
+      <select size="1">
+	<option selected><option>
+	<option>Dactilar</option>
+	<option>Fibra</option>
+	<option>Otros</option>
+      </select>
+    </p>
+
+    <p>---Tipo de Linea: </p>
     <p>----Linea Sencilla <input type="checkbox"></p>
     <p>-----De <input type="text"> cm a <input type="text"> cm</p>
     <p>----Linea Compuesta<input type="checkbox"></p>
     <p>-----De <input type="text"> cm a <input type="text"> cm</p>
     <p>---Figura rellena <input type="checkbox"></p>
-    <p>---Impresion de manos<input type="checkbox"></p>
-    <p>----Positivo<input type="checkbox"></p>
-    <p>----Negativo<input type="checkbox"></p>
+    <p>---Impresion de manos<input type="checkbox"> de tipo 
+    <select size="1">
+      <option selected></option>
+      <option>Positivo</option>
+      <option>Negativo</option>
+    </select>
+    </p>
     <p>---Figuras Superpuestas <input type="checkbox"></p>
     <p>--Colores: </p>
 
 
    <p>Caracteristicas de Monumentos Megaliticos: </p>
-
-
    <p>Conservacion</p>
-
    <p>Estado de Conservacion: </p>
-
-
    <p>Consideraciones de Temporalidad: </p>
-
-
    <p>Manifestaciones Asociadas</p>
-
    <p>Manifestaciones: </p>
-
-
    <p>Otros Valores: <input type="text"></p>
-
    <p>Apoyos: </p>
-
    <p>Observaciones: <input type="text"></p>
   
    </div>
 </div>
+
+
