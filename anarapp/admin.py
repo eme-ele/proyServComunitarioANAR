@@ -1,22 +1,28 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from nested_inlines.admin import NestedModelAdmin, NestedStackedInline, NestedTabularInline
-from anarapp.models import Yacimiento, Piedra,CaraTrabajada,ConjFiguraPorTipo, TratFotografia,FotografiaPiedra, ReproGrafEscalaNaturalPiedra, \
-    ReproGrafEscalaRedPied,BibPiedra, DimensionPiedra, LocalidadYacimiento,UsoActSuelo, TenenciaDeTierra,\
-    Indicaciones, Croquis,Plano,FotografiaYac,Coordenadas, Datum, Altitud,TipoYacimiento,\
-    ManifestUbicacionYacimiento,OrientacionYacimiento,FloraYacimiento,FaunaYacimiento,HidrologiaYacimiento,TexturaSuelo,\
-    TipoExposicionYac,ConstitucionYacimiento, MaterialYacimiento,TecnicaParaGeoglifo,TecnicaParaPintura,\
-    TecnicaParaPetroglifo, TecnicaParaMicroPetro,TecnicaParaMonumentos,CaracSurcoPetroglifo,\
-    CaracSurcoAmoladores,CaracSurcoBateas,CaracSurcoPuntosAcopl,\
-    CaracSurcoCupulas,CaracSurcoMortero,CaracDeLaPintura,CaracMonolitos,CaracMenhires,\
-    CaracDolmenArt,EstadoConserYac,ConsiderTemp,CronologiaTentativa,\
-    ManifestacionesAsociadas,ObtenidaPor,OtrosValoresSitio,Observacion,LlenadaPor,SupervisadaPor
 from django.contrib import admin
+
+# Importar los modelos necesarios empezando por los de yacimiento
+from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, TenenciaDeTierra, Indicaciones, Croquis, Plano , \
+    Coordenadas , Datum , Altitud , FotografiaYac, TipoYacimiento ,ManifestUbicacionYacimiento , OrientacionYacimiento , \
+    TexturaSuelo , FloraYacimiento , FaunaYacimiento , HidrologiaYacimiento , TipoExposicionYac,\
+    ConstitucionYacimiento , MaterialYacimiento, TecnicaParaGeoglifo  , TecnicaParaPintura  , TecnicaParaPetroglifo ,\
+    TecnicaParaMicroPetro , TecnicaParaMonumentos , CaracSurcoPetroglifo , CaracSurcoAmoladores , CaracSurcoBateas,\
+    CaracSurcoPuntosAcopl , CaracSurcoCupulas , CaracSurcoMortero , CaracDeLaPintura , CaracMonolitos, \
+    CaracMenhires, CaracDolmenArt, EstadoConserYac, ConsiderTemp, CronologiaTentativa, ManifestacionesAsociadas, \
+    BibYacimiento, FotoBibYac, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
+    MultimediaYac , ObtInfoYac , OtrosValYac, ObservacionesYac, LlenadoYac, SupervisadoYac, \
+    Piedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
+    Manifestaciones, TratFotoPiedra, FotoPiedra, EscNatPiedra, EscRedPiedra, \
+    BibPiedra, FotoBibPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, MultimediaPiedra, \
+    ObtInfoPiedra, OtrosValPiedra, ObservacPiedra, LlenadoPiedra, SupervisadoPiedra
+
 from forms import YacimientoForm
 
-
-################################################ Admin Forms para  Yacimientos ####################################
+########################################################################################
+# Declaracion de modelos inlines para yacimiento
+########################################################################################
 
 class LocalidadYacInline(admin.StackedInline):
     model = LocalidadYacimiento
@@ -211,85 +217,150 @@ class ManifestacionesAsociadasYacInline(admin.StackedInline):
     max_num = 1
 
 class ObtenidaPorYacInline(admin.StackedInline):
-    model = ObtenidaPor
+    model = ObtInfoYac
     extra = 1
 
 class OtrosValoresSitioYacInline(admin.StackedInline):
-    model = OtrosValoresSitio
+    model = OtrosValYac
     extra = 1
     max_num = 1
 
 class ObservacionYacInline(admin.StackedInline):
-    model = Observacion
+    model = ObservacionesYac
     extra = 1
     max_num = 1
 
 class LlenadaPorYacInline(admin.TabularInline):
-    model = LlenadaPor
+    model = LlenadoYac
     extra = 1
 
 
 class SupervisadaPorYacInline(admin.TabularInline):
-    model = SupervisadaPor
+    model = SupervisadoYac
     extra = 1
 
 
+########################################################################################
+# Declaracion de modelos inlines para piedra
+########################################################################################
 
-############################################Fin de AdminForms Yacimiento #########################################
+class DimensionPiedraInline(admin.StackedInline):
+    extra = 1
+    max_num = 1    
+    model =  DimensionPiedra
 
+class ManifestacionesInline(admin.StackedInline):
+    extra = 1
+    max_num = 1
+    display_at_top = False
+    model =  Manifestaciones
 
+class FigurasPorTipoInline(admin.TabularInline):
+    extra = 10
+    max_num = 60  
+    model =  FigurasPorTipo
 
-class BibPiedraInline(NestedTabularInline):
+class EsquemaPorCaraInline(admin.TabularInline):
+    extra = 6
+    max_num = 6
+    model =  EsquemaPorCara
+
+class CaraTrabajadaInline(admin.TabularInline):
+    extra = 6
+    max_num = 6
+    model = CaraTrabajada
+
+class UbicacionCarasInline(admin.StackedInline):
+    extra = 1
+    max_num = 1
+    model = UbicacionCaras
+
+class TratFotoInline(admin.StackedInline):
+    extra = 1
+    max_num = 1  
+    model =  TratFotoPiedra
+
+class FotoBibPiedraInline(admin.StackedInline):
+    extra = 1
+    max_num = 1  
+    model =  FotoBibPiedra
+
+class FotoDigPiedraInline(admin.StackedInline):
+    extra = 1
+    max_num = 1
+    model =  FotoPiedra
+
+class EscalaNatPiedraInline(admin.TabularInline):
+    extra = 1
+    model =  EscNatPiedra
+
+class EscalaRedPiedraInline(admin.TabularInline):
+    extra = 1
+    model =  EscRedPiedra
+
+class BibPiedraInline(admin.StackedInline):
     extra = 1
     model =  BibPiedra
 
-class ReproduccionGraficaEscalaReducidaInlinePiedra(NestedTabularInline):
-    extra = 1
-    model =  ReproGrafEscalaRedPied
-
-class ReproduccionGraficaEscalaNaturalInlinePiedra(NestedTabularInline):
-    extra = 1
-    model =  ReproGrafEscalaNaturalPiedra
-        
-class FotografiaInline(NestedTabularInline):
-    extra = 1
-    model =  FotografiaPiedra
-
-class TratFotografiaInline(NestedTabularInline):
-    extra = 1
-#    max_num = 1
-    model =  TratFotografia
-
-class SeccionTrabajadaInline(NestedTabularInline):
-    extra = 1
-    model =  ConjFiguraPorTipo
-
-class CaraTrabajadaInline(NestedStackedInline):
-    model = CaraTrabajada
-    display_at_top = True
-    extra = 1
-    inlines = [SeccionTrabajadaInline]
-
-class DimensionPiedraInline(NestedTabularInline):
+class FotoBibPiedraInline(admin.StackedInline):
     extra = 1
     max_num = 1
-    model =  DimensionPiedra
+    model =  FotoBibPiedra
+
+class MatAudioVisualInline(admin.StackedInline):
+    extra = 1
+    max_num = 1    
+    model =  MatAVPiedra
+
+class VideoPiedraInline(admin.StackedInline):
+    extra = 1
+    max_num = 1  
+    model =  VideoPiedra
+
+class PeliculaPiedraInline(admin.StackedInline):
+    extra = 1
+    max_num = 1    
+    model =  PeliculaPiedra
+
+class PaginaWebPiedraInline(admin.TabularInline):
+    extra = 1 
+    model =  PaginaWebPiedra
+
+class MultimediaPiedraInline(admin.StackedInline):
+    extra = 1
+    max_num = 1    
+    model =  MultimediaPiedra
+
+class ObtInfoPiedraInline(admin.StackedInline):
+    extra = 1 
+    model =  ObtInfoPiedra
+
+class OtrosValPiedraInline(admin.StackedInline):
+    model = OtrosValPiedra
+    extra = 1
+    max_num = 1
+
+class ObservacionPiedraInline(admin.StackedInline):
+    model = ObservacPiedra
+    extra = 1
+    max_num = 1
+
+class LlenadaPorPiedraInline(admin.TabularInline):
+    model = LlenadoPiedra
+    extra = 1
 
 
+class SupervisadaPorPiedraInline(admin.TabularInline):
+    model = SupervisadoPiedra
+    extra = 1
 
-###############################################ADMINISTARDORES #####################################################    
-#Administrador del modelo de datos Piedra
-class PiedraAdmin (NestedModelAdmin):
-    model = Piedra
-    inlines = [
-        DimensionPiedraInline, CaraTrabajadaInline, TratFotografiaInline,FotografiaInline,
-        ReproduccionGraficaEscalaReducidaInlinePiedra,ReproduccionGraficaEscalaNaturalInlinePiedra,BibPiedraInline,
-    ]
- 
 
+########################################################################################
+# Declaracion y registro de administradores
+########################################################################################
+    
 #Administrador del modelo de datos Yacimiento
 class YacimientoAdmin(admin.ModelAdmin):
-    #form = YacimientoForm
     model = Yacimiento
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
@@ -306,12 +377,20 @@ class YacimientoAdmin(admin.ModelAdmin):
         LlenadaPorYacInline,SupervisadaPorYacInline
 
     ]
+    list_display = ('codigo','nombre', 'pais','estado', 'municipio')
 
-    list_display = ('codigo','pais','nombre','municipio','estado')
-
-
+#Administrador del modelo de datos Piedra
+class PiedraAdmin (admin.ModelAdmin):
+    model = Piedra
+    inlines = [
+        CaraTrabajadaInline, DimensionPiedraInline, UbicacionCarasInline, FigurasPorTipoInline,
+        EsquemaPorCaraInline, ManifestacionesInline, TratFotoInline, FotoBibPiedraInline, FotoDigPiedraInline,
+        EscalaNatPiedraInline, EscalaRedPiedraInline, BibPiedraInline, FotoBibPiedraInline,
+        MatAudioVisualInline, VideoPiedraInline, PeliculaPiedraInline, PaginaWebPiedraInline,
+        MultimediaPiedraInline, ObtInfoPiedraInline, OtrosValPiedraInline, ObservacionPiedraInline,
+        LlenadaPorPiedraInline, SupervisadaPorPiedraInline
+    ] 
+    list_display = ('codigo','nombre', 'yacimiento')
 
 admin.site.register(Yacimiento, YacimientoAdmin)
 admin.site.register(Piedra,PiedraAdmin)
-
-
