@@ -34,7 +34,8 @@ class LocalidadYacimiento(models.Model):
     esCentroNoPoblado = models.BooleanField('4.2 No Poblado')
     nombreNoPoblado = models.CharField('4.2.1 Nombre', max_length = 150, blank = True)
 
-    yacimiento = models.OneToOneField(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='localidad')
+    
     class Meta:
         verbose_name = '4. Localidad'
         verbose_name_plural = '4. Localidad'
@@ -51,7 +52,8 @@ class UsoActSuelo(models.Model):
     esAgriTemp = models.BooleanField('5.4 Agricultura Temporal')
     esSueloUrbano = models.BooleanField('5.5 Urbano')
     esSueloTuristico = models.BooleanField('5.6 Turístico')
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='suelo')
    
     class Meta:
         verbose_name = '5. Uso Actual Del Suelo'
@@ -163,7 +165,8 @@ class FotografiaYac (models.Model):
     esSatelital = models.BooleanField('Satelital')
     fecha = models.DateField('Fecha',blank = True, null= True)
     urlImagen = models.CharField('11. Url de la Imagen', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    yacimiento = models.ForeignKey(Yacimiento, related_name='fotografia')
     
     class Meta:
         verbose_name = '11. Fotografia'
@@ -182,7 +185,8 @@ class TipoYacimiento (models.Model):
     esCuevadeRec = models.BooleanField('12.6 Cueva de Recubrimiento')
     esTerrenoSup = models.BooleanField('12.7 Terreno Superficial')
     esTerrenoPro = models.BooleanField('12.8 Terreno Profundo')
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='tipo')
 
     class Meta:
         verbose_name = '12. Tipo de Yacimiento'
@@ -258,7 +262,7 @@ class OrientacionYacimiento (models.Model):
     otros = models.CharField('15.6 Otros', max_length = 400, blank = True)
     orientacion = models.CharField('15.7 Orientacion Cardinal', max_length = 400, blank = True)
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='orientacion')
 
     class Meta:
         verbose_name = '15. Orientacion del Yacimiento'
@@ -490,6 +494,7 @@ class CaracSurcoAmoladores(models.Model):
         verbose_name_plural = '24. Caract. Surco - 13.9 Amoladores'
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
+        
 class CaracSurcoBateas(models.Model):
 
     largo = models.CharField('24.12 Largo (en cm)', max_length = 400, blank = True)

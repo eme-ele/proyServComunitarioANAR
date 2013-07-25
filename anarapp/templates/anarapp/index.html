@@ -27,13 +27,14 @@
 	</ul>
 
 	<div id="logo">
-		<img src="{% static 'anarapp/logo.png' %}" height="100"><br/><br/>
+		<img src="{% static 'anarapp/logo.png' %}" height="100"><br/>
 	</div>
 	<div id="buscador">
     	<form method="get" action="{% url 'results' %}">
 		    {{ form.q }} <br/><br/>
 		    {{ form.manifestacion }}<br/><br/>
 		    <input type="submit" class="button" value="Buscar">
+		    <input type="button" class="button" value="Busqueda Avanzada" onclick="location='advanced'">
  		</form>
 	</div>
 

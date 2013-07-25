@@ -3,8 +3,16 @@
 	<head>
 		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/formstyle.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/avanzada.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/anar.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
 		<link rel="stylesheet" href="jquery-ui-1.10.1.custom/css/smoothness/jquery-ui-1.10.1.custom.css" />
+		
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
+		<script>
+			$(document).ready(function(){$(".chzn-select").chosen()})
+		</script>		
+
 		<title>Archivo Nacional de Arte Rupestre</title>
 	</head>
 <body>
@@ -28,7 +36,7 @@
 				<p style="color: #505050; font-size: 12pt">Nombre:</p> {{ form.nombre }}
 				<p style="color: #505050; font-size: 12pt">Municipio/Distrito:</p> {{ form.municipio }}
 				<p style="color: #505050; font-size: 12pt">Estado:</p> {{ form.estado }} 
-				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.fotografia }}
+				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.hayFotografia }}
 				<p style="color: #505050; font-size: 12pt">Orientacion:</p> {{ form.orientacion }}
 			  </div>
 			<br/>
