@@ -39,22 +39,23 @@
 
 		<div id="formulario">
 			<form method="get" action="{% url 'results' %}">
-				<p><label id="titulo" style="font-size: 14pt">B&uacute;squeda General</label></p><br/>
-				{{ form.q }}<br/><br/>
+				<p><label id="titulo" style="font-size: 14pt; width: 200px">B&uacute;squeda General </label>
+				  {{ form.q }}<br/><br/></p>
 			
-				<p><label id="titulo" style="font-size: 14pt">Datos Generales del Yacimiento</label></p><br/>
-				<p style="color: #505050; font-size: 12pt">C&oacute;digo: {{ form.codigo }}</p><br/>
+				<p><label id="titulo" style="font-size: 14pt">Datos Generales del Yacimiento</label></p><br/><br/>
+				<p style="color: #505050; font-size: 12pt">C&oacute;digo  <br/> {{ form.codigo }}</p>
+			
 	
-				<p style="color: #505050; font-size: 12pt">Municipio/Distrito: {{ form.municipio }}</p>
-				<p style="color: #505050; font-size: 12pt">Estado: {{ form.estado }}</p><br/>
+				<p style="color: #505050; font-size: 12pt">Municipio/Distrito <br/> {{ form.municipio }}</p>
+				<p style="color: #505050; font-size: 12pt">Estado <br/> {{ form.estado }}</p>
 
-				<p style="color: #505050; font-size: 12pt">Nombre: {{ form.nombre }}</p>
-				<p style="color: #505050; font-size: 12pt">Localidad: {{ form.localidad }}</p>
-				<p style="color: #505050; font-size: 12pt">Uso Actual del Suelo: {{ form.suelo }}</p>
-				<p style="color: #505050; font-size: 12pt">Tipo de Yacimiento: {{ form.tipo }}</p>
-				<p style="color: #505050; font-size: 12pt">Hidrolog&iacute;a: {{ form.hidrologia }}</p>
-				<p style="color: #505050; font-size: 12pt">Exposici&oacute;n: {{ form.exposicion }}</p>
-				<p style="color: #505050; font-size: 12pt">Fecha Fotografia: {{ form.fechaFotografia }}</p>
+				<p style="color: #505050; font-size: 12pt">Nombre <br/> {{ form.nombre }}</p>
+				<p style="color: #505050; font-size: 12pt;">Localidad <br/> {{ form.localidad }}</p>
+				<p style="color: #505050; font-size: 12pt">Uso Actual del Suelo <br/> {{ form.suelo }}</p>
+				<p style="color: #505050; font-size: 12pt">Tipo de Yacimiento <br/> {{ form.tipo }}</p>
+				<p style="color: #505050; font-size: 12pt">Hidrolog&iacute;a <br/> {{ form.hidrologia }}</p>
+				<p style="color: #505050; font-size: 12pt">Exposici&oacute;n <br/> {{ form.exposicion }}</p>
+				<p style="color: #505050; font-size: 12pt">Fecha Fotografia <br/> {{ form.fechaFotografia }}</p>
 				
 				<input type="submit" class="button" value="Buscar">
 			</form>
