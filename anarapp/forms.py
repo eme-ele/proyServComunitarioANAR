@@ -124,6 +124,12 @@ OPCIONES_EXPOSICION = (
     (3, 'Expuesto Periodicamente'),
 )
 
+OPCIONES_FOTOGRAFIAS = (
+	(1, 'Aerea'),
+    (2, 'No Aerea'),
+    (3, 'Satelital'),
+)
+
 class BasicForm(SearchForm):
 	#Yacimiento
 	nombre 		= forms.CharField(required=False, max_length=100)				#1
@@ -161,12 +167,13 @@ class AdvancedForm(BasicForm):
 	codigo 		= forms.CharField(required=False, max_length=20) #00
 	
 	#Datos generales del Yacimiento
-	localidad  	= forms.MultipleChoiceField(required=False, choices=OPCIONES_LOCALIDAD)			#4
-	suelo		= forms.MultipleChoiceField(required=False, choices=OPCIONES_SUELO)				#5
-#	fotografias = forms.MultipleChoiceField(required=False, choices=OPCIONES_FOTOGRAFIAS)		#11
-	tipo		= forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_YACIMIENTO)	#12
-	hidrologia	= forms.MultipleChoiceField(required=False, choices=OPCIONES_HIDROLOGIA)		#19
-	exposicion	= forms.MultipleChoiceField(required=False, choices=OPCIONES_EXPOSICION)		#20
+	localidad  		= forms.MultipleChoiceField(required=False, choices=OPCIONES_LOCALIDAD)			#4
+	suelo			= forms.MultipleChoiceField(required=False, choices=OPCIONES_SUELO)				#5
+	fotografias 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_FOTOGRAFIAS)		#11
+	fechaFotografia = forms.DateField(required=False)
+	tipo			= forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_YACIMIENTO)	#12
+	hidrologia		= forms.MultipleChoiceField(required=False, choices=OPCIONES_HIDROLOGIA)		#19
+	exposicion		= forms.MultipleChoiceField(required=False, choices=OPCIONES_EXPOSICION)		#20
 	
 	#La Manifestacion
 	ubicacion 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_UBI_MANIFEST) 	#14
@@ -175,7 +182,7 @@ class AdvancedForm(BasicForm):
 	# Seleccion multiple
 	localidad.widget.attrs 	 = {'class':'chzn-select'}
 	suelo.widget.attrs 		 = {'class':'chzn-select'}
-#	fotografias.widget.attrs = {'class':'chzn-select'}
+	fotografias.widget.attrs = {'class':'chzn-select'}
 	tipo.widget.attrs 		 = {'class':'chzn-select'}
 	hidrologia.widget.attrs  = {'class':'chzn-select'}
 	exposicion.widget.attrs  = {'class':'chzn-select'}

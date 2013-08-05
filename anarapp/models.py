@@ -10,9 +10,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Yacimiento(models.Model):
        
-    codigo = models.CharField('00. Código ANAR',max_length=20)
+    codigo = models.CharField('00. Código ANAR', max_length=20)
     pais = models.CharField('0. País', max_length = 150)
-    nombre = models.CharField('1. Nombre(s) del Yacimiento',max_length=100)
+    nombre = models.CharField('1. Nombre(s) del Yacimiento', max_length=100)
     municipio = models.CharField('2. Municipio', max_length = 150)    
     estado = models.CharField('3. Estado', max_length = 150)    
      
@@ -30,7 +30,7 @@ class LocalidadYacimiento(models.Model):
     esUrbano = models.BooleanField('4.1.1 Urbano')
     esRural = models.BooleanField('4.1.2 Rural')
     esIndigena = models.BooleanField('4.1.3 Indigena')
-    nombrePoblado = models.CharField('4.1.4 Nombre', max_length = 150 ,blank = True)
+    nombrePoblado = models.CharField('4.1.4 Nombre', max_length = 150, blank = True)
     esCentroNoPoblado = models.BooleanField('4.2 No Poblado')
     nombreNoPoblado = models.CharField('4.2.1 Nombre', max_length = 150, blank = True)
 
@@ -80,9 +80,12 @@ class TenenciaDeTierra(models.Model):
         return 'Tenencia de la Tierra del Yacimiento'
 
 class Indicaciones(models.Model):
+
     direcciones = models.CharField('6. Indicaciones', max_length = 400, blank = True) 
     puntoDatum = models.CharField('6.1 Punto Datum ', max_length = 400, blank = True) 
+    
     yacimiento = models.ForeignKey(Yacimiento)
+    
     class Meta:
         verbose_name = '6. Indicaciones para llegar al Lugar'
         verbose_name_plural = '6. Indicaciones para llegar al Lugar'

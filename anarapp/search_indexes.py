@@ -15,13 +15,17 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 	estado 	  = indexes.CharField(model_attr='estado')		#3
 	
 	#Datos Generales del Yacimiento
-	nombre 		= indexes.CharField(model_attr='nombre')	#1
-	localidad  	= indexes.MultiValueField()					#4
-	suelo		= indexes.MultiValueField()					#5
-	fotografias = indexes.MultiValueField()					#11
-	tipo		= indexes.MultiValueField()					#12
-	hidrologia	= indexes.MultiValueField()					#19
-	exposicion	= indexes.MultiValueField()					#20
+	nombre 			= indexes.CharField(model_attr='nombre')	#1
+	localidad  		= indexes.MultiValueField()					#4
+	suelo			= indexes.MultiValueField()					#5
+	
+	fotografias 	= indexes.MultiValueField()					#11
+	fechaFotografia = indexes.MultiValueField()
+	hayFotografia	= indexes.CharField()
+	
+	tipo			= indexes.MultiValueField()					#12
+	hidrologia		= indexes.MultiValueField()					#19
+	exposicion		= indexes.MultiValueField()					#20
 
 	#La Manifestacion
 	manifestacion 	= indexes.MultiValueField()				#13
@@ -54,11 +58,20 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 			self.prepare_data['localidad'] = self.crear_lista(obj.localidad)
 		except:
 			pass
-
+		
 		try:
 			self.prepare_data['suelo'] = self.crear_lista(obj.suelo)
 		except:
 			pass
+		
+		fechas, tipo = [], []
+		fotografias = obj.fotografia.all()
+		for f in fotografias:
+			fechas.append(f.fecha)
+			tipo = tipo + self.crear_lista(f)
+		self.prepare_data['fotografias'] 	 = list(set(tipo))
+		self.prepare_data['hayFotografia'] 	 = 'true' if fotografias.count() > 0 else 'false'
+		self.prepare_data['fechaFotografia'] = list(set(fechas))
 			
 		try:
 			self.prepare_data['tipo'] = self.crear_lista(obj.tipo)
