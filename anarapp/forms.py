@@ -130,11 +130,65 @@ OPCIONES_FOTOGRAFIAS = (
     (3, 'Satelital'),
 )
 
+OPCIONES_MATERIAL = (
+ 	(1, 'Roca'),
+    (2, 'Roca Ignea'),
+    (3, 'Roca Metamórfica'),
+    (4, 'Roca Sedimentaria'),
+    (5, 'Tierra'),
+    (6, 'Hueso'),
+    (7, 'Corteza de árbol'),
+    (8, 'Pieles'),
+)
+
+OPCIONES_ORIENTACION = (
+	(1, 'Hacia Cerro'),
+	(2, 'Hacia Valle'),
+	(3, 'Hacia Rio'),
+	(4, 'Hacia Costa'),
+	(5, 'Hacia Cielo'),
+)
+
+OPCIONES_TEC_PINTURA = (
+	(1, 'Dedo'),
+	(2, 'Fibra'),
+	(3, 'Soplado'),
+)
+
+OPCIONES_TEC_PETROGLIFO = (
+	(1, 'Grabado'),
+	(2, 'Grabado Percusión'),
+	(3, 'Grabado Percusión Directa'),
+	(4, 'Grabado Percusión Indirecta'),
+	(5, 'Abrasión'),
+	(6, 'Abrasión Piedra'),
+	(7, 'Abrasión Arena'),
+	(8, 'Concha'),
+)
+
+OPCIONES_MONUMENTO = (
+	(1, 'Monolitos'),
+	(2, 'Menhires'),
+	(3, 'Dolmen (artificial)'),
+)   
+
+OPCIONES_MANIF_ASOCIADAS = (
+	(1, 'Lítica'),
+	(2, 'Cerámica'),
+	(3, 'Oseo'),
+	(4, 'Concha'),
+	(5, 'Carbón No Superficial'),
+	(6, 'Mitos'),
+	(7, 'Cementerios'),
+	(8, 'Montículos'),
+)
+
+
 class BasicForm(SearchForm):
 	#Yacimiento
 	nombre 		= forms.CharField(required=False, max_length=100)				#1
 	municipio 	= forms.CharField(required=False, max_length=150)    			#2
-	estado 		= forms.ChoiceField(required=False, choices=OPCIONES_ESTADO)	#3
+	estado 		= forms.MultipleChoiceField(required=False, choices=OPCIONES_ESTADO)	#3
 
 	#Foraneos
 	hayFotografia 	= forms.BooleanField(required=False)
@@ -142,8 +196,9 @@ class BasicForm(SearchForm):
 	orientacion 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_ORIENTACION)	#15	
 	
 	#Seleccion multiple
-	manifestacion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de Manifestación'}
-	orientacion.widget.attrs 	= {'class':'chzn-select'}
+	manifestacion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación'}
+	orientacion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione la orientación'}
+	estado.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el estado'}
 	
 	# Busqueda
 	def search(self):
@@ -167,28 +222,62 @@ class AdvancedForm(BasicForm):
 	codigo 		= forms.CharField(required=False, max_length=20) #00
 	
 	#Datos generales del Yacimiento
-	localidad  		= forms.MultipleChoiceField(required=False, choices=OPCIONES_LOCALIDAD)			#4
-	suelo			= forms.MultipleChoiceField(required=False, choices=OPCIONES_SUELO)				#5
-	fotografias 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_FOTOGRAFIAS)		#11
-	fechaFotografia = forms.DateField(required=False)
-	tipo			= forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_YACIMIENTO)	#12
-	hidrologia		= forms.MultipleChoiceField(required=False, choices=OPCIONES_HIDROLOGIA)		#19
-	exposicion		= forms.MultipleChoiceField(required=False, choices=OPCIONES_EXPOSICION)		#20
+	localidad  		= forms.MultipleChoiceField(required=False, choices=OPCIONES_LOCALIDAD)				#4
+	nombreLocalidad = forms.CharField(required=False, max_length=150)
+	
+	fotografia	 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_FOTOGRAFIAS)			#11
+	fechaFotografia = forms.DateField(required=False, input_formats=['%d-%m-%Y','%d/%m/%Y'])
+	
+	suelo			= forms.MultipleChoiceField(required=False, choices=OPCIONES_SUELO)					#5
+	tipo			= forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_YACIMIENTO)		#12
+	hidrologia		= forms.MultipleChoiceField(required=False, choices=OPCIONES_HIDROLOGIA)			#19
+	exposicion		= forms.MultipleChoiceField(required=False, choices=OPCIONES_EXPOSICION)			#20
+	
+	nroPiedras 			= forms.IntegerField(required=False)											#21
+	nroPiedrasGrabadas 	= forms.IntegerField(required=False)
+	nroPiedrasPintadas 	= forms.IntegerField(required=False)
+	nroPiedrasColocadas = forms.IntegerField(required=False)
 	
 	#La Manifestacion
-	ubicacion 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_UBI_MANIFEST) 	#14
-#	material	= forms.MultipleChoiceField(required=False, choices=OPCIONES_MATERIAL)		#15	
+	ubicacion 	= forms.MultipleChoiceField(required=False, choices=OPCIONES_UBI_MANIFEST) 				#14
+	material	= forms.MultipleChoiceField(required=False, choices=OPCIONES_MATERIAL)					#22	
+
+	#Tecnicas
+	tecnicaGeoglifo  	= forms.CharField(required=False, max_length=400)								#23
+	tecnicaPintura  	= forms.MultipleChoiceField(required=False, choices=OPCIONES_TEC_PINTURA)
+	tecnicaPetroglifo  	= forms.MultipleChoiceField(required=False, choices=OPCIONES_TEC_PETROGLIFO)
+	tecnicaMicroPetro  	= forms.MultipleChoiceField(required=False, choices=OPCIONES_TEC_PETROGLIFO)
+	tipoMonumento  		= forms.MultipleChoiceField(required=False, choices=OPCIONES_MONUMENTO)
+	tecnicaMonumento	= forms.CharField(required=False, max_length=400)
+
+	#Conservacion
+	patinaConsider		= forms.BooleanField(required=False)											#28
+	otrosConsider		= forms.CharField(required=False, max_length=400)
+
+	#Manifestaciones Asociadas
+	manifestAsociadas	= forms.MultipleChoiceField(required=False, choices=OPCIONES_MANIF_ASOCIADAS)	#30
+	otrosValores		= forms.CharField(required=False, max_length=150)								#33
+	
+	#Observaciones
+	observaciones		= forms.CharField(required=False, max_length=150)								#34
+
+
 
 	# Seleccion multiple
-	localidad.widget.attrs 	 = {'class':'chzn-select'}
-	suelo.widget.attrs 		 = {'class':'chzn-select'}
-	fotografias.widget.attrs = {'class':'chzn-select'}
-	tipo.widget.attrs 		 = {'class':'chzn-select'}
-	hidrologia.widget.attrs  = {'class':'chzn-select'}
-	exposicion.widget.attrs  = {'class':'chzn-select'}
-	ubicacion.widget.attrs 	 = {'class':'chzn-select'}	
-#	material.widget.attrs 	 = {'class':'chzn-select'}
+	localidad.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de localidad'}
+	suelo.widget.attrs 		 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de suelo'}
+	fotografia.widget.attrs  = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de fotografía'}
+	tipo.widget.attrs 		 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de yacimiento'}
+	hidrologia.widget.attrs  = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de hidrologia'}
+	exposicion.widget.attrs  = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de exposición'}
+	ubicacion.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione la ubicación'}	
+	material.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de material'}
 	
+	tecnicaPintura.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de pintura'}
+	tecnicaPetroglifo.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de petroglifo'}
+	tecnicaMicroPetro.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de micro petroglifo'}
+	tipoMonumento.widget.attrs 	 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de monumento'}
+	manifestAsociadas.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación asociada'}
 	
 class YacimientoForm(forms.ModelForm):
     """
