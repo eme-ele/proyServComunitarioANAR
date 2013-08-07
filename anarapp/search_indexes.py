@@ -135,7 +135,7 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 
 		#Tecnicas
 		try:
-			self.prepare_data['tecnicas'] = obj.tecnicaGeoglifo.tecnicas
+			self.prepare_data['tecnicaGeoglifo'] = obj.tecnicaGeoglifo.tecnicas
 		except:
 			pass
 		
