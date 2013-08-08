@@ -19,7 +19,7 @@ urlpatterns = patterns('',
         template='anarapp/results.html',
         searchqueryset=sqs,
         form_class=AdvancedForm,
-		results_per_page=2),
+		results_per_page=10),
 		name='results'
 	),
 	

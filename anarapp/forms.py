@@ -183,6 +183,89 @@ OPCIONES_MANIF_ASOCIADAS = (
 	(8, 'Montículos'),
 )
 
+OPCIONES_SURCO_PETROGLIFO = (
+	(1, 'Base'),
+	(2, 'Base Redonda'),
+	(3, 'Base Aguda'),
+	(4, 'Bajo Relieve'),
+	(5, 'Lineal'),
+	(6, 'Planar'),
+	(7, 'Alto Relieve'),
+	(8, 'Lineal'),
+	(9, 'Planar'),
+	(10, 'Áreas Interlineales'),
+	(11, 'Pulidas'),
+	(12, 'Rebajadas'),
+	(13, 'Superpuestos'),
+	(14, 'Rebajados'),
+)
+
+OPCIONES_CARACT_PINTURA = (
+	(1, 'Pintura Rupestre'),
+	(2, 'Técnica Dactilar'),
+	(3, 'Técnica Fibra'),
+	(4, 'Línea Sencilla'),
+	(5, 'Línea Compuesta'),
+	(6, 'Impresión de Manos'),
+	(7, 'Impresión de Manos Positivo'),
+	(8, 'Impresión de Manos Negativo'),
+	(9, 'Figuras Superpuestas'),
+)
+
+OPCIONES_CARACT_MONOLITOS = (
+	(1, 'Con Grabados'),
+)
+
+OPCIONES_CARACT_MENHIRES = (
+	(1, 'Con Piedras Verticales'),
+	(2, 'Con Puntos Acoplados'),
+	(3, 'Con Petroglifo'),
+	(4, 'Con Pinturas'),
+)
+
+OPCIONES_CARACT_DOLMEN = (
+	(1, 'Con Petroglifo'),
+	(2, 'Con Pinturas'),
+)
+
+OPCIONES_EST_CONSERVACION = (
+	(1, 'Bueno'),
+	(2, 'Modificado'),
+	(3, 'Trasladado'),
+	(4, 'Sumergido'),
+	(5, 'Enterrado'),
+	(6, 'Perdido'),
+	(7, 'Destruido'),
+	(8, 'Crecimiento Vegetal'),
+	(9, 'Pátina'),
+	(10, 'Erosión'),
+)
+
+OPCIONES_GRADO_DESTRUCCION = (
+   #(11, 'Grado de Destrucción del Sitio')),
+	(12, 'Natural'),
+	(13, 'Natural Ligera'),
+	(14, 'Natural Aguda'),
+	(15, 'Humana'),
+	(16, 'Humana Ligera'),
+	(17, 'Humana Aguda'),
+)
+OPCIONES_CAUSA_DESTRUCCION = (
+   #(18, 'Destrucción Potencial del Sitio'),
+	(19, 'Asentamiento Humano'),
+	(20, 'Obra Infraestrucrura a Corto Plazo'),
+	(21, 'Obra Infraestrucrura a Mediano Plazo'),
+	(22, 'Obra Infraestrucrura a Largo Plazo'),
+	(23, 'Nivelación del Terreno Como Obra Agrícola'),
+	(24, 'Extracción Como Actividad Familiar'),
+	(25, 'Extracción Como Actividad Mayor'),
+	(26, 'Vandalismo'),
+	(27, 'Erosión'),
+	(28, 'Erosión Parcial Moderada'),
+	(29, 'Erosión Parcial Severa'),
+	(30, 'Erosión Extensiva Moderada'),
+	(31, 'Erosión Extensiva Severa'),
+)
 
 class BasicForm(SearchForm):
 	#Yacimiento
@@ -250,7 +333,17 @@ class AdvancedForm(BasicForm):
 	tipoMonumento  		= forms.MultipleChoiceField(required=False, choices=OPCIONES_MONUMENTO)
 	tecnicaMonumento	= forms.CharField(required=False, max_length=400)
 
+	surcoPetroglifo		= forms.MultipleChoiceField(required=False, choices=OPCIONES_SURCO_PETROGLIFO) 	#24
+	caractPintura		= forms.MultipleChoiceField(required=False, choices=OPCIONES_CARACT_PINTURA) 	#25
+	caractMonolitos		= forms.MultipleChoiceField(required=False, choices=OPCIONES_CARACT_MONOLITOS) 	#26
+	caractMenhires		= forms.MultipleChoiceField(required=False, choices=OPCIONES_CARACT_MENHIRES) 	
+	caractDolmen		= forms.MultipleChoiceField(required=False, choices=OPCIONES_CARACT_DOLMEN) 	
+
 	#Conservacion
+	estadoConservacion	= forms.MultipleChoiceField(required=False, choices=OPCIONES_EST_CONSERVACION)	#27
+	gradoDestruccion	= forms.MultipleChoiceField(required=False, choices=OPCIONES_GRADO_DESTRUCCION)
+	causasDestruccion	= forms.MultipleChoiceField(required=False, choices=OPCIONES_CAUSA_DESTRUCCION)  
+	
 	patinaConsider		= forms.BooleanField(required=False)											#28
 	otrosConsider		= forms.CharField(required=False, max_length=400)
 
@@ -273,11 +366,20 @@ class AdvancedForm(BasicForm):
 	ubicacion.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione la ubicación'}	
 	material.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de material'}
 	
-	tecnicaPintura.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de pintura'}
-	tecnicaPetroglifo.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de petroglifo'}
-	tecnicaMicroPetro.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de micro petroglifo'}
-	tipoMonumento.widget.attrs 	 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de monumento'}
-	manifestAsociadas.widget.attrs 	 = {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación asociada'}
+	tecnicaPintura.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de pintura'}
+	tecnicaPetroglifo.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de petroglifo'}
+	tecnicaMicroPetro.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione las técnicas de micro petroglifo'}
+	tipoMonumento.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de monumento'}
+	surcoPetroglifo.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione características del surco'}
+	caractPintura.widget.attrs 		= {'class':'chzn-select', 'data-placeholder':'Seleccione características de la pintura'}
+	caractMonolitos.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione características de monolito'}	
+	caractMenhires.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione características de menhir'}	
+	caractDolmen.widget.attrs 		= {'class':'chzn-select', 'data-placeholder':'Seleccione características de dolmen'}
+			
+	estadoConservacion.widget.attrs = {'class':'chzn-select', 'data-placeholder':'Seleccione el estado de conservacion'}	
+	gradoDestruccion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el grado de destrucción'}	
+	causasDestruccion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione las causas de destrucción'}
+	manifestAsociadas.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación asociada'}
 	
 class YacimientoForm(forms.ModelForm):
     """

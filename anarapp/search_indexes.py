@@ -47,7 +47,16 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 	tipoMonumento		= indexes.CharField()
 	tecnicaMonumento  	= indexes.MultiValueField()
 
+	surcoPetroglifo		= indexes.MultiValueField()				#24
+	caractPintura		= indexes.MultiValueField()				#25
+	caractMonolitos		= indexes.MultiValueField()				#26
+	caractMenhires		= indexes.MultiValueField()				
+	caractDolmen		= indexes.MultiValueField()	
+			
 	#Conservacion
+	estadoConservacion	= indexes.MultiValueField()				#27
+	gradoDestruccion	= indexes.MultiValueField()
+	causasDestruccion	= indexes.MultiValueField()
 	patinaConsider		= indexes.CharField()					#28
 	otrosConsider		= indexes.CharField()
 
@@ -149,8 +158,19 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 			self.prepare_data['tecnicaMonumento'] = monumento.tecnicas
 		except:
 			pass
+			
+		self.prepare_data['surcoPetroglifo'] = self.crear_lista(obj, 'surcoPetroglifo')
+		self.prepare_data['caractPintura'] 	 = self.crear_lista(obj, 'caractPintura')
+		self.prepare_data['caractMonolitos'] = self.crear_lista(obj, 'caractMonolitos')
+		self.prepare_data['caractMenhires']  = self.crear_lista(obj, 'caractMenhires')
+		self.prepare_data['caractDolmen'] 	 = self.crear_lista(obj, 'caractDolmen')
 				
 		#Conservacion
+		conservacion = self.crear_lista(obj, 'conservacion')
+		self.prepare_data['estadoConservacion'] = [i for i in conservacion if  0 < i <= 10]
+		self.prepare_data['gradoDestruccion'] 	= [i for i in conservacion if 10 < i <= 17]
+		self.prepare_data['causasDestruccion'] 	= [i for i in conservacion if 17 < i <= 30]
+		
 		try:
 			considerTemp = obj.considerTemp
 			self.prepare_data['patinaConsider'] = 'true' if considerTemp.cincoAno > 0 else 'false'

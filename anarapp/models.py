@@ -484,7 +484,8 @@ class CaracSurcoPetroglifo (models.Model):
     esGrabadoSuperpuesto = models.BooleanField('24.7 Grabados Superpuestos')
     esGrabadoRebajado = models.BooleanField('24.8 Grabados Rebajados')
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='surcoPetroglifo')
+    
     class Meta:
         verbose_name = '24. Caract. Surco - 13.3 Petroglifo'
         verbose_name_plural = '24. Caract. Surco - 13.3 Petroglifo'
@@ -497,7 +498,8 @@ class CaracSurcoAmoladores(models.Model):
     ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
     diametro = models.CharField('24.11 Diámetro(en cm)', max_length = 400, blank = True)
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento)
+    
     class Meta:
         verbose_name = '24. Caract. Surco - 13.9 Amoladores'
         verbose_name_plural = '24. Caract. Surco - 13.9 Amoladores'
@@ -508,7 +510,9 @@ class CaracSurcoBateas(models.Model):
 
     largo = models.CharField('24.12 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.13 Ancho (en cm)', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    yacimiento = models.OneToOneField(Yacimiento)
+    
     class Meta:
         verbose_name = '24. Caract. Surco - 13.10 Bateas'
         verbose_name_plural = '24. Caract. Surco - 13.10 Bateas'
@@ -519,7 +523,9 @@ class CaracSurcoBateas(models.Model):
 class CaracSurcoPuntosAcopl (models.Model):
 
     esPunteado= models.BooleanField('24.14 Punteado')
+    
     yacimiento = models.OneToOneField(Yacimiento)
+    
     class Meta:
         verbose_name = '24. Car. Surco - 13.11 Puntos Acoplados'
         verbose_name_plural = '24. Car. Surco - 13.11 Puntos Acoplados'
@@ -532,7 +538,8 @@ class CaracSurcoCupulas (models.Model):
     ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
     diametro = models.CharField('24.11 Diámetro(en cm)', max_length = 400, blank = True)
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento)
+    
     class Meta:
         verbose_name = '24. Caract. Surco - 13.12 Cúpula'
         verbose_name_plural = '24. Caract. Surco - 13.12 Cúpula'
@@ -544,7 +551,8 @@ class CaracSurcoMortero (models.Model):
     largo = models.CharField('24.9 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento)
+    
     class Meta:
         verbose_name = '24. Caract. Surco - 13.13 Mortero'
         verbose_name_plural = '24. Caract. Surco - 13.13 Mortero'
@@ -570,7 +578,8 @@ class CaracDeLaPintura (models.Model):
     tienesFigurasSuperpuestas = models.BooleanField('25.5 Figuras Superpuestas')
 
     ###IMPORTANTE FALTA 25.6 COLORES ------ PREGUNTAR A RUBY .... 25.6.2 y 25.6.1
-    yacimiento = models.OneToOneField(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='caractPintura')
+    
     class Meta:
         verbose_name = '25. Caract. - 13.2 Pintura Rupestre'
         verbose_name_plural = '25. Caract. - 13.2 Pintura Rupestre'
@@ -583,7 +592,8 @@ class CaracMonolitos(models.Model):
     esPinturaRupestre = models.BooleanField('13.7.1.1 Con Grabados')
     cantidadConGrabados = models.IntegerField('26.2 Cantidad con Grabados', blank = True, null = True, )
 
-    yacimiento = models.OneToOneField(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='caractMonolitos')
+    
     class Meta:
         verbose_name = '26. Caract. MM - 13.7.1 Monolitos'
         verbose_name_plural = '26. Caract. MM - 13.7.1 Monolitos'
@@ -601,9 +611,9 @@ class CaracMenhires(models.Model):
     conPinturas = models.BooleanField('13.7.2.3 Con Pinturas')
     cantidadConPinturas = models.IntegerField('26.6 Cantidad', blank = True, null = True, )
     distanciamiento = models.IntegerField('26.7 Distanciamiento (en cm)', blank = True, null = True, )
-
     
-    yacimiento = models.OneToOneField(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='caractMehnires')
+    
     class Meta:
         verbose_name = '26. Caract. MM - 13.7.2 Menhires'
         verbose_name_plural = '26. Caract. MM - 13.7.2 Menhires'
@@ -618,7 +628,8 @@ class CaracDolmenArt(models.Model):
     cantidadConPinturas = models.IntegerField('26.9 Cantidad', blank = True, null = True, )
     notas = models.CharField('26.10 Notas', max_length = 400, blank = True)
    
-    yacimiento = models.OneToOneField(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='caractDolmen')
+    
     class Meta:
         verbose_name = '26. Caract. MM - 13.7.3 Dolmen'
         verbose_name_plural = '26. Caract. MM - 13.7.3 Dolmen'
@@ -687,7 +698,7 @@ class EstadoConserYac(models.Model):
     cincoAno = models.BooleanField('27.6.1.6 Cindo Años')
     mas = models.CharField('27.6.1.7 Más', max_length = 400, blank = True)
 
-    yacimiento = models.OneToOneField(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='conservacion')
 
     class Meta:
         verbose_name = '27. Estado de la Conservación'
