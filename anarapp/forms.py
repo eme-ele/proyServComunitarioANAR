@@ -2,6 +2,7 @@
 
 from django import forms
 from haystack.forms import SearchForm
+import models
 
 # Opciones de Select    
 OPCIONES_TIPO_MANIFEST = (
@@ -285,6 +286,9 @@ class BasicForm(SearchForm):
 	
 	# Busqueda
 	def search(self):
+		for item in models.__subclasses__():
+			print item.__name__
+	
 		sqs = super(BasicForm, self).search()
 
 		if not self.is_valid():
@@ -300,7 +304,7 @@ class BasicForm(SearchForm):
 
 		return sqs.filter(**filters)
 
-class AdvancedForm(BasicForm):
+class YacimientoForm(BasicForm):
 	#Codigo
 	codigo 		= forms.CharField(required=False, max_length=20) #00
 	
@@ -380,6 +384,103 @@ class AdvancedForm(BasicForm):
 	gradoDestruccion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el grado de destrucción'}	
 	causasDestruccion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione las causas de destrucción'}
 	manifestAsociadas.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación asociada'}
+
+
+
+OPCIONES_ORIENT_CARAS = (
+    (0, 'Tope'),
+    (1, 'Norte'),
+    (2, 'Noreste'),
+    (3, 'Este'),
+    (4, 'Sureste'),
+    (5, 'Sur'),
+    (6, 'Suroeste'),
+    (7, 'Oeste'),
+    (8, 'Noroeste'),
+    (9, 'Piso o plano inclinado'),
+)
+
+OPCIONES_UBI_CARAS = (
+	(1, 'Toda la caverna'),
+	(2, 'Áreas específicas'),
+	(3, 'Sala principal'),
+	(4, 'Otra sala'),
+	(5, 'Lago interior'),
+	(6, 'Claraboya'),
+)
+
+OPCIONES_LUMINOSIDAD = (
+    (0, 'No tiene'),
+    (1, 'Fótico'),
+    (2, 'Escótico'),
+)
+
+OPCIONES_TIPO_FIGURA = (
+    (1, 'Antropomorfas'),
+    (2, 'Zoomorfas'),
+    (3, 'Geométricas'),
+    (4, 'Puntos Acoplados'),
+    (5, 'Cupulas'),
+    (6, 'Zoo-antropomorfas'),
+    (7, 'Antropo-geométricas'),
+    (8, 'Zoo-geométricas'),
+    (9, 'Amoladores'),
+    (10, 'Bateas'),
+)
+
+OPCIONES_CONEX_FIGURA = (
+    (1, 'Presencia de una sola figura'),
+    (2, 'Menos del 10% interconectadas'),
+    (3, '50% interconectadas'),
+    (4, 'Mas del 80% interconectadas'),
+)
+
+
+class AdvancedForm(YacimientoForm):
+	#Codigo
+	codigoPiedra  = forms.CharField(required=False, max_length=20) 								#Pa00
+	
+	#Datos Generales de la Piedra
+	estadoPiedra  = forms.CharField(required=False, max_length=40) 								#Pa3
+	nombrePiedra  = forms.CharField(required=False, max_length=150) 							#Pa1
+	nombreFiguras = forms.CharField(required=False, max_length=150) 							#Pa2
+	numeroCaras	  = forms.IntegerField(required=False)											#Pa4
+	numeroCarasTrabajadas = forms.IntegerField(required=False)									#Pa5
+	
+	orientacionCaras = forms.MultipleChoiceField(required=False, choices=OPCIONES_ORIENT_CARAS) #Pa6
+	altoMaximo		 = forms.IntegerField(required=False)										#Pa7
+	largoMaximo		 = forms.IntegerField(required=False)
+	anchoMaximo		 = forms.IntegerField(required=False)
+	
+	ubicacionCaras	 = forms.MultipleChoiceField(required=False, choices=OPCIONES_UBI_CARAS)	#Pa8
+	luminosidad		 = forms.MultipleChoiceField(required=False, choices=OPCIONES_LUMINOSIDAD)
+	altura			 = forms.IntegerField(required=False)
+	andamiaje		 = forms.BooleanField(required=False)
+	
+	#Las Figuras
+	tipoFigura		= forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_FIGURA)	#Pa9
+	conexionFiguras = forms.MultipleChoiceField(required=False, choices=OPCIONES_CONEX_FIGURA)	#Pa11
+	
+	#Tratamiento de la Roca
+	limpiezaCon 		= forms.CharField(required=False, max_length=40)						#Pa12
+	rellenoSurcos 		= forms.CharField(required=False, max_length=40)
+	tratamientoDigital	= forms.CharField(required=False, max_length=40)
+	programaVersion		= forms.CharField(required=False, max_length=40)
+	otrosTratamientos	= forms.CharField(required=False, max_length=150)
+	
+	#Manifestaciones Asociadas
+	manifAsociadaPiedra	= forms.CharField(required=False, max_length=150)						#Pa1.1
+	otrosValoresPiedra	= forms.CharField(required=False, max_length=150)						#Pa15
+	
+	#Observaciones
+	observacionesPiedra = forms.CharField(required=False, max_length=150)						#Pa16
+	
+	# Seleccion multiple
+	orientacionCaras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione la orientación'}
+	ubicacionCaras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione la ubicación'}
+	luminosidad.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de luminosidad'}
+	tipoFigura.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de figura'}	
+	conexionFiguras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de conexión'}	
 	
 class YacimientoForm(forms.ModelForm):
     """
