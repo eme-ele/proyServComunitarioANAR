@@ -19,12 +19,16 @@ class Yacimiento(models.Model):
     #representacion en string de un objeto tipo Yacimiento
     def __unicode__(self):
         return 'PB1-' + self.codigo + '-' + self.nombre
+    
+    abbr = 'yac'
 
     class Meta:
         verbose_name = 'Yacimiento'
         verbose_name_plural = 'Yacimientos'
 
 class LocalidadYacimiento(models.Model):
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='LocalidadYacimiento')
     
     esCentroPoblado = models.BooleanField('4.1 Centro de Poblado')
     esUrbano = models.BooleanField('4.1.1 Urbano')
@@ -34,7 +38,7 @@ class LocalidadYacimiento(models.Model):
     esCentroNoPoblado = models.BooleanField('4.2 No Poblado')
     nombreNoPoblado = models.CharField('4.2.1 Nombre', max_length = 150, blank = True)
 
-    yacimiento = models.OneToOneField(Yacimiento, related_name='localidad')
+    abbr = 'loc'
     
     class Meta:
         verbose_name = '4. Localidad'
@@ -46,6 +50,8 @@ class LocalidadYacimiento(models.Model):
 
 class UsoActSuelo(models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='UsoActSuelo')
+    
     esForestal = models.BooleanField('5.1 Forestal')
     esGanadero = models.BooleanField('5.2 Ganadero')
     esAgriRiesgo = models.BooleanField('5.3 Agricultura de Riesgo')
@@ -53,25 +59,28 @@ class UsoActSuelo(models.Model):
     esSueloUrbano = models.BooleanField('5.5 Urbano')
     esSueloTuristico = models.BooleanField('5.6 Turístico')
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='suelo')
-   
+    abbr = 'uas'
+
     class Meta:
         verbose_name = '5. Uso Actual Del Suelo'
         verbose_name_plural = '5. Uso Actual Del Suelo'
-
+    
     def __unicode__(self):
         return 'Uso Actual del Suelo del Yacimiento'
 
 class TenenciaDeTierra(models.Model):
     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TenenciaDeTierra')
+   
     esPrivada = models.BooleanField('5.7.1 Privada')
     esComunal = models.BooleanField('5.7.2 Comunal')
     esEjido = models.BooleanField('5.7.3 Ejido')
     esMunicipal = models.BooleanField('5.7.4 Municipal')
     esABRAE = models.BooleanField('5.7.5 ABRAE (Área Bajo Régimen Especial)')
     esTenenciaOtros = models.CharField('5.7.6 Otros', max_length = 150, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
-   
+    
+    abbr = 'tdt'
+    
     class Meta:
         verbose_name = '5.7 Tenencia de la Tierra'
         verbose_name_plural = '5.7 Tenencia de la Tierra'
@@ -80,11 +89,13 @@ class TenenciaDeTierra(models.Model):
         return 'Tenencia de la Tierra del Yacimiento'
 
 class Indicaciones(models.Model):
-
-    direcciones = models.CharField('6. Indicaciones', max_length = 400, blank = True) 
-    puntoDatum = models.CharField('6.1 Punto Datum ', max_length = 400, blank = True) 
+ 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='Indicaciones')
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    direcciones = models.CharField('6. Indicaciones', max_length = 400, blank = True) 
+    puntoDatum = models.CharField('6.1 Punto Datum ', max_length = 400, blank = True)
+    
+    abbr = 'ind'
     
     class Meta:
         verbose_name = '6. Indicaciones para llegar al Lugar'
@@ -95,8 +106,10 @@ class Indicaciones(models.Model):
 
 class Croquis (models.Model):
 
+    yacimiento = models.ForeignKey(Yacimiento, related_name='Croquis')
     urlImagen = models.CharField('6.2.1 Url de la Imagen', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    abbr = 'crq'
 
     class Meta:
         verbose_name = '6.2 Croquis y Esquema'
@@ -107,22 +120,27 @@ class Croquis (models.Model):
 
 class Plano (models.Model):
     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='Plano')
     numeroPlano = models.IntegerField('7. Número de plano', blank = True, null = True, )
-    yacimiento = models.ForeignKey(Yacimiento)
+
+    abbr = 'pln'
 
     class Meta:
         verbose_name = '7. Número de Plano'
         verbose_name_plural = '7. Número de Plano'
-
+    
     def __unicode__(self):
         return 'Numero de Plano'
 
  
 class Coordenadas (models.Model):
     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='Coordenadas')
+    
     longitud = models.CharField('Long. O(W)', max_length = 400, blank = True)
     latitud = models.CharField('Lat. N', max_length = 400, blank = True)
-    yacimiento = models.OneToOneField(Yacimiento)
+    
+    abbr = 'crd'
 
     class Meta:
         verbose_name = '8. Coordenadas'
@@ -136,10 +154,12 @@ class Datum (models.Model):
     OPCIONES_DATUM = (
         (1, '9.1 WGS 84'),
         (2, '9.2 La Canoa - Provisional Suramérica 1956'),
-    )  
-    
+    ) 
+     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='Datum')    
     tipoDatum = models.IntegerField('9. Datum GPS',choices = OPCIONES_DATUM, blank = True,null = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    abbr = 'dtm'
 
     class Meta:
         verbose_name = '9. Datum GPS'
@@ -149,36 +169,43 @@ class Datum (models.Model):
         return 'Datum GPS' 
 
 class Altitud (models.Model):
-   
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='Altitud')
+      
     altura = models.CharField('10.1 Altura en mts', max_length = 400, blank = True)
     superficie = models.CharField('10.2 Superficie en m2', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
     
+    abbr = 'atd'  
+
     class Meta:
         verbose_name = '10. Altitud'
-        verbose_name_plural = '10. Altitud'  
+        verbose_name_plural = '10. Altitud'
 
     def __unicode__(self):
         return 'Altitud'
 
 class FotografiaYac (models.Model):
-   
+    
+    yacimiento = models.ForeignKey(Yacimiento, related_name='FotografiaYac')
+       
     esAerea = models.BooleanField('Aerea')
     noEsAerea = models.BooleanField('No Aerea')
     esSatelital = models.BooleanField('Satelital')
     fecha = models.DateField('Fecha',blank = True, null= True)
     urlImagen = models.CharField('11. Url de la Imagen', max_length = 400, blank = True)
     
-    yacimiento = models.ForeignKey(Yacimiento, related_name='fotografia')
-    
+    abbr = 'fty'  
+
     class Meta:
         verbose_name = '11. Fotografia'
-        verbose_name_plural = '11. Fotografias'  
+        verbose_name_plural = '11. Fotografias'
 
     def __unicode__(self):
         return 'Fotografias del Yacimiento'
 
 class TipoYacimiento (models.Model):
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TipoYacimiento')
 
     esParedRocosa = models.BooleanField('12.1 Pared Rocosa')
     esRoca = models.BooleanField('12.2 Roca')
@@ -189,11 +216,12 @@ class TipoYacimiento (models.Model):
     esTerrenoSup = models.BooleanField('12.7 Terreno Superficial')
     esTerrenoPro = models.BooleanField('12.8 Terreno Profundo')
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='tipo')
+    abbr = 'tyc'
 
     class Meta:
         verbose_name = '12. Tipo de Yacimiento'
         verbose_name_plural = '12. Tipo de Yacimiento'
+        
     def __unicode__(self):
         return 'Tipo de Yacimiento'
 
@@ -244,18 +272,23 @@ class ManifestUbicacionYacimiento (models.Model):
        
     ) 
     
+    yacimiento = models.ForeignKey(Yacimiento, related_name='ManifestUbicacionYacimiento')
+    
     tipoManifestacion = models.IntegerField('13. Tipo de Manifestacion',choices = OPCIONES_TIPO_MANIFEST, blank = True,null = True)
     ubicacionManifestacion = models.IntegerField('14. Ubicación de la Manifestacion',choices = OPCIONES_UBI_MANIFEST, blank = True,null = True)
-    
-    yacimiento = models.ForeignKey(Yacimiento, related_name='manifestacion')
 
+    abbr = 'muy'
+        
     class Meta:
         verbose_name = '13. Tipo de Manifestación'
         verbose_name_plural = '13. Tipo de Manifestación'
+    
     def __unicode__(self):
         return 'Tipo - Ubicacion'
 
 class OrientacionYacimiento (models.Model):
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='OrientacionYacimiento')
 
     haciaCerro = models.BooleanField('15.1 Hacia Cerro')
     haciaValle = models.BooleanField('15.2 Hacia Valle')
@@ -265,53 +298,66 @@ class OrientacionYacimiento (models.Model):
     otros = models.CharField('15.6 Otros', max_length = 400, blank = True)
     orientacion = models.CharField('15.7 Orientacion Cardinal', max_length = 400, blank = True)
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='orientacion')
+    abbr = 'oyc'
 
     class Meta:
         verbose_name = '15. Orientacion del Yacimiento'
         verbose_name_plural = '15. Orientacion del Yacimiento'
+        
     def __unicode__(self):
         return 'Orientacion del Yacimiento'
 
 class TexturaSuelo (models.Model):
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TexturaSuelo')
 
     esRocaMadre = models.BooleanField('16.1 Roca Madre')
     esPedregoso = models.BooleanField('16.2 Pedregoso')
     esArenoso = models.BooleanField('16.3 Arenoso')
     esArcilloso = models.BooleanField('16.4 Arcilloso')
     mixto = models.CharField('16.5 Mixto', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    abbr = 'tsl'
 
     class Meta:
         verbose_name = '16. Textura del Suelo'
         verbose_name_plural = '16. Textura del Suelo'
+        
     def __unicode__(self):
         return 'Textura del Suelo'
 
 class FloraYacimiento (models.Model):
-    
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='FloraYacimiento')    
     flora = models.CharField('17. Flora', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
     
+    abbr = 'fly'
+
     class Meta:
         verbose_name = '17. Flora'
         verbose_name_plural = '17. Flora'
+        
     def __unicode__(self):
         return 'Flora del Yacimiento'
 
 class FaunaYacimiento (models.Model):
     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='FaunaYacimiento')
     fauna = models.CharField('18. Fauna', max_length = 400, blank = True)
-    yacimiento = models.ForeignKey(Yacimiento)
+    
+    abbr = 'fay'
     
     class Meta:
         verbose_name = '18. Fauna'
         verbose_name_plural = '18. Fauna'
+        
     def __unicode__(self):
         return 'Fauna del Yacimiento'
 
 class HidrologiaYacimiento (models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='HidrologiaYacimiento')
+    
     rio = models.BooleanField('19.1 Rio')
     laguna = models.BooleanField('19.2 Laguna')
     arroyo = models.BooleanField('19.3 Arroyo')
@@ -322,46 +368,57 @@ class HidrologiaYacimiento (models.Model):
     nombre = models.CharField('19.6 Nombre', max_length = 400, blank = True)
     distancia = models.CharField('19.7 Distancia al Yacimiento', max_length = 400, blank = True)
     observaciones = models.CharField('19.8 Observaciones', max_length = 400, blank = True)
+    
+    abbr = 'hiy'
 
-    yacimiento = models.ForeignKey(Yacimiento)
     class Meta:
         verbose_name = '19. Hidrología'
         verbose_name_plural = '19. Hidrología'
+        
     def __unicode__(self):
         return 'Hidrologia'
 
 class TipoExposicionYac(models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TipoExposicionYac')
+    
     expuesto = models.BooleanField('20.1 Expuesto')
     expuesto = models.BooleanField('20.2 No Expuesto')
     expuestoPeriodicamente = models.BooleanField('20.3 Expuesto Periódicamente')
     observaciones = models.CharField('20.4 Observaciones', max_length = 400, blank = True)
+    
+    abbr = 'tey'
 
-    yacimiento = models.ForeignKey(Yacimiento)
     class Meta:
         verbose_name = '20. Exposición'
         verbose_name_plural = '20. Exposición'
+
     def __unicode__(self):
         return 'Exposicion'
 
 class ConstitucionYacimiento (models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ConstitucionYacimiento')
+    
     nroPiedras = models.IntegerField('21.1 Nro de Piedras en el Yacimiento Original', blank = True, null = True, )
     nroPiedrasGrabadas = models.IntegerField('21.1.1 Nro de Piedras Grabadas', blank = True, null = True, )
     nroPiedrasPintadas = models.IntegerField('21.1.2 Nro de Piedras Pintadas', blank = True, null = True, )
     nroPiedrasColocadas = models.IntegerField('21.1.3 Nro Piedras Colocadas', blank = True, null = True, )
     otros = models.CharField('21.2 Otros', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='constitucion')
     
+    abbr = 'cny'
+
     class Meta:
         verbose_name = '21. Constitución del Yacimiento'
         verbose_name_plural = '21. Constitución del Yacimiento'
+        
     def __unicode__(self):
         return 'Constituicion'
 
 class MaterialYacimiento(models.Model):
     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='MaterialYacimiento')
+        
     esRoca = models.BooleanField('22.1 Roca')
     esIgnea = models.BooleanField('22.1.1.1 Ignea')
     esMetamor= models.BooleanField('22.1.1.2 Metamórfica')
@@ -373,42 +430,51 @@ class MaterialYacimiento(models.Model):
     esPiel = models.BooleanField('22.5 Pieles')
     otros = models.CharField('22.6 Otros', max_length = 400, blank = True)
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='material')
-    
+    abbr = 'may'
+
     class Meta:
         verbose_name = '22. Material'
         verbose_name_plural = '22. Material'
+        
     def __unicode__(self):
         return 'Material Yacimiento'  
 
 class TecnicaParaGeoglifo (models.Model):
     
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TecnicaParaGeoglifo')
     tecnicas = models.CharField('23.1 Técnicas de Construcción', max_length = 400, blank = True)
-    yacimiento = models.OneToOneField(Yacimiento, related_name='tecnicaGeoglifo')
+    
+    abbr = 'tge'
     
     class Meta:
         verbose_name = '23. Técnica-13.1 Geoglifo'
         verbose_name_plural = '23. Técnica-13.1 Geoglifo'
+        
     def __unicode__(self):
         return 'Tecnica' 
 
 class TecnicaParaPintura (models.Model):
-    
+ 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TecnicaParaPintura')
+       
     conDedo = models.BooleanField('23.2 Dedo')
     fibra = models.BooleanField('23.3 Fibra')
     soplado = models.BooleanField('23.4 Soplado')
     otros = models.CharField('23.5 Otros', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='tecnicaPintura')
     
+    abbr = 'tpi'
+
     class Meta:
         verbose_name = '23. Técnica-13.2 Pintura Rupestre'
         verbose_name_plural = '23. Técnica-13.2 Pintura Rupestre'
+        
     def __unicode__(self):
         return 'Tecnica'     
 
 class TecnicaParaPetroglifo (models.Model):
-    
+ 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TecnicaParaPetroglifo')
+       
     esGrabado = models.BooleanField('23.6 Grabado')
     esGrabadoPercusion = models.BooleanField('23.6.1 Percusión')
     esGrabadoPercusionDirecta = models.BooleanField('23.6.1.1 Directa')
@@ -418,17 +484,20 @@ class TecnicaParaPetroglifo (models.Model):
     esAbrasionArena = models.BooleanField('23.6.2.2 Arena')
     esAbrasion = models.BooleanField('23.6.2.3 Concha')
     otros = models.CharField('23.6.3 Otros', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='tecnicaPetroglifo')
     
+    abbr = 'tpe'
+
     class Meta:
         verbose_name = '23. Técnica-13.3 Petroglifo'
         verbose_name_plural = '23. Técnica-13.3 Petroglifo'
+        
     def __unicode__(self):
         return 'Tecnica'
 
 class TecnicaParaMicroPetro (models.Model):
-    
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TecnicaParaMicroPetro')
+        
     esGrabado = models.BooleanField('23.6 Grabado')
     esGrabadoPercusion = models.BooleanField('23.6.1 Percusión')
     esGrabadoPercusionDirecta = models.BooleanField('23.6.1.1 Directa')
@@ -438,33 +507,39 @@ class TecnicaParaMicroPetro (models.Model):
     esAbrasionArena = models.BooleanField('23.6.2.2 Arena')
     esAbrasion = models.BooleanField('23.6.2.3 Concha')
     otros = models.CharField('23.6.3 Otros', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='tecnicaMicroPetro')
     
+    abbr = 'tmi'
+
     class Meta:
         verbose_name = '23. Técnica-13.4 Micro-Petroglifo'
         verbose_name_plural = '23. Técnica-13.4 Micro-Petroglifo'
+        
     def __unicode__(self):
         return 'Tecnica' 
 
 class TecnicaParaMonumentos (models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='TecnicaParaMonumentos')
     
     esMonolito = models.BooleanField('13.7.1 Monolitos')
     esMenhir = models.BooleanField('13.7.2 Menhires')
     esDolmen = models.BooleanField('13.7.3 Dolmen (artificial)')
     tecnicas = models.CharField('23.7 Técnicas de Construcción', max_length = 400, blank = True)
     otros = models.CharField('23.8 Otros', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='tecnicaMonumento')
+    
+    abbr = 'tmo'
 
     class Meta:
         verbose_name = '23. Técnica-13.7 Monumentos '
         verbose_name_plural = '23. Técnica-13.7 Monumentos'
+        
     def __unicode__(self):
         return 'Tecnica' 
 
 class CaracSurcoPetroglifo (models.Model):
-
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoPetroglifo')
+    
     anchoDe = models.CharField('24.1 Ancho de (en cm)', max_length = 400, blank = True)
     anchoA = models.CharField('24.1 Ancho a (en cm)', max_length = 400, blank = True)
     produndidadDe = models.CharField('24.2 Profundidad de (en cm)', max_length = 400, blank = True)
@@ -484,83 +559,100 @@ class CaracSurcoPetroglifo (models.Model):
     esGrabadoSuperpuesto = models.BooleanField('24.7 Grabados Superpuestos')
     esGrabadoRebajado = models.BooleanField('24.8 Grabados Rebajados')
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='surcoPetroglifo')
-    
+    abbr = 'cpe'
+
     class Meta:
         verbose_name = '24. Caract. Surco - 13.3 Petroglifo'
         verbose_name_plural = '24. Caract. Surco - 13.3 Petroglifo'
+        
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
 
 class CaracSurcoAmoladores(models.Model):
-    
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoAmoladores')
+        
     largo = models.CharField('24.9 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
     diametro = models.CharField('24.11 Diámetro(en cm)', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento)
     
+    abbr = 'cam'
+
     class Meta:
         verbose_name = '24. Caract. Surco - 13.9 Amoladores'
         verbose_name_plural = '24. Caract. Surco - 13.9 Amoladores'
+        
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
         
 class CaracSurcoBateas(models.Model):
-
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoBateas')
+    
     largo = models.CharField('24.12 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.13 Ancho (en cm)', max_length = 400, blank = True)
     
-    yacimiento = models.OneToOneField(Yacimiento)
-    
+    abbr = 'cba'
+
     class Meta:
         verbose_name = '24. Caract. Surco - 13.10 Bateas'
         verbose_name_plural = '24. Caract. Surco - 13.10 Bateas'
+        
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
 
 
 class CaracSurcoPuntosAcopl (models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoPuntosAcopl')
     esPunteado= models.BooleanField('24.14 Punteado')
     
-    yacimiento = models.OneToOneField(Yacimiento)
+    abbr = 'cpa'
     
     class Meta:
         verbose_name = '24. Car. Surco - 13.11 Puntos Acoplados'
         verbose_name_plural = '24. Car. Surco - 13.11 Puntos Acoplados'
+        
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
 
 class CaracSurcoCupulas (models.Model):
-
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoCupulas')
+    
     largo = models.CharField('24.9 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
     diametro = models.CharField('24.11 Diámetro(en cm)', max_length = 400, blank = True)
     
-    yacimiento = models.OneToOneField(Yacimiento)
-    
+    abbr = 'ccu'
+
     class Meta:
         verbose_name = '24. Caract. Surco - 13.12 Cúpula'
         verbose_name_plural = '24. Caract. Surco - 13.12 Cúpula'
+        
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
 
 class CaracSurcoMortero (models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoMortero')
+    
     largo = models.CharField('24.9 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento)
     
+    abbr = 'cmr'
+
     class Meta:
         verbose_name = '24. Caract. Surco - 13.13 Mortero'
         verbose_name_plural = '24. Caract. Surco - 13.13 Mortero'
+        
     def __unicode__(self):
         return 'Caracteristica del Surco Grabado'
 
 
 class CaracDeLaPintura (models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracDeLaPintura')
 
     esPinturaRupestre = models.BooleanField('13.2 Pintura Rupestre')
     esTecnicaDactilar = models.BooleanField('25.1 Técnica/ 25.1.1 Dactilar')
@@ -578,30 +670,37 @@ class CaracDeLaPintura (models.Model):
     tienesFigurasSuperpuestas = models.BooleanField('25.5 Figuras Superpuestas')
 
     ###IMPORTANTE FALTA 25.6 COLORES ------ PREGUNTAR A RUBY .... 25.6.2 y 25.6.1
-    yacimiento = models.OneToOneField(Yacimiento, related_name='caractPintura')
+    
+    abbr = 'pin'
     
     class Meta:
         verbose_name = '25. Caract. - 13.2 Pintura Rupestre'
         verbose_name_plural = '25. Caract. - 13.2 Pintura Rupestre'
+        
     def __unicode__(self):
         return 'Caracteristicas de la Pintura'
 
 class CaracMonolitos(models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracMonolitos')
+    
     cantidad = models.IntegerField('26.1 Cantidad ', blank = True, null = True, )
     esPinturaRupestre = models.BooleanField('13.7.1.1 Con Grabados')
     cantidadConGrabados = models.IntegerField('26.2 Cantidad con Grabados', blank = True, null = True, )
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='caractMonolitos')
     
+    abbr = 'mon'
+
     class Meta:
         verbose_name = '26. Caract. MM - 13.7.1 Monolitos'
         verbose_name_plural = '26. Caract. MM - 13.7.1 Monolitos'
+        
     def __unicode__(self):
         return 'Caracteristicas del Monumento Megalitico'
 
 class CaracMenhires(models.Model):
-
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracMehnires')
+    
     sonPiedrasVerticales = models.BooleanField('26.0 Piedras Verticales')
     cantidadPiedrasVerticales = models.IntegerField('26.3 Cantidad', blank = True, null = True, )
     conPuntosAcoplados = models.BooleanField('13.7.2.1 Con Puntos Acoplados')
@@ -612,31 +711,37 @@ class CaracMenhires(models.Model):
     cantidadConPinturas = models.IntegerField('26.6 Cantidad', blank = True, null = True, )
     distanciamiento = models.IntegerField('26.7 Distanciamiento (en cm)', blank = True, null = True, )
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='caractMehnires')
-    
+    abbr = 'men'
+
     class Meta:
         verbose_name = '26. Caract. MM - 13.7.2 Menhires'
         verbose_name_plural = '26. Caract. MM - 13.7.2 Menhires'
+        
     def __unicode__(self):
         return 'Caracteristicas del Monumento Megalitico'
 
 class CaracDolmenArt(models.Model):
-
+   
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CaracDolmenArt')
+    
     ConPetroglifo = models.BooleanField('13.7.3.1 Con Petroglifo')
     cantidadConPetroglifo = models.IntegerField('26.8 Cantidad', blank = True, null = True, )
     conPinturas = models.BooleanField('13.7.3.2 Con Pinturas')
     cantidadConPinturas = models.IntegerField('26.9 Cantidad', blank = True, null = True, )
     notas = models.CharField('26.10 Notas', max_length = 400, blank = True)
-   
-    yacimiento = models.OneToOneField(Yacimiento, related_name='caractDolmen')
     
+    abbr = 'dol'
+
     class Meta:
         verbose_name = '26. Caract. MM - 13.7.3 Dolmen'
         verbose_name_plural = '26. Caract. MM - 13.7.3 Dolmen'
+        
     def __unicode__(self):
         return 'Caracteristicas del Monumento Megalitico'
 
 class EstadoConserYac(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='EstadoConserYac')
    
     enBuenEstado = models.BooleanField('27.1 Bueno')
     estadoModificado = models.BooleanField('27.2 Modificado')
@@ -697,30 +802,36 @@ class EstadoConserYac(models.Model):
     cuatroAno = models.BooleanField('27.6.1.5 Cuatro Años')
     cincoAno = models.BooleanField('27.6.1.6 Cindo Años')
     mas = models.CharField('27.6.1.7 Más', max_length = 400, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='conservacion')
+    
+    abbr = 'ecy'
 
     class Meta:
         verbose_name = '27. Estado de la Conservación'
         verbose_name_plural = '27. Estado de la Conservación'
+        
     def __unicode__(self):
         return 'Estado de la Conservacion'
 
 class ConsiderTemp(models.Model):
-
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ConsiderTemp')
+    
     cincoAno = models.BooleanField('28.1 Patina')
     otros = models.CharField('28.2 Otros', max_length = 400, blank = True)
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name="considerTemp")
-    
+    abbr = 'tem'
+        
     class Meta:
         verbose_name = '28. Consider. Sobre Temporaladidad'
         verbose_name_plural = '28. Consider. Sobre Temporaladidad'
+    
     def __unicode__(self):
         return 'Consideraciones Sobre Temporaladidad'
 
 class CronologiaTentativa(models.Model):
-
+    
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CronologiaTentativa')
+    
     esCrono1 = models.BooleanField('29.1 Anterior a 5000 a.p.')
     esCrono2 = models.BooleanField('29.2 5000 - 1500 a.p.')
     esCrono3 = models.BooleanField('29.3 1500 a.p. - 200 n.e.')
@@ -739,16 +850,20 @@ class CronologiaTentativa(models.Model):
     bibliografia = models.CharField('29.8.8 Bibliografía', max_length = 400, blank = True)
     twitter = models.CharField('29.8.9 Twitter', max_length = 400, blank = True)
     facebook = models.CharField('29.8.10 Facebook', max_length = 400, blank = True)
+
+    abbr = 'cte'
     
-    yacimiento = models.ForeignKey(Yacimiento)
     class Meta:
         verbose_name = '29. Cronología Tentativa'
         verbose_name_plural = '29. Cronología Tentativa'
+    
     def __unicode__(self):
         return 'Cronologia Tentativa'
 
 class ManifestacionesAsociadas(models.Model):
 
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesAsociadas')
+    
     esLitica = models.BooleanField('30.1 Lítica')
     descripcionLitica = models.CharField('30.1 Descripción Lítica', max_length = 1200, blank = True)
     esCeramica = models.BooleanField('30.2 Cerámica')
@@ -766,12 +881,13 @@ class ManifestacionesAsociadas(models.Model):
     esMonticulo = models.BooleanField('30.8 Montículos')
     descripcionMonticulo = models.CharField('30.8 Descripción Montículos', max_length = 1200, blank = True)
     otros = models.CharField('30.9 Otros', max_length = 1200, blank = True)
-
-    yacimiento = models.OneToOneField(Yacimiento, related_name='manifestacionAsociada')
     
+    abbr = 'mso'
+
     class Meta:
         verbose_name = '30. Manifestaciones Asociadas'
         verbose_name_plural = '30. Manifestaciones Asociadas'
+        
     def __unicode__(self):
         return 'Manifestaciones Asociadas'
 
@@ -783,7 +899,8 @@ class Piedra(models.Model):
 
     """Representa la información de la ficha pa, recoge la información básica"""
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='Piedra')
+    
     codigo = models.CharField('0. Codigo de la piedra', max_length=20)#, primary_key=True)        
     nombre = models.CharField('1. Nombre de la piedra', max_length=150)
     manifiestacionAsociada = models.CharField('1.1 Manifestaciones asociadas', max_length=150)
@@ -794,6 +911,8 @@ class Piedra(models.Model):
     
     def __unicode__(self):
         return 'Pa-' + self.codigo + '-' + self.nombre
+    
+    abbr = 'pdr'
 
     class Meta:
         verbose_name = 'Piedra'
@@ -803,10 +922,13 @@ class DimensionPiedra(models.Model):
 
     """Representa la información de las dimensiones de la piedra"""
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.OneToOneField(Piedra, related_name='DimensionPiedra')
+    
     altoMaximo =  models.DecimalField('7.a Alto Maximo', max_digits=12, decimal_places=6)
     largoMaximo = models.DecimalField('7.b Largo Maximo',max_digits=12, decimal_places=6)
     anchoMaximo = models.DecimalField('7.c Ancho Maximo',max_digits=12, decimal_places=6)
+    
+    abbr = 'dip'
     
     class Meta:
         verbose_name = 'Dimensiones de la piedra'
@@ -829,12 +951,15 @@ class CaraTrabajada(models.Model):
         (9, '9 - Piso o plano inclinado'),
     )
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='CaraTrabajada')
+    
     numero = models.IntegerField('6a. Número de cara trabajada')
     orientacion = models.IntegerField('6b. Orientación de la cara', choices = ORIENTACION_CARA_TRABAJADA)
     alto = models.DecimalField('7.1. Alto',max_digits=6, decimal_places=3)
     ancho = models.DecimalField('7.2. Ancho',max_digits=6, decimal_places=3)
     largo = models.DecimalField('7.3. Largo',max_digits=6, decimal_places=3)
+    
+    abbr = 'cat'
 
     class Meta:
         verbose_name = 'Cara trabajada'
@@ -851,7 +976,8 @@ class UbicacionCaras(models.Model):
         (2, 'Escótico'),
     )
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.OneToOneField(Piedra, related_name='UbicacionCaras')
+    
     todaLaCaverna = models.BooleanField('8.1. Toda la caverna')
     areasEspecificas = models.BooleanField('8.2. Áreas específicas')
     salaPrincipal = models.BooleanField('8.2.1. Sala principal')
@@ -863,6 +989,8 @@ class UbicacionCaras(models.Model):
     luminosidad = models.IntegerField('8.3.1. Luminosidad', choices = LUMINOSIDAD)
     altura = models.DecimalField('8.3.2. Altura',max_digits=6, decimal_places=3)   
     requiereAndamiaje = models.BooleanField('8.3.2.1. ¿Requiere andamiaje?')
+    
+    abbr = 'uca'
     
     class Meta:
         verbose_name = 'Ubicación de cara trabajada'
@@ -887,26 +1015,31 @@ class FigurasPorTipo(models.Model):
         (10, '10 - Bateas'),
     )
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='FigurasPorTipo')
+    
     numero = models.IntegerField('9a. Número de cara trabajada')
     tipoFigura = models.IntegerField('9b. Tipo de figura',choices = TIPO_FIGURA)
     cantidad =  models.IntegerField('9c. Cantidad')
     descripcion = models.CharField('9d. Descripcion',max_length=150) 
     
+    abbr = 'fpt'    
+    
     class Meta:
         verbose_name = 'Conjunto de figuras por Tipo'
         verbose_name_plural = '9. Conjuntos de figuras por tipo'
-    
 
 class EsquemaPorCara(models.Model):
 
     """Representa la información de la ficha pa, referente al esquema
     de la cara de la piedra"""
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='EsquemaPorCara')
+    
     numero = models.IntegerField('10a. Número de cara trabajada')
     textoCara = models.CharField('10b. Cara',max_length=150) 
     posicion = models.CharField('10c. Posicion de las figuras en la cara',max_length=150) 
+    
+    abbr = 'epc'
 
     class Meta:
         verbose_name = 'Esquema por cara'
@@ -922,8 +1055,12 @@ class ConexionFiguras(models.Model):
         (3, '3 - 50% interconectadas'),
         (4, '4 - Mas del 80% interconectadas'),
     )
-    piedra = models.ForeignKey(Piedra)
+    
+    piedra = models.OneToOneField(Piedra, related_name='ConexionFiguras')
+    
     conexionFiguras = models.IntegerField('11. Conexion de figuras', choices = CONEXION_FIGURAS)
+    
+    abbr = 'cnx'
     
     class Meta:
         verbose_name = 'Conexion de figuras'
@@ -933,12 +1070,15 @@ class Manifestaciones(models.Model):
 
     """Representa la información de la ficha pa, indicando el tipo de manifestacion"""
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.OneToOneField(Piedra, related_name='Manifestaciones')
+    
     tienePetroglifo = models.BooleanField('¿Tiene Petroglifos?')
     tienePinturaRupestre = models.BooleanField('¿Tiene Pintura Rupestre?')
     tieneAmoladores = models.BooleanField('¿Tiene Amoladores?')
     tienePuntosAcoplados = models.BooleanField('¿Tiene Puntos Acoplados?')
     tieneCupulas = models.BooleanField('¿Tiene Cupulas?')
+    
+    abbr = 'man'
     
     class Meta:
         verbose_name = 'Manifestaciones de la piedra'
@@ -967,7 +1107,10 @@ class TratFotoPiedra (TratFoto):
     """Representa el tratamiento dado a las fotografias recopiladas
     de las piedras"""
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.OneToOneField(Piedra, related_name='TratFotoPiedra')
+    
+    abbr = 'tpp'
+    
     class Meta:
         verbose_name = 'Tratamiento para fotografías'
         verbose_name_plural = '12. Tratamiento para fotografías'
@@ -998,7 +1141,10 @@ class Foto (models.Model):
 
 class FotoPiedra (Foto):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='FotoPiedra')
+    
+    abbr = 'fop'
+    
     class Meta:
         verbose_name = 'Información de Fotografía'
         verbose_name_plural = '13.1. Información de Fotografías'
@@ -1010,10 +1156,13 @@ class RepGrafPiedra (models.Model):
     """Representa la información de la ficha pa, agrupa los distintos tipos
     de reproducciones gráficas a escala natural y reducida"""
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='RepGrafPiedra')
+    
     numPiezas = models.IntegerField('a. Número de piezas')
     instituto  = models.CharField('b. Institución ', max_length=40)
     persona  = models.CharField('c. Persona ', max_length=40)
+    
+    abbr = 'rgp'
 
 class EscNatPiedra(RepGrafPiedra):
 
@@ -1028,10 +1177,12 @@ class EscNatPiedra(RepGrafPiedra):
     )
     tipoReproduccion = models.IntegerField('13.2.1. Reproducción gráfica', choices = TIPO_REPRODUCCION_NATURAL)
 
+    abbr = 'enp'
+
     class Meta:
         verbose_name = 'Reproducción gráf. escala natural'
         verbose_name_plural = '13.2. Reproducción gráf. escala natural'
-
+    
 class EscRedPiedra(RepGrafPiedra):
 
     """Representa la información de la ficha pa, de reproducciones gráficas
@@ -1042,6 +1193,8 @@ class EscRedPiedra(RepGrafPiedra):
         (2, '2 - Matriz'),
     )
     tipoReproduccion = models.IntegerField('13.3.1. Reproducción gráfica', choices = TIPO_REPRODUCCION_REDUCIDA)
+    
+    abbr = 'erp'
 
     class Meta:
         verbose_name = 'Reproducción gráf. escala natural'
@@ -1062,14 +1215,20 @@ class Bibliografia(models.Model):
 
 class BibYacimiento(Bibliografia):
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='BibYacimiento')
+    
+    abbr = 'biy'
+    
     class Meta:
         verbose_name = 'Bibliografía'
         verbose_name_plural = '31.1. Bibliografía'
 
 class BibPiedra(Bibliografia):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='BibPiedra')
+    
+    abbr = 'bip'
+    
     class Meta:
         verbose_name = 'Bibliografía'
         verbose_name_plural = '13.4. Bibliografía'
@@ -1098,14 +1257,20 @@ class FotoBibliografia (models.Model):
         
 class FotoBibYac (FotoBibliografia):
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='FotoBibYac')
+    
+    abbr = 'fby'   
+    
     class Meta:
         verbose_name = 'Bibliografía con fotográf.'
-        verbose_name_plural = '31.1.7. Bibliografía con fotográf.'   
+        verbose_name_plural = '31.1.7. Bibliografía con fotográf.'
 
 class FotoBibPiedra (FotoBibliografia):
     
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='FotoBibPiedra')
+    
+    abbr = 'fbp'
+    
     class Meta:
         verbose_name = 'Bibliografía con fotográf.'
         verbose_name_plural = '13.4.6. Bibliografía fotográfica'   
@@ -1119,18 +1284,24 @@ class MatAudioVisual (models.Model):
 
 class MatAVYacimiento(MatAudioVisual):
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='MatAVYacimiento')
+    
+    abbr = 'avy'
+    
     class Meta:
         verbose_name = 'Material audiovisual'
         verbose_name_plural = '31.2. Material audiovisual'
 
 class MatAVPiedra(MatAudioVisual):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='MatAVPiedra')
+    
+    abbr = 'avp'
+
     class Meta:
         verbose_name = 'Material audiovisual'
         verbose_name_plural = '13.5. Material audiovisual'
-
+    
 # Videos 
 
 class Video (models.Model):
@@ -1146,14 +1317,20 @@ class Video (models.Model):
 
 class VideoYacimiento (Video) :
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='VideoYacimiento')
+    
+    abbr = 'vdy'
+    
     class Meta:
         verbose_name = 'Video'
         verbose_name_plural = '31.3. Videos'
 
 class VideoPiedra (Video) :
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='VideoPiedra')
+    
+    abbr = 'vdp'
+    
     class Meta:
         verbose_name = 'Video'
         verbose_name_plural = '13.6. Videos'
@@ -1165,14 +1342,20 @@ class Pelicula (Video):
 
 class PeliYacimiento (Pelicula):
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='PeliYacimiento')
+    
+    abbr = 'ply'
+    
     class Meta:
         verbose_name = 'Película'
         verbose_name_plural = '31.4. Películas'
 
 class PeliculaPiedra (Pelicula):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='PeliculaPiedra')
+    
+    abbr = 'plp'
+    
     class Meta:
         verbose_name = 'Película'
         verbose_name_plural = '13.7. Películas'
@@ -1185,14 +1368,20 @@ class PaginaWeb (models.Model):
 
 class PaginaWebYac (PaginaWeb):
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='PaginaWebYac')
+    
+    abbr = 'pwy'
+    
     class Meta:
         verbose_name = 'Página Web'
         verbose_name_plural = '31.5. Página Web'
 
 class PaginaWebPiedra (PaginaWeb):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='PaginaWebPiedra')
+    
+    abbr = 'pwp'
+    
     class Meta:
         verbose_name = 'Página Web'
         verbose_name_plural = '13.8. Página Web'
@@ -1205,14 +1394,20 @@ class Multimedia (models.Model):
 
 class MultimediaYac (Multimedia):
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='MultimediaYac')
+    
+    abbr = 'mmy'
+    
     class Meta:
         verbose_name = 'Multimedia'
         verbose_name_plural = '31.6. Multimedia'
 
 class MultimediaPiedra (Multimedia):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='MultimediaPiedra')
+    
+    abbr = 'mmp'
+    
     class Meta:
         verbose_name = 'Multimedia'
         verbose_name_plural = '13.9. Multimedia'
@@ -1237,18 +1432,24 @@ class ObtencionInfo (models.Model):
 
 class ObtInfoYac (ObtencionInfo):
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='ObtInfoYac')
+    
+    abbr = 'oiy'
+    
     class Meta:
         verbose_name = 'Información obtenida por'
         verbose_name_plural = '32. Información obtenida por'
 
 class ObtInfoPiedra (ObtencionInfo):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='ObtInfoPiedra')
+    
+    abbr = 'oip'
+
     class Meta:
         verbose_name = 'Información obtenida por'
         verbose_name_plural = '14. Información obtenida por'
-
+    
         
 # Otros valores
 
@@ -1258,7 +1459,9 @@ class OtrosValores(models.Model):
 
 class OtrosValYac(OtrosValores):
 
-    yacimiento = models.ForeignKey(Yacimiento, related_name='otrosValores')
+    yacimiento = models.ForeignKey(Yacimiento, related_name='OtrosValYac')
+    
+    abbr = 'ovy'
     
     class Meta:
         verbose_name = 'Otros valores del sitio'
@@ -1266,7 +1469,10 @@ class OtrosValYac(OtrosValores):
 
 class OtrosValPiedra(OtrosValores):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='OtrosValPiedra')
+    
+    abbr = 'ovp'
+    
     class Meta:
         verbose_name = 'Otros valores de la piedra'
         verbose_name_plural = '15. Otros valores de la piedra'
@@ -1279,7 +1485,9 @@ class Observaciones(models.Model):
 
 class ObservacionesYac(Observaciones):
 
-    yacimiento = models.ForeignKey(Yacimiento, related_name='observaciones')
+    yacimiento = models.ForeignKey(Yacimiento, related_name='ObservacionesYac')
+    
+    abbr = 'oya'
     
     class Meta:
         verbose_name = 'Observaciones'
@@ -1287,7 +1495,10 @@ class ObservacionesYac(Observaciones):
 
 class ObservacPiedra(Observaciones):
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='ObservacPiedra')
+    
+    abbr = 'opi'
+    
     class Meta:
         verbose_name = 'Observaciones'
         verbose_name_plural = '16. Observaciones'
@@ -1301,14 +1512,20 @@ class LlenadoPor(models.Model):
 
 class LlenadoYac(LlenadoPor):    
 
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='LlenadoYac')
+    
+    abbr = 'ypy'
+
     class Meta:
         verbose_name = 'Ficha llenada por'
         verbose_name_plural = '35. Ficha llenada Por'
-
+    
 class LlenadoPiedra(LlenadoPor):    
 
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='LlenadoPiedra')
+    
+    abbr = 'ypp'
+    
     class Meta:
         verbose_name = 'Ficha llenada por'
         verbose_name_plural = '17. Ficha llenada por'
@@ -1322,14 +1539,22 @@ class SupervisadoPor(models.Model):
 
 class SupervisadoYac(SupervisadoPor):
     
-    yacimiento = models.ForeignKey(Yacimiento)
+    yacimiento = models.ForeignKey(Yacimiento, related_name='SupervisadoYac')
+    
+    abbr = 'spy'
+    
     class Meta:
         verbose_name = 'Ficha Supervisada Por'
         verbose_name_plural = '36. Ficha Supervisada Por'
 
 class SupervisadoPiedra(SupervisadoPor):
     
-    piedra = models.ForeignKey(Piedra)
+    piedra = models.ForeignKey(Piedra, related_name='SupervisadoPiedra')
+    
+    abbr = 'spp'    
+
     class Meta:
         verbose_name = 'Ficha Supervisada Por'
         verbose_name_plural = '18. Ficha Supervisada Por'
+
+

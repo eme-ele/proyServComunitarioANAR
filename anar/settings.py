@@ -168,5 +168,6 @@ HAYSTACK_CONNECTIONS = {
         #'PATH': os.path.join(os.path.dirname(__file__), 'xapian_index'),
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
         'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+        'EXCLUDED_INDEXES': ['anarapp.search_indexes.BaseIndex'],
     },
 }

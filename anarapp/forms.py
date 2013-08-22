@@ -4,6 +4,89 @@ from django import forms
 from haystack.forms import SearchForm
 import models
 
+class BaseForm(SearchForm):
+	# Busqueda
+	def search(self):
+		for item in models.__subclasses__():
+			print item.__name__
+	
+		sqs = super(BasicForm, self).search()
+
+		if not self.is_valid():
+			return self.no_query_found()
+
+		filters = {}
+		for field, value in self.cleaned_data.items():
+			if self.cleaned_data[field]:
+				if isinstance(value, list):
+					filters[field + '__in'] = value
+				else:
+					filters[field] = value
+
+		return sqs.filter(**filters)
+
+#0, 1, 2, 3
+class YacimientoForm(BaseForm):
+	class Meta:
+		model = Yacimiento
+		fields = ['codigo', 'nombre', 'municipio', 'estado']					
+
+
+	'LocalidadYacimiento',			#4
+	'UsoActSuelo',					#5
+	'TenenciaDeTierra',				#5
+	'FotografiaYac',				#11
+	'TipoYacimiento',				#12
+	'ManifestUbicacionYacimiento',	#13, 14
+	'OrientacionYacimiento',		#15
+	'HidrologiaYacimiento',			#19
+	'TipoExposicionYac',			#20
+	'ConstitucionYacimiento',		#21	
+	'MaterialYacimiento',			#22
+	'TecnicaParaGeoglifo',			#23
+	'TecnicaParaPintura',			#23
+	'TecnicaParaPetroglifo',		#23
+	'TecnicaParaMicroPetro',		#23
+	'TecnicaParaMonumentos',		#23
+	'CaracSurcoPetroglifo',			#24
+	'CaracSurcoAmoladores',			#24
+	'CaracSurcoBateas',				#24
+	'CaracSurcoPuntosAcopl',		#24
+	'CaracSurcoCupulas',			#24
+	'CaracSurcoMortero',			#24
+	'CaracDeLaPintura',				#25
+	'CaracMonolitos',				#26
+	'CaracMenhires',				#26
+	'CaracDolmenArt',				#26
+	'EstadoConserYac',				#27
+	'ConsiderTemp',					#28
+	'ManifestacionesAsociadas',		#30
+	'OtrosValYac',					#33
+	'ObservacionesYac',				#34
+)
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 # Opciones de Select    
 OPCIONES_TIPO_MANIFEST = (
     (1,'Geoglifo'),
@@ -483,6 +566,4 @@ class AdvancedForm(YacimientoForm):
 	conexionFiguras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de conexión'}	
 	
 class YacimientoForm(forms.ModelForm):
-    """
-    This form handles base data validation.
-    """
+"""
