@@ -41,10 +41,11 @@
 
 		<div id="menu">
 		</div>
-
+		
 		<div id="formulario">
 			<form method="get" action="{% url 'results' %}">
-
+					{{form.as_table}}
+<!--
 				<p><label id="titulo" style="font-size: 14pt">B&uacute;squeda General</label></p><br/>
 				<p style="color: #505050; font-size: 12pt">{{ form.q }}</p>
 				<br/>
@@ -108,7 +109,7 @@
 				
 				<p><label id="titulo" style="font-size: 14pt">Observaciones</label></p><br/>				
 				<p style="color: #505050; font-size: 12pt">Observaciones<br/> {{ form.observaciones }}</p>
-				
+-->				
 				<br/><br/>
 				<input type="submit" class="button" value="Buscar">
 			</form>

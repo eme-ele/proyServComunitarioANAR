@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from haystack.views import SearchView
-from anarapp.forms import BasicForm, AdvancedForm
+from haystack.forms import SearchForm
+from anarapp.forms import BaseForm, AdvancedForm
 from haystack.query import SearchQuerySet
 from anarapp import views
 
@@ -11,7 +12,7 @@ urlpatterns = patterns('',
 	# url(r'^results/$', views.results, name='results'),
 
    	url(r'^$', SearchView(
-		form_class=BasicForm,
+		form_class=BaseForm,
 		template='anarapp/index.html'),
 	),
 

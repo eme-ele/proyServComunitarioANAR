@@ -2,21 +2,23 @@
 
 from django import forms
 from haystack.forms import SearchForm
-import models
+import anarapp.models
+import inspect
 
 class BaseForm(SearchForm):
+
 	# Busqueda
 	def search(self):
-		for item in models.__subclasses__():
-			print item.__name__
-	
-		sqs = super(BasicForm, self).search()
+		sqs = super(BaseForm, self).search()
+
+		#print self.cleaned_data.items()
 
 		if not self.is_valid():
 			return self.no_query_found()
 
 		filters = {}
 		for field, value in self.cleaned_data.items():
+			print field, value
 			if self.cleaned_data[field]:
 				if isinstance(value, list):
 					filters[field + '__in'] = value
@@ -25,13 +27,11 @@ class BaseForm(SearchForm):
 
 		return sqs.filter(**filters)
 
-#0, 1, 2, 3
-class YacimientoForm(BaseForm):
-	class Meta:
-		model = Yacimiento
-		fields = ['codigo', 'nombre', 'municipio', 'estado']					
 
+FORM_SECTIONS = [1, 4, 5, 11, 12, 13, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 33, 34]
 
+FORM_CLASSES = [
+	'Yacimiento',					#00, 1, 2, 3
 	'LocalidadYacimiento',			#4
 	'UsoActSuelo',					#5
 	'TenenciaDeTierra',				#5
@@ -63,13 +63,35 @@ class YacimientoForm(BaseForm):
 	'ManifestacionesAsociadas',		#30
 	'OtrosValYac',					#33
 	'ObservacionesYac',				#34
-)
+]
 
+
+attrs 	= {}
+classes = {}
+#Recorriendo todos los modelos de anarapp
+#for name, obj in inspect.getmembers(anarapp.models):
+#	if name in FORM_CLASSES:
+#		classes = 
+
+for fclass in FORM_CLASSES:
+	mclass = getattr(anarapp.models, fclass)
+	for field in mclass._meta.fields:
+		if field.name == 'id':
+			continue
+		atype = field.get_internal_type()
+		fieldname = mclass.abbr + '_' + field.name
+		
+		if atype == 'CharField':
+			attrs[fieldname] = forms.CharField(required=False, max_length=100)
+		elif atype == 'IntegerField':
+			attrs[fieldname] = forms.IntegerField(required=False)
+		elif atype == 'BooleanField':
+			attrs[fieldname] = forms.BooleanField(required=False)			
+		elif atype == 'DateField':
+			attrs[fieldname] = forms.DateField(required=False)
 	
 
-
-
-
+AdvancedForm = type("AdvancedForm", (BaseForm,), attrs)
 
 
 
@@ -87,6 +109,7 @@ class YacimientoForm(BaseForm):
 
 
 """
+
 # Opciones de Select    
 OPCIONES_TIPO_MANIFEST = (
     (1,'Geoglifo'),
@@ -564,6 +587,6 @@ class AdvancedForm(YacimientoForm):
 	luminosidad.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de luminosidad'}
 	tipoFigura.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de figura'}	
 	conexionFiguras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de conexión'}	
-	
+"""	
 class YacimientoForm(forms.ModelForm):
-"""
+	pass
