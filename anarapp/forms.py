@@ -3,9 +3,11 @@
 from django import forms
 from haystack.forms import SearchForm
 import anarapp.models
-import inspect
+import dynamic
 
 class BaseForm(SearchForm):
+	""" Form con funciones basicas. 
+	Los nombres de los campos deben coincidir con los de SearchIndex """
 
 	# Busqueda
 	def search(self):
@@ -28,9 +30,67 @@ class BaseForm(SearchForm):
 		return sqs.filter(**filters)
 
 
-FORM_SECTIONS = [1, 4, 5, 11, 12, 13, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 33, 34]
+def crear_form(classes, name):
+	""" Crea un FORM con todos los atributos de las clases dadas """
 
-FORM_CLASSES = [
+	attrs 	= {}
+	
+	for fclass in classes:
+		mclass = getattr(anarapp.models, fclass)
+		
+		for fname, ftype, flabel in dynamic.get_attrs_wlabel(mclass):
+			if ftype == 'CharField':
+				attrs[fname] = forms.CharField(required=False, max_length=100, label=flabel)
+			elif ftype == 'IntegerField':
+				attrs[fname] = forms.IntegerField(required=False, label=flabel)
+			elif ftype == 'BooleanField':
+				attrs[fname] = forms.BooleanField(required=False, label=flabel)			
+			elif ftype == 'DateField':
+				attrs[fname] = forms.DateField(required=False, label=flabel)
+
+	return type(name, (BaseForm,), attrs)
+
+########################################################################################
+# Creando Basic Form
+########################################################################################
+
+OPCIONES_TIPO_MANIFEST = (
+    (1,'Geoglifo'),
+    (2,'Pintura Rupestre'),
+    (3,'Petroglifo'),
+    (4,'Petroglifo Pintado'),
+    (5,'Micro-Petroglifo'),
+    (6,'Piedra Mítica Natural'),
+    (7,'Cerro Mítico Natural'),
+    (8,'Cerro Mitico Natural con Petroglifo'),
+    (9,'Cerro Mitico Natural Con Pintura'),
+    (10,'Cerro Mitico Natural Con Dolmen'),
+    (11,'Monumentos Megalíticos'),
+    (12,'Monolitos'),
+    (13,'Monolitos Con Grabados'),
+    (14,'Menhires'),
+    (15,'Menhires Con Puntos Acoplados'),
+    (16,'Menhires Con Petroglifo'),
+    (17,'Menhires Con Pintura'),
+    (18,'Amolador'),
+    (19,'Batea'),
+    (20,'Puntos Acoplados'),
+    (21,'Cupulas'),
+    (22,'Mortero o Metate'),
+)  
+
+
+class BasicForm(BaseForm):
+	""" Form para el index """
+	muy_tipoManifestacion = forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_MANIFEST)
+	muy_tipoManifestacion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación'}
+
+
+########################################################################################
+# Creando Advanced Form
+########################################################################################
+
+FORM_ADVANCED = [
 	'Yacimiento',					#00, 1, 2, 3
 	'LocalidadYacimiento',			#4
 	'UsoActSuelo',					#5
@@ -64,39 +124,15 @@ FORM_CLASSES = [
 	'OtrosValYac',					#33
 	'ObservacionesYac',				#34
 ]
+AdvancedForm = crear_form(FORM_ADVANCED, 'AdvancedForm')
 
 
-attrs 	= {}
-classes = {}
-#Recorriendo todos los modelos de anarapp
-#for name, obj in inspect.getmembers(anarapp.models):
-#	if name in FORM_CLASSES:
-#		classes = 
+########################################################################################
+# Creando Cruces Form
+########################################################################################
 
-for fclass in FORM_CLASSES:
-	mclass = getattr(anarapp.models, fclass)
-	for field in mclass._meta.fields:
-		if field.name == 'id':
-			continue
-		atype = field.get_internal_type()
-		fieldname = mclass.abbr + '_' + field.name
-		print fieldname
-		if atype == 'CharField':
-			attrs[fieldname] = forms.CharField(required=False, max_length=100)
-		elif atype == 'IntegerField':
-			attrs[fieldname] = forms.IntegerField(required=False)
-		elif atype == 'BooleanField':
-			attrs[fieldname] = forms.BooleanField(required=False)			
-		elif atype == 'DateField':
-			attrs[fieldname] = forms.DateField(required=False)
-	
-
-AdvancedForm = type("AdvancedForm", (BaseForm,), attrs)
-CrucesForm = type("CrucesForm",(BaseForm,),attrs)
-
-
-
-
+class CrucesForm(BaseForm):
+	pass
 
 
 
@@ -112,30 +148,7 @@ CrucesForm = type("CrucesForm",(BaseForm,),attrs)
 """
 
 # Opciones de Select    
-OPCIONES_TIPO_MANIFEST = (
-    (1,'Geoglifo'),
-    (2,'Pintura Rupestre'),
-    (3,'Petroglifo'),
-    (4,'Petroglifo Pintado'),
-    (5,'Micro-Petroglifo'),
-    (6,'Piedra Mítica Natural'),
-    (7,'Cerro Mítico Natural'),
-    (8,'Cerro Mitico Natural con Petroglifo'),
-    (9,'Cerro Mitico Natural Con Pintura'),
-    (10,'Cerro Mitico Natural Con Dolmen'),
-    (11,'Monumentos Megalíticos'),
-    (12,'Monolitos'),
-    (13,'Monolitos Con Grabados'),
-    (14,'Menhires'),
-    (15,'Menhires Con Puntos Acoplados'),
-    (16,'Menhires Con Petroglifo'),
-    (17,'Menhires Con Pintura'),
-    (18,'Amolador'),
-    (19,'Batea'),
-    (20,'Puntos Acoplados'),
-    (21,'Cupulas'),
-    (22,'Mortero o Metate'),
-)  
+
 
 OPCIONES_UBI_MANIFEST = (
     (1,'Cerro'),
@@ -593,7 +606,5 @@ class YacimientoForm(forms.ModelForm):
 	pass
 
 
-'''lass CrucesForm(BaseForm):
-	def search(self):
-		super(CrucesForm,self).search()'''
+
 

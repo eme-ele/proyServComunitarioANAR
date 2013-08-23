@@ -2,8 +2,8 @@ from haystack import indexes
 from anarapp.models import Yacimiento
 
 import anarapp.models
+import dynamic
 import inspect
-
 
 class BaseIndex(indexes.SearchIndex, indexes.Indexable):
 	#Busqueda General
@@ -19,111 +19,95 @@ class BaseIndex(indexes.SearchIndex, indexes.Indexable):
 		self.prepare_data = super(BaseIndex, self).prepare(instance)
 		
 		#Recorriendo todos los modelos de anarapp
-		for name, obj in inspect.getmembers(anarapp.models):
-			if inspect.isclass(obj) and obj.__module__ == 'anarapp.models':
+		for mname, model in dynamic.get_models(anarapp.models):
+			if mname == 'Yacimiento':
+				continue
+			
+			foreign = None
+			elem 	= None
+			
+			#Se relaciona con Yacimiento
+			if dynamic.has_attr(model, 'yacimiento'):
+				foreign = dynamic.get_type(model, 'yacimiento')
+				try:
+					elem = getattr(instance, mname)
+				except:
+					continue
+			
+			#Se relaciona con Piedra
+			elif dynamic.has_attr(model, 'piedra'):
+				foreign = dynamic.get_type(model, 'piedra')
+				#Do something
+				continue
 				
-				if name == 'Yacimiento':
-					continue
-				foreign = None
-				elem 	= None
-
-				#Se relaciona con Yacimiento				
-				if 'yacimiento' in obj.__dict__:
-					foreign = obj._meta.get_field('yacimiento').get_internal_type()
-					try:
-						elem = getattr(instance, name)
-					except:
+			#Relaciones uno a uno: un campo por modelo	
+			if foreign == 'OneToOneField':
+				for fname, ftype, name in dynamic.get_attrs(model):
+					if ftype == 'OneToOneField' or ftype == 'ForeignKey':
 						continue
-		
-				#Faltan relaciones con Piedra
-				elif 'piedra' in obj.__dict__:
-					#foreign = obj._meta.get_field('piedra').get_internal_type()
-					continue
-		
-				else:
-					continue
-#				print name
-
-				if foreign == 'OneToOneField':
-					for field in obj._meta.fields:
-						atype = field.get_internal_type()
-						if field.name == 'id' or atype == 'OneToOneField' or atype == 'ForeignKey':
-							continue
-
-						fieldname = obj.abbr + '_' + field.name
-						value = getattr(elem, field.name)
-						
-						#Hormonal problem ??
-						if field.name == 'cantidad':
-							value = unicode(value)
 					
-						self.prepare_data[fieldname] = value
-#						print '\t', fieldname, ':', self.prepare_data[fieldname]	
-
-				elif foreign == 'ForeignKey':
-					elems = elem.all()
+					value = getattr(elem, name)
 					
-					for field in obj._meta.fields:
-						atype = field.get_internal_type()
-						if field.name == 'id' or atype == 'OneToOneField' or atype == 'ForeignKey':
-							continue
+					#Troll Attribute
+					if endswith(fname, 'cantidad'):
+						value = unicode(value)
 						
-						fieldname = obj.abbr + '_' + field.name
-						self.prepare_data[fieldname] = [getattr(e, field.name) for e in elems]
-#						print '\t', fieldname, ':', self.prepare_data[fieldname]	
-		
-#		print self.prepare_data	
+					self.prepare_data[fname] = value
+			 
+			#Relaciones muchos a muchos: todos los campos multivalue
+			elif foreign == 'ForeignKey':
+				elems = elem.all()
+				
+				for fname, ftype, name in dynamic.get_attrs(model):
+			 		if ftype == 'OneToOneField' or ftype == 'ForeignKey':
+						continue
+						
+					self.prepare_data[fname] = [getattr(e, name) for e in elems]
+					
 		return self.prepare_data
 
 
-attrs = {}
-#Recorriendo todos los modelos de anarapp
-for name, obj in inspect.getmembers(anarapp.models):
-	if inspect.isclass(obj) and obj.__module__ == 'anarapp.models':
+def crear_yacimiento_index():
+	attrs = {}
 
-		#Obteniendo tipo de relacion
-		foreing = None
-		if 'yacimiento' in obj.__dict__:
-			foreing = obj._meta.get_field('yacimiento').get_internal_type()
-
-		elif 'piedra' in obj.__dict__:
-			foreing = obj._meta.get_field('piedra').get_internal_type()
-
-		else:
-			#Se trata del modelo principal
-			if name == 'Yacimiento':
-				for field in obj._meta.fields:
-					if field.name == 'id':
-						continue	
-						
-					fieldname = obj.abbr + '_' + field.name
-					attrs[fieldname] = indexes.CharField(model_attr=field.name)
-			#Otros modelos
+	#Recorriendo todos los modelos de anarapp
+	for mname, model in dynamic.get_models(anarapp.models):
+		foreign = None
+			
+		#Se relaciona con Yacimiento
+		if dynamic.has_attr(model, 'yacimiento'):
+			foreign = dynamic.get_type(model, 'yacimiento')
+		
+		#Se relaciona con Piedra	
+		elif dynamic.has_attr(model, 'piedra'):
+			foreign = dynamic.get_type(model, 'piedra')
+		
+		#Es la clase principal
+		elif mname == 'Yacimiento':
+			for fname, ftype, name in dynamic.get_attrs(model):
+				attrs[fname] = indexes.CharField(model_attr=name)
 			continue
+		
+		#Relacion uno a uno: un campo por modelo	
+		if foreign == 'OneToOneField':
+			for fname, ftype, name in dynamic.get_attrs(model):
+				if ftype == 'CharField':
+					attrs[fname] = indexes.CharField()
+				elif ftype == 'IntegerField':
+					attrs[fname] = indexes.IntegerField(null=True)
+				elif ftype == 'BooleanField':
+					attrs[fname] = indexes.BooleanField()					
+				elif ftype == 'DateField':
+					attrs[fname] = indexes.DateField()
+		
+		#Relacion muchos a muchos: todos los campos con multivalue			
+		elif foreign == 'ForeignKey':
+			for fname, ftype, name in dynamic.get_attrs(model):
+				attrs[fname] = indexes.MultiValueField()		 
 
-		if foreing == 'OneToOneField':
-			for field in obj._meta.fields:
-				if field.name == 'id':
-					continue
-	
-				atype = field.get_internal_type()
-				fieldname = obj.abbr + '_' + field.name
+	return type("YacimientoIndex", (BaseIndex, indexes.Indexable), attrs)
 
-				if atype == 'CharField':
-					attrs[fieldname] = indexes.CharField()
-				elif atype == 'IntegerField':
-					attrs[fieldname] = indexes.IntegerField(null=True)
-				elif atype == 'BooleanField':
-					attrs[fieldname] = indexes.BooleanField()					
-				elif atype == 'DateField':
-					attrs[fieldname] = indexes.DateField()
-
-		elif foreing == 'ForeignKey':
-			for field in obj._meta.fields:
-				if field.name == 'id':
-					continue
-
-				fieldname = obj.abbr + '_' + field.name
-				attrs[fieldname] = indexes.MultiValueField()
-
-YacimientoIndex = type("YacimientoIndex", (BaseIndex, indexes.Indexable), attrs)
+########################
+# Creando Index	
+########################
+YacimientoIndex = crear_yacimiento_index()
