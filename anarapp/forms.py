@@ -80,7 +80,7 @@ for fclass in FORM_CLASSES:
 			continue
 		atype = field.get_internal_type()
 		fieldname = mclass.abbr + '_' + field.name
-		
+		print fieldname
 		if atype == 'CharField':
 			attrs[fieldname] = forms.CharField(required=False, max_length=100)
 		elif atype == 'IntegerField':
@@ -92,6 +92,7 @@ for fclass in FORM_CLASSES:
 	
 
 AdvancedForm = type("AdvancedForm", (BaseForm,), attrs)
+CrucesForm = type("CrucesForm",(BaseForm,),attrs)
 
 
 
@@ -590,3 +591,9 @@ class AdvancedForm(YacimientoForm):
 """	
 class YacimientoForm(forms.ModelForm):
 	pass
+
+
+'''lass CrucesForm(BaseForm):
+	def search(self):
+		super(CrucesForm,self).search()'''
+
