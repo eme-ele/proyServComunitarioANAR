@@ -6,10 +6,12 @@ def has_attr(model, aname):
 def get_type(model, aname):
 	""" Retorna el tipo del atributo en modelo dado """
 	
-	field = model._meta.get_field(aname)
-	atype = field.get_internal_type()
+	if aname in model.__dict__:
+		field = model._meta.get_field(aname)
+		atype = field.get_internal_type()
 	
-	return atype
+		return atype
+	return None
 
 def get_attrs_wlabel(model):
 	""" Retorna el nombre, tipo y etiqueta de cada atributo del modelo dado """

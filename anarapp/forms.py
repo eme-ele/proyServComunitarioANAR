@@ -5,6 +5,8 @@ from haystack.forms import SearchForm
 import anarapp.models
 import dynamic
 
+foreign = []
+
 class BaseForm(SearchForm):
 	""" Form con funciones basicas. 
 	Los nombres de los campos deben coincidir con los de SearchIndex """
@@ -20,7 +22,8 @@ class BaseForm(SearchForm):
 
 		filters = {}
 		for field, value in self.cleaned_data.items():
-			print field, value
+
+
 			if self.cleaned_data[field]:
 				if isinstance(value, list):
 					filters[field + '__in'] = value
@@ -37,6 +40,9 @@ def crear_form(classes, name):
 	
 	for fclass in classes:
 		mclass = getattr(anarapp.models, fclass)
+
+		if dynamic.get_type(mclass, 'yacimiento') == 'ForeignKey' or dynamic.has_attr(mclass, 'piedra'):
+			foreign.append(mclass.abbr)
 		
 		for fname, ftype, flabel in dynamic.get_attrs_wlabel(mclass):
 			if ftype == 'CharField':
@@ -84,6 +90,7 @@ class BasicForm(BaseForm):
 	""" Form para el index """
 	muy_tipoManifestacion = forms.MultipleChoiceField(required=False, choices=OPCIONES_TIPO_MANIFEST)
 	muy_tipoManifestacion.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de manifestación'}
+	fty_esAerea = forms.BooleanField(required=False)
 
 
 ########################################################################################
@@ -123,6 +130,24 @@ FORM_ADVANCED = [
 	'ManifestacionesAsociadas',		#30
 	'OtrosValYac',					#33
 	'ObservacionesYac',				#34
+	'Piedra',						#Pa00, Pa1, Pa1.1, Pa2, Pa3, Pa4
+	'DimensionPiedra',				#Pa7
+	'CaraTrabajada',				#Pa7
+	'UbicacionCaras',				#Pa8
+	'FigurasPorTipo',				#Pa9
+	'EsquemaPorCara',				#Pa10
+	'ConexionFiguras',				#Pa11
+	'FotoPiedra',					#Pa13
+	'EscNatPiedra',					#Pa13
+	'EscRedPiedra',					#Pa13
+	'BibPiedra',					#Pa13
+	'FotoBibPiedra',				#Pa13
+	'MatAVPiedra',					#Pa13
+	'VideoPiedra',					#Pa13
+	'PeliculaPiedra',				#Pa13
+	'ObtInfoPiedra',				#Pa14
+	'ObservacPiedra',				#Pa16
+	
 ]
 AdvancedForm = crear_form(FORM_ADVANCED, 'AdvancedForm')
 
