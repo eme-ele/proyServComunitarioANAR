@@ -29,7 +29,12 @@ class BaseForm(SearchForm):
 					filters[field + '__in'] = value
 				else:
 					filters[field] = value
-
+		#pequeño valor que le puse para poder imprimir diferentes cosas
+		try:
+			print filters['valor'] 
+			del(filters['valor'])
+		except:
+			pass
 		return sqs.filter(**filters)
 
 
@@ -53,6 +58,7 @@ def crear_form(classes, name):
 				attrs[fname] = forms.BooleanField(required=False, label=flabel)			
 			elif ftype == 'DateField':
 				attrs[fname] = forms.DateField(required=False, label=flabel)
+	attrs['valor'] = forms.CharField(required=False, max_length=100)
 
 	return type(name, (BaseForm,), attrs)
 
@@ -151,13 +157,14 @@ FORM_ADVANCED = [
 ]
 AdvancedForm = crear_form(FORM_ADVANCED, 'AdvancedForm')
 
-
 ########################################################################################
 # Creando Cruces Form
 ########################################################################################
 
-class CrucesForm(BaseForm):
-	pass
+CrucesForm = crear_form(FORM_ADVANCED, 'CrucesForm')
+'''class CrucesForm(BaseForm):
+	pass'''
+
 
 
 

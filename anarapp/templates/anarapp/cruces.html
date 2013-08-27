@@ -6,43 +6,78 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/formstyle.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/anar.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
-		<link rel="stylesheet" href="jquery-ui-1.10.1.custom/css/smoothness/jquery-ui-1.10.1.custom.css" />
 		
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
 		<script>
-			$(document).ready(function(){$(".chzn-select").chosen()})
+
+			$(document).ready(function(){
+				$(".chzn-select").chosen();
+				$("#id_valor").hide();
+				$("#id_q").hide();
+				$("#Yaci").click(function(){
+					$("#id_q").val('Yacimiento')
+					}
+				);
+				$("#id_valor").val("");
+				
+			})
+			</script>
+
+			<script>
+			function Sele(){
+				var a = $('input:checkbox')
+				for(var i = 0; i<a.length;i++){
+					if(a[i].checked){
+						$('#id_valor').val(a[i].value)
+					}
+				}
+			}
 		</script>		
 
 		<title>Archivo Nacional de Arte Rupestre</title>
 	</head>
 <body>
 
+<ul id="nav">
+		<li><a href="/">Inicio</a></li>
+		<li><a href="#quienes">Quienes Somos</a></li>
+		<li><a href="#patrimonio">Patrimonio Rupestre Venezolano</a></li>
+		<li><a href="#programa">Programa de Educacion</a></li>
+		<li><a href="#otros">Otros Servicios</a></li>
+		<li><a href="#contacto">Contacto</a></li>
+	</ul>
 	<div id="contenedor">
-{{form.as_table}}
 		<div id="filtro">
 			<p><label id="titulo">Filtrar</label></p><br>
 	    	<form method="get" action="{% url 'cruces' %}">
+	    		
 			<div id="selecciones">
-				<input type="hidden" value="{{ form.q.value }}" name="q" />
+				<!-- <input type="hidden" value="{{ form.q.value }}" name="q" />
 				<p style="color: #505050; font-size: 12pt">Nombre:</p> {{ form.nombre }}
 				<p style="color: #505050; font-size: 12pt">Municipio/Distrito:</p> {{ form.yac_municipio }}
 				<p style="color: #505050; font-size: 12pt">Estado:</p> {{ form.yac_estado }} 
 				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.hayFotografia }}
-				<p style="color: #505050; font-size: 12pt">Orientacion:</p> {{ form.orientacion }}
+				<p style="color: #505050; font-size: 12pt">Orientacion:</p> {{ form.orientacion }} -->
+				{{form.valor}}
+				<input type="checkbox" id="Yaci"> Yacimiento
+				{{form.q}}<br>
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="cuantos,y,cuales">Cuantos y Cuales yacimientos hay en el estado: {{form.yac_estado}}
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="nombre">Que nombre tiene el yacimiento de codigo: {{form.yac_codigo}}
 			  </div>
 			<br/>
-			<input type="submit" class="button" value="Filtrar">
+			<input type="submit" class="button" value="Buscar">
 			</form>
 		</div>
 
 		<div id="res">
-        {% if query %}
-		
+        {% if query and valor != "" %}
+
 			<p><label id="titulo">Resultados</label></p><br>
 				<div class="resultados">
-
+				
 	            {% for result in page.object_list %}
+	            {% if valor == "cuantos,y,cuales" or valor == "nombre"%}
 				<div class="resultado" style="width:100%">
 					<div id="resImagen">
 						<img src="images/piedra.jpg" height="100">
@@ -59,10 +94,11 @@
 					<br/>
 					<hr>
 				</div>
-				
+				{% endif %}
 				{% empty %}
                 <p>No se ha encontrado ning&uacute;n resultado.</p>
             	{% endfor %}
+				
 
 				 {% if page.has_previous or page.has_next %}
 					<div>

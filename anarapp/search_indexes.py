@@ -94,7 +94,7 @@ class BaseIndex(indexes.SearchIndex, indexes.Indexable):
 					self.prepare_data[fname] = values
 						
 		
-		print self.prepare_data			
+		#print self.prepare_data			
 		return self.prepare_data
 
 

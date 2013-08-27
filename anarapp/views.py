@@ -3,6 +3,7 @@
 from anarapp.models import Yacimiento
 from django.http import HttpResponse
 from django.shortcuts import render
+from haystack.views import SearchView
 
 # Create your views here.
 
@@ -11,3 +12,11 @@ def index(request):
     return render(request, 'yacimientos/index.html', {
         'yacimientos':lista_de_yacimientos
         })
+
+class Cruces(SearchView):
+	def extra_context(self):
+		try:
+			a = self.request.GET['valor']
+			return{ 'valor': a }
+		except:
+			return{ 'valor': "Todo" }

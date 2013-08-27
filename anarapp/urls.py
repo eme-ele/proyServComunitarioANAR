@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, include, url
-from haystack.views import SearchView
+from haystack.views import SearchView,search_view_factory
 from haystack.forms import SearchForm
 from anarapp.forms import BasicForm, AdvancedForm, CrucesForm
 from haystack.query import SearchQuerySet
-from anarapp import views
+from anarapp.views import Cruces
 
 sqs = SearchQuerySet()
 
@@ -28,13 +28,14 @@ urlpatterns = patterns('',
 		form_class=AdvancedForm,
 		template='anarapp/advanced.html'),
 	),
-	url(r'^cruces/$',SearchView(
-		form_class=CrucesForm,
-		searchqueryset=sqs,
-		template='anarapp/cruces.html',
-		results_per_page=10),
-	name='cruces'
-	),
+	 url(r'^cruces/$',search_view_factory(
+	 	form_class=CrucesForm,
+	 	searchqueryset=sqs,
+	 	template='anarapp/cruces.html',
+	 	view_class=Cruces,
+	 	results_per_page=10),
+	 	name='cruces'
+	 ),
 
 	
 )
