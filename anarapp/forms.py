@@ -15,6 +15,8 @@ class BaseForm(SearchForm):
 	def search(self):
 		sqs = super(BaseForm, self).search()
 
+		#para ordernalo si hace falta
+		order = ''
 		#print self.cleaned_data.items()
 
 		if not self.is_valid():
@@ -30,12 +32,46 @@ class BaseForm(SearchForm):
 				else:
 					filters[field] = value
 		#pequeño valor que le puse para poder imprimir diferentes cosas
+
 		try:
-			print filters['valor'] 
-			del(filters['valor'])
-		except:
+			#para filtrar por que le pais sea igual a venezuela
+			if filters['valor'] == 'proporcion':
+				del(filters['valor'])
+				filters['yac_pais__icontains'] = 'venezuela'
+				lista = sqs.filter(**filters)
+				dict = Agrupar(lista,"yac_estado")
+				lista = []
+				for K in dict:
+					nro = Sumar(dict[K],'cny_nroPiedras')
+					dict[K][0].cny_nroPiedras = nro
+					grb = Sumar(dict[K],'cny_nroPiedrasGrabadas')
+					dict[K][0].cny_nroPiedrasGrabadas = grb
+					pin = Sumar(dict[K],'cny_nroPiedrasPintadas')
+					dict[K][0].cny_nroPiedrasPintadas = pin
+					col = Sumar(dict[K],'cny_nroPiedrasColocadas')
+					dict[K][0].cny_nroPiedrasColocadas = col
+					lista.append(dict[K][0])
+				return lista
+
+		except Exception as e:
+			print e.args
+			print "error"
 			pass
-		return sqs.filter(**filters)
+		return sqs.filter(**filters).order_by(order)
+
+
+def Sumar(lista,atributo):
+	return reduce(lambda a,d: a + (0 if d.__getattr__(atributo) is None else d.__getattr__(atributo)) , lista, 0)
+	
+#Funcionar para agrupar en un diccionario el resultado por algun atributo
+def Agrupar(lista,atributo):
+	dic={}
+	for e in lista:
+		if dic.get(e.__getattr__(atributo)) is None:
+			dic[e.__getattr__(atributo)] = [e]
+		else:
+			dic[e.__getattr__(atributo)].append(e)
+	return dic
 
 
 def crear_form(classes, name):

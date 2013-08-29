@@ -62,8 +62,10 @@
 				{{form.valor}}
 				<input type="checkbox" id="Yaci"> Yacimiento
 				{{form.q}}<br>
-				<input type="checkbox" onchange="Sele()" class="seleccion" value="cuantos,y,cuales">Cuantos y Cuales yacimientos hay en el estado: {{form.yac_estado}}
-				<input type="checkbox" onchange="Sele()" class="seleccion" value="nombre">Que nombre tiene el yacimiento de codigo: {{form.yac_codigo}}
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="cuantos,y,cuales">Cuantos y Cuales yacimientos hay en el estado: {{form.yac_estado}}<br>
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="nombre">Que nombre tiene el yacimiento de codigo: {{form.yac_codigo}}<br>
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="coordenadas">Que coordenadas tiene el yacimiento de codigo: {{form.yac_codigo}}<br>
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="proporcion">Proporcion de numero de piedras en el yacimiento <br>
 			  </div>
 			<br/>
 			<input type="submit" class="button" value="Buscar">
@@ -94,6 +96,36 @@
 					<br/>
 					<hr>
 				</div>
+				{% elif valor == "coordenadas" %}
+				<div class="resultado" style="width:100%">
+					<div id="resImagen">
+						<img src="images/piedra.jpg" height="100">
+					</div>
+					<div id="resTexto">
+                		<p>C&oacute;digo: {{ result.object.codigo }}</p>
+						<table>
+							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
+							<tr><td >Yacimiento</td></tr>
+							<tr><td >Latitud: {{ result.crd_latitud }}</td></tr>
+							<tr><td >Longitud: {{ result.crd_longitud }}</td></tr>
+						</table>
+					</div>
+					<br/>
+					<hr>
+				</div>
+				{% elif valor == "proporcion"%}
+				<div class="resultado" style="width:100%">
+					<div id="resTexto">
+						<table>
+							<tr><td >Estado: {{result.object.estado}}</td></tr>
+							<tr><td >Grabadas: {{ result.cny_nroPiedrasGrabadas|default:"0" }}/{{ result.cny_nroPiedras|default:"0" }}</td></tr>
+							<tr><td >Pintadas: {{ result.cny_nroPiedrasPintadas|default:"0" }}/{{ result.cny_nroPiedras|default:"0" }}</td></tr>
+							<tr><td >Colocadas: {{ result.cny_nroPiedrasColocadas|default:"0" }}/{{ result.cny_nroPiedras|default:"0" }}</td></tr>
+						</table>
+					</div>
+					<br/>
+					<hr>
+				</div>
 				{% endif %}
 				{% empty %}
                 <p>No se ha encontrado ning&uacute;n resultado.</p>
@@ -103,12 +135,12 @@
 				 {% if page.has_previous or page.has_next %}
 					<div>
 						{% if page.has_previous %}
-						<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">
+						<a href="?q={{ query }}&valor={{valor}}&amp;page={{ page.previous_page_number }}">
 						{% endif %}&laquo; Anterior 
 						{% if page.has_previous %}</a>{% endif %}
 						|
 						{% if page.has_next %}
-						<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">
+						<a href="?q={{ query }}&valor={{valor}}&amp;page={{ page.next_page_number }}">
 						{% endif %}Siguiente &raquo;{% if page.has_next %}</a>{% endif %}
                 	</div>
            	 	{% endif %}
