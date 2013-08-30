@@ -66,6 +66,8 @@
 				<input type="checkbox" onchange="Sele()" class="seleccion" value="nombre">Que nombre tiene el yacimiento de codigo: {{form.yac_codigo}}<br>
 				<input type="checkbox" onchange="Sele()" class="seleccion" value="coordenadas">Que coordenadas tiene el yacimiento de codigo: {{form.yac_codigo}}<br>
 				<input type="checkbox" onchange="Sele()" class="seleccion" value="proporcion">Proporcion de numero de piedras en el yacimiento <br>
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="TotTipoManUbi">Dolmenes y Menhires en cueva, abrigo terreno superficial y profundo <br>
+				<input type="checkbox" onchange="Sele()" class="seleccion" value="PetroAnchoProfu">Listar ancho y profundidad de surco grabado para petroglifos<br>
 			  </div>
 			<br/>
 			<input type="submit" class="button" value="Buscar">
@@ -121,6 +123,20 @@
 							<tr><td >Grabadas: {{ result.cny_nroPiedrasGrabadas|default:"0" }}/{{ result.cny_nroPiedras|default:"0" }}</td></tr>
 							<tr><td >Pintadas: {{ result.cny_nroPiedrasPintadas|default:"0" }}/{{ result.cny_nroPiedras|default:"0" }}</td></tr>
 							<tr><td >Colocadas: {{ result.cny_nroPiedrasColocadas|default:"0" }}/{{ result.cny_nroPiedras|default:"0" }}</td></tr>
+						</table>
+					</div>
+					<br/>
+					<hr>
+				</div>
+				{% elif valor == "PetroAnchoProfu" %}
+				<div class="resultado" style="width:100%">
+					<div id="resTexto">
+						<table>
+							<tr><td >Estado: {{result.object.estado}}</td></tr>
+							<tr><td >Codigo: {{ result.object.codigo}}</td></tr>
+							<tr><td >Nombre: {{ result.object.nombre}}</td></tr>
+							<tr><td >Ancho: {{ result.cpe_anchoDe }}-{{ result.cpe_anchoA }}cm</td></tr>
+							<tr><td >Profundidad: {{ result.cpe_profundidadDe }}-{{ result.cpe_profundidadA }}cm</td></tr>
 						</table>
 					</div>
 					<br/>

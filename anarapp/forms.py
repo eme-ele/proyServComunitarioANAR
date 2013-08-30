@@ -33,14 +33,14 @@ class BaseForm(SearchForm):
 					filters[field] = value
 		#pequeño valor que le puse para poder imprimir diferentes cosas
 
+		retorno = []
 		try:
 			#para filtrar por que le pais sea igual a venezuela
 			if filters['valor'] == 'proporcion':
 				del(filters['valor'])
 				filters['yac_pais__icontains'] = 'venezuela'
-				lista = sqs.filter(**filters)
-				dict = Agrupar(lista,"yac_estado")
-				lista = []
+				dict = Agrupar(sqs.filter(**filters),"yac_estado")
+				#Para cada estado en el diccionario, hacer las sumas
 				for K in dict:
 					nro = Sumar(dict[K],'cny_nroPiedras')
 					dict[K][0].cny_nroPiedras = nro
@@ -50,8 +50,24 @@ class BaseForm(SearchForm):
 					dict[K][0].cny_nroPiedrasPintadas = pin
 					col = Sumar(dict[K],'cny_nroPiedrasColocadas')
 					dict[K][0].cny_nroPiedrasColocadas = col
-					lista.append(dict[K][0])
-				return lista
+					retorno.append(dict[K][0])
+			# total de manifestaciones en una ubicacion, es un asco que aun no esta terminado
+			elif filters['valor'] == 'TotTipoManUbi':
+				del(filters['valor'])
+				opci = range(1,16)
+				tipos = [1,2,3,4,5,6,7,8,9,10,14,15,16,18,19,20,21]
+				for i in tipos:
+					filters['muy_tipoManifestacion'] = i
+					print Agrupar(sqs.filter(**filters),"muy_ubicacionManifestacion",opci)
+				#Para cada estado en el diccionario, agrupar
+				#Dudas por eso no esta terminado
+
+			elif filter['valor'] == 'PetroAnchoProfu':
+				filters['muy_tipoManifestacion'] = 3
+				return sqs.filter(**filters).order_by('yac_estado')
+
+			return retorno
+
 
 		except Exception as e:
 			print e.args
@@ -64,13 +80,27 @@ def Sumar(lista,atributo):
 	return reduce(lambda a,d: a + (0 if d.__getattr__(atributo) is None else d.__getattr__(atributo)) , lista, 0)
 	
 #Funcionar para agrupar en un diccionario el resultado por algun atributo
-def Agrupar(lista,atributo):
+def Agrupar(lista,atributo,opciones=None):
 	dic={}
-	for e in lista:
-		if dic.get(e.__getattr__(atributo)) is None:
-			dic[e.__getattr__(atributo)] = [e]
-		else:
-			dic[e.__getattr__(atributo)].append(e)
+	if opciones is None:
+		for e in lista:
+			if dic.get(e.__getattr__(atributo)) is None:
+				dic[e.__getattr__(atributo)] = [e]
+			else:
+				dic[e.__getattr__(atributo)].append(e)
+	else:
+		for i in opciones:
+			dic[i] = []
+		for e in lista:
+			valor = e.__getattr__(atributo)
+			if valor is None:
+				continue
+			else:
+				for i in opciones:
+					if unicode(i) in valor:
+						dic[i].append(e)
+
+
 	return dic
 
 
