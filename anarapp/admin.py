@@ -375,9 +375,13 @@ class YacimientoAdmin(admin.ModelAdmin):
         EstadoConservacionYacimientoYacInline,ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,
         ManifestacionesAsociadasYacInline,ObtenidaPorYacInline,OtrosValoresSitioYacInline,ObservacionYacInline,
         LlenadaPorYacInline,SupervisadaPorYacInline
-
     ]
     list_display = ('codigo','nombre', 'pais','estado', 'municipio')
+    fieldsets = [        
+        ('Nº CÓDIGO', {'fields': ['codigo']}),
+        ('ESTADO', {'fields': ['pais','municipio', 'estado']})       
+    ]
+ 
 
 #Administrador del modelo de datos Piedra
 class PiedraAdmin (admin.ModelAdmin):
@@ -391,6 +395,12 @@ class PiedraAdmin (admin.ModelAdmin):
         LlenadaPorPiedraInline, SupervisadaPorPiedraInline
     ] 
     list_display = ('codigo','nombre', 'yacimiento')
+    fieldsets = [        
+        ('Nº CÓDIGO', {'fields': ['yacimiento' , 'codigo']}),        
+        ('DATOS GENERALES DE LA ROCA', {'fields': ['nombre', 'manifiestacionAsociada',
+                                                   'nombreFiguras', 'estado', 'numeroCaras', 'numeroCarasTrajabadas'], 'classes': ['collapse']} )
+        
+    ]
 
 admin.site.register(Yacimiento, YacimientoAdmin)
 admin.site.register(Piedra,PiedraAdmin)
