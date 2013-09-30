@@ -23,7 +23,7 @@ proyServComunitarioANAR
 
 9.2) Ejecutar de nuevo el comando sudo pip install -r requirements.pip para terminar de instalar los paquetes restantes
 
-     En caso que ejecute el comando y ya esten instalados todo los paquetes, saldra el mensaje "Requirement already satisfied)
+-- En caso que ejecute el comando y ya esten instalados todo los paquetes, saldra el mensaje "Requirement already satisfied)
      
 10) Instalar el modulo nested_inlines: pip install git+git://github.com/Soaa-/django-nested-inlines.git#egg=django-nested-inlines
 
