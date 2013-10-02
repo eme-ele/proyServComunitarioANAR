@@ -4,6 +4,7 @@ from anarapp.models import Yacimiento
 from django.http import HttpResponse
 from django.shortcuts import render
 from haystack.views import SearchView
+from django.shortcuts import render
 
 # Create your views here.
 
@@ -20,3 +21,11 @@ class Cruces(SearchView):
 			return{ 'valor': a }
 		except:
 			return{ 'valor': "Todo" }
+
+def patrimonio(request):
+    return render(request, 'informacion/patrimonio.html')
+
+
+
+
+

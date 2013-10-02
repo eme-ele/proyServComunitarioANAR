@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from anar import views
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,4 +21,5 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 
 	url(r'^cruces/', include('joins.urls')),
+
 )

@@ -4,6 +4,7 @@ from haystack.forms import SearchForm
 from anarapp.forms import BasicForm, AdvancedForm, CrucesForm
 from haystack.query import SearchQuerySet
 from anarapp.views import Cruces
+from anarapp import views
 
 sqs = SearchQuerySet()
 
@@ -37,5 +38,7 @@ urlpatterns = patterns('',
 	 	name='cruces'
 	 ),
 
-	
+         url(r'^patrimonio$', views.patrimonio),
+
+
 )
