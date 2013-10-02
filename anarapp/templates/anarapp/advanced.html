@@ -20,6 +20,9 @@
 			input[type="text"] { border: 1px solid #AAA; padding: 5px }
 			input[type="checkbox"] { margin-left: 100px !important }
 			.chzn-search input { height: 25px !important }
+			
+
+			
 		</style>
 	</head>
 <body>
@@ -44,72 +47,36 @@
 		
 		<div id="formulario">
 			<form method="get" action="{% url 'results' %}">
-					{{form.as_table}}
-<!--
+
 				<p><label id="titulo" style="font-size: 14pt">B&uacute;squeda General</label></p><br/>
 				<p style="color: #505050; font-size: 12pt">{{ form.q }}</p>
 				<br/>
 			
 				<p><label id="titulo" style="font-size: 14pt">Datos Generales del Yacimiento</label></p><br/>
-				<p style="color: #505050; font-size: 12pt">C&oacute;digo  <br/> {{ form.codigo }}</p>
-			
+				<p style="color: #505050; font-size: 12pt">C&oacute;digo  <br/> {{ form.codigo }}</p>			
 	
 				<p style="color: #505050; font-size: 12pt">Municipio/Distrito <br/> {{ form.municipio }}</p>
 				<p style="color: #505050; font-size: 12pt">Estado <br/> {{ form.estado }}</p>
 
 				<p style="color: #505050; font-size: 12pt">Nombre <br/> {{ form.nombre }}</p>
 				<p style="color: #505050; font-size: 12pt;">Localidad <br/> {{ form.localidad }}</p>
-				<p style="color: #505050; font-size: 12pt;">Nombre de la Localidad <br/> {{ form.nombreLocalidad }}</p>
-				<p style="color: #505050; font-size: 12pt">Uso Actual del Suelo <br/> {{ form.suelo }}</p>
-				<p style="color: #505050; font-size: 12pt">Fotografia <br/> {{ form.fotografia }}</p>
-				<p style="color: #505050; font-size: 12pt">Fecha Fotografia <br/> {{ form.fechaFotografia }}</p>
+				<p style="color: #505050; font-size: 12pt">Fotografias {{ form.fotografia }}</p>
 				<p style="color: #505050; font-size: 12pt">Tipo de Yacimiento <br/> {{ form.tipo }}</p>
-				<p style="color: #505050; font-size: 12pt">Hidrolog&iacute;a <br/> {{ form.hidrologia }}</p>
-				<p style="color: #505050; font-size: 12pt">Exposici&oacute;n <br/> {{ form.exposicion }}</p>
-
-				<p style="color: #505050; font-size: 12pt">Nro de Piedras en el Yacimiento Original <br/> {{ form.nroPiedras }}</p>
-				<p style="color: #505050; font-size: 12pt">Nro de Piedras Grabadas <br/> {{ form.nroPiedrasGrabadas }}</p>
-				<p style="color: #505050; font-size: 12pt">Nro de Piedras Pintadas <br/> {{ form.nroPiedrasPintadas }}</p>
-				<p style="color: #505050; font-size: 12pt">Nro de Piedras Colocadas <br/> {{ form.nroPiedrasColocadas }}</p>
 				<br/>				
 				
 				<p><label id="titulo" style="font-size: 14pt">La Manifestaci&oacute;n</label></p><br/>			
 				<p style="color: #505050; font-size: 12pt">Tipo <br/> {{ form.manifestacion }}</p>
 				<p style="color: #505050; font-size: 12pt">Ubicacion <br/> {{ form.ubicacion }}</p>
-				<p style="color: #505050; font-size: 12pt">Orientacion <br/> {{ form.orientacion }}</p>
 				<p style="color: #505050; font-size: 12pt">Material <br/> {{ form.material }}</p>
-				<br/>
-
-				<p><label id="titulo" style="font-size: 14pt">T&eacute;cnicas</label></p><br/>				
-				<p style="color: #505050; font-size: 12pt">Tecnica Geoglifo <br/> {{ form.tecnicaGeoglifo }}</p>
-				<p style="color: #505050; font-size: 12pt">Tecnica Pintura <br/> {{ form.tecnicaPintura }}</p>
-				<p style="color: #505050; font-size: 12pt">Tecnica Petroglifo <br/> {{ form.tecnicaPetroglifo }}</p>
-				<p style="color: #505050; font-size: 12pt">Tecnica Micro Petroglifo <br/> {{ form.tecnicaMicroPetro }}</p>
-				<p style="color: #505050; font-size: 12pt">Tecnica Monumento <br/> {{ form.tecnicaMonumento }}</p>
-				<p style="color: #505050; font-size: 12pt">Características del Surco <br/> {{ form.surcoPetroglifo }}</p>
-				<p style="color: #505050; font-size: 12pt">Características de la Pintura <br/> {{ form.caractPintura }}</p>
-				<p style="color: #505050; font-size: 12pt">Características de Monolito <br/> {{ form.caractMonolitos }}</p>
-				<p style="color: #505050; font-size: 12pt">Características de Menhir <br/> {{ form.caractMenhires }}</p>
-				<p style="color: #505050; font-size: 12pt">Características de Dolmen <br/> {{ form.caractDolmen }}</p>
-
 				<br/>
 				
 				<p><label id="titulo" style="font-size: 14pt">Conservaci&oacute;n</label></p><br/>
-				<p style="color: #505050; font-size: 12pt">Estado de Conservaci&oacute;n <br/> {{ form.estadoConservacion }}</p>
-				<p style="color: #505050; font-size: 12pt">Grado de Destrucci&oacute;n <br/> {{ form.gradoDestruccion }}</p>
-				<p style="color: #505050; font-size: 12pt">Causas de Destrucci&oacute;n <br/> {{ form.causasDestruccion }}</p>
-				<p style="color: #505050; font-size: 12pt">P&aacute;tina {{ form.patinaConsider }}</p>
-				<p style="color: #505050; font-size: 12pt">Otras Consideraciones <br/> {{ form.otrosConsider }}</p>				
+				<p style="color: #505050; font-size: 12pt">Estado de Conservaci&oacute;n <br/> {{ form.conservacion }}</p>			
 				<br/>
 				
 				<p><label id="titulo" style="font-size: 14pt">Manifestaciones Asociadas</label></p><br/>				
-				<p style="color: #505050; font-size: 12pt">Manifestaciones Asociadas<br/> {{ form.manifestAsociadas }}</p>
-				<p style="color: #505050; font-size: 12pt">Otros Valores <br/> {{ form.otrosValores }}</p>						
-				<br/>
-				
-				<p><label id="titulo" style="font-size: 14pt">Observaciones</label></p><br/>				
-				<p style="color: #505050; font-size: 12pt">Observaciones<br/> {{ form.observaciones }}</p>
--->				
+				<p style="color: #505050; font-size: 12pt">Manifestaciones Asociadas<br/> {{ form.manifasociadas }}</p>
+			
 				<br/><br/>
 				<input type="submit" class="button" value="Buscar">
 			</form>

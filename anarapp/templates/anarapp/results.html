@@ -37,8 +37,18 @@
 				<p style="color: #505050; font-size: 12pt">Nombre:</p> {{ form.nombre }}
 				<p style="color: #505050; font-size: 12pt">Municipio/Distrito:</p> {{ form.municipio }}
 				<p style="color: #505050; font-size: 12pt">Estado:</p> {{ form.estado }} 
-				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.hayFotografia }}
-				<p style="color: #505050; font-size: 12pt">Orientacion:</p> {{ form.orientacion }}
+				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.fotografia }}
+				<p style="color: #505050; font-size: 12pt">Ubicaci&oacute;n:</p> {{ form.ubicacion }}
+				
+				<div style="display: none">
+					{% if form.localidad.value %}{{ form.localidad }}{% endif %}
+					{% if form.tipo.value %}{{ form.tipo }}{% endif %}
+					{% if form.exposicion.value %}{{ form.exposicion }}{% endif %}
+					{% if form.manifestacion.value %}{{ form.manifestacion }}{% endif %}
+					{% if form.material.value %}{{ form.material }}{% endif %}
+					{% if form.conservacion.value %}{{ form.conservacion }}{% endif %}
+					{% if form.manifestasociadas.value %}{{ form.manifestasociadas }}{% endif %}
+				</div>
 			  </div>
 			<br/>
 			<input type="submit" class="button" value="Filtrar">

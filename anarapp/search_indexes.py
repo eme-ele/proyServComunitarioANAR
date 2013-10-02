@@ -5,6 +5,163 @@ import anarapp.models
 import dynamic
 import inspect
 
+class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
+	#Busqueda General
+	text = indexes.CharField(document=True, use_template=True)
+	
+	#Yacimiento
+	codigo 			= indexes.CharField(model_attr='codigo')
+	municipio 		= indexes.CharField(model_attr='municipio')
+	estado 			= indexes.CharField(model_attr='estado')
+	nombre 			= indexes.CharField(model_attr='nombre')
+
+	localidad 		= indexes.CharField()
+	fotografia 		= indexes.CharField()
+	tipo 			= indexes.MultiValueField() 
+	exposicion 		= indexes.MultiValueField() 
+
+	manifestacion 	= indexes.MultiValueField() 	
+	ubicacion 		= indexes.MultiValueField() 
+	material 		= indexes.MultiValueField() 
+	conservacion 	= indexes.MultiValueField() 
+	
+	manifasociadas 	= indexes.MultiValueField()
+	
+
+	def get_model(self):
+		return Yacimiento
+
+	def index_queryset(self, using=None):
+		return self.get_model().objects.all()
+
+
+	def prepare(self, obj):
+		self.prepare_data = super(YacimientoIndex, self).prepare(obj)
+		
+		#Localidad Yacimiento
+		try:
+			localidad = obj.LocalidadYacimiento
+			self.prepare_data['localidad'] = localidad.nombrePoblado + ' ' + localidad.nombreNoPoblado
+		except:
+			pass
+		
+		#Fotografias	
+		fotografias = obj.FotografiaYac.all()
+		self.prepare_data['fotografia'] = 'true' if fotografias.count() > 0 else 'false'
+		
+		#Tipo Yacimiento
+		try:
+			tipo = obj.TipoYacimiento
+			self.prepare_data['tipo'] = []
+			
+			if tipo.esParedRocosa:
+				self.prepare_data['tipo'].append(1)
+			if tipo.esRoca:
+				self.prepare_data['tipo'].append(2)
+			if tipo.esDolmen:
+				self.prepare_data['tipo'].append(3)
+			if tipo.esAbrigo:
+				self.prepare_data['tipo'].append(4)
+			if tipo.esCueva:
+				self.prepare_data['tipo'].append(5)
+			if tipo.esCuevadeRec:
+				self.prepare_data['tipo'].append(6)
+			if tipo.esTerrenoSup:
+				self.prepare_data['tipo'].append(7)
+			if tipo.esTerrenoPro:
+				self.prepare_data['tipo'].append(8)
+		except:
+			pass
+			
+		#Exposicion
+		try:
+			exposicion = obj.TipoExposicionYac
+			self.prepare_data['exposicion'] = []			
+			
+			if exposicion.expuesto:
+				self.prepare_data['exposicion'].append(1)
+			#if exposicion.noExpuesto:
+			#	self.prepare_data['exposicion'].append(2)
+			if exposicion.expuestoperiodicamente:
+				self.prepare_data['exposicion'].append(3)
+		except:
+			pass
+			
+		#Manifestacion Ubicacion
+		manifestaciones = obj.ManifestUbicacionYacimiento.all()			
+		self.prepare_data['manifestacion'] = []
+		self.prepare_data['ubicacion'] = []
+		
+		for m in manifestaciones:
+			self.prepare_data['manifestacion'].append(m.tipoManifestacion)
+			
+			if m.ubicacionManifestacion <= 8:
+				self.prepare_data['ubicacion'].append(1)
+			elif m.ubicacionManifestacion == 9:
+				self.prepare_data['ubicacion'].append(2)
+			elif m.ubicacionManifestacion > 9 and m.ubicacionManifestacion <= 15:
+				self.prepare_data['ubicacion'].append(3)
+			elif m.ubicacionManifestacion == 16:
+				self.prepare_data['ubicacion'].append(4)
+
+		#Material
+		try:
+			material = obj.MaterialYacimiento
+			self.prepare_data['material'] = []			
+			
+			if material.esRoca or material.esIgnea or material.esMetamor or materia.esSedimentaria:
+				self.prepare_data['material'].append(1)
+			if material.esTierra:
+				self.prepare_data['material'].append(2)
+			if material.esHueso:
+				self.prepare_data['material'].append(3)
+			if material.esCorteza:
+				self.prepare_data['material'].append(4)
+			if material.esPiel:
+				self.prepare_data['material'].append(5)	
+		except:
+			pass
+
+		#Conservacion
+		try:
+			conservacion = obj.EstadoConserYac
+			self.prepare_data['conservacion'] = []
+						
+			if conservacion.enBuenEstado:
+				self.prepare_data['conservacion'].append(1)
+			if exposicion.estadoModificado:
+				self.prepare_data['conservacion'].append(2)
+		except:
+			pass
+			
+		
+		#Manifestaciones Asociadas
+		try:
+			asociada = obj.ManifestacionesAsociadas
+			self.prepare_data['manifasociadas'] = []
+			
+			if asociada.esLitica:
+				self.prepare_data['manifasociadas'].append(1)
+			if asociada.esCeramica:
+				self.prepare_data['manifasociadas'].append(2)
+			if asociada.esOseo:
+				self.prepare_data['manifasociadas'].append(3)
+			if asociada.esConcha:
+				self.prepare_data['manifasociadas'].append(4)
+			if asociada.esCarbon:
+				self.prepare_data['manifasociadas'].append(5)
+			if asociada.esMito:
+				self.prepare_data['manifasociadas'].append(6)
+			if asociada.esCementerio:
+				self.prepare_data['manifasociadas'].append(7)
+			if asociada.esMonticulo:
+				self.prepare_data['manifasociadas'].append(8)
+		except:
+			pass
+			
+		return self.prepare_data	
+
+"""
 class BaseIndex(indexes.SearchIndex, indexes.Indexable):
 	#Busqueda General
 	text = indexes.CharField(document=True, use_template=True)	
@@ -144,3 +301,4 @@ def crear_yacimiento_index():
 # Creando Index	
 ########################
 YacimientoIndex = crear_yacimiento_index()
+"""
