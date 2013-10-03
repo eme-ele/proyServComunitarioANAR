@@ -5,6 +5,7 @@ from anarapp.forms import BasicForm, AdvancedForm, CrucesForm
 from haystack.query import SearchQuerySet
 from anarapp.views import Cruces
 from anarapp import views
+from django.views.generic import TemplateView
 
 sqs = SearchQuerySet()
 
@@ -15,6 +16,9 @@ urlpatterns = patterns('',
    	url(r'^$', SearchView(
 		form_class=BasicForm,
 		template='anarapp/index.html'),
+	),
+
+	url(r'^quienes/', TemplateView.as_view(template_name="anarapp/quienes.html"),
 	),
 
 	url(r'^results/', SearchView(
