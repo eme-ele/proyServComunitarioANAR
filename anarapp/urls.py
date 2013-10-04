@@ -17,9 +17,6 @@ urlpatterns = patterns('',
 		template='anarapp/index.html'),
 	),
 
-	url(r'^quienes/', TemplateView.as_view(template_name="anarapp/quienes.html"),
-	),
-
 	url(r'^results/', SearchView(
         template='anarapp/results.html',
         searchqueryset=sqs,
@@ -41,5 +38,4 @@ urlpatterns = patterns('',
 	 	name='cruces'
 	 ),
 
-	
 )

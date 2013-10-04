@@ -112,7 +112,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 
-    PROJECT_PATH + '/templates/'    
+    PROJECT_PATH + '/templates/',
 )
 
 INSTALLED_APPS = (
