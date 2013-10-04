@@ -1,0 +1,20 @@
+Se habló con el grupo los avances del sistema en el último mes.
+
+Gustavo dijo que la interfaz de los cruces, es igual a la de búsqueda avanzada, pero en la parte del filtro tiene los cruces.                                                                                                    
+                                                                                                                 
+Por hacer (chicos interfaz):                                                                                     
+- Limpiar CSS (interfaz en general)                                                                              
+- Preguntar a Stefany los campos que se quitaron de la búsqueda avanzada (filtros) en la reunión anterior para poder recrear/filtrar/machetear el formulario de busqueda avanzada.       
+
+- Montar en el repo las instrucciones para bajarse las cosas y borrar y crear base de datos. (Unión del archivo \
+que Andrés tiene con el de Marilyn) CHECK
+- Llenar las secciones de la interfaz con la información de anar.org.ve de la siguiente forma:                   
+
+- Cambiar nombre de patrimonio rupestre venezolano a patrimonio cultural arqueológico y usar la informacion      
+- La seccion Quienes Somos tendra el contenido de la pagina de Inicio y la seccion Origenes y Trayectoria        
+- En otros servicios, agregar toda la información de productos y servicios                                       
+- Programa de educación necesita ser redactado por sra ruby                                                      
+- contactenos tendra la informacion de la seccion de contactenos.                                                
+- Hacer un branch de interfaz del repositorio de maria leonor (para trabajar la parte de interfaz sin interferir con el motor de busqueda y tal)                                                    
+- Investigar manejo de usuario                                                                                   
+- juegos rupestres en jquery o flash(?) (nicetohave)

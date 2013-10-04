@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	{% load url from future %}
+	{% load staticfiles %}
+	<title>Archivo Nacional de Arte Rupestre</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/informacion.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/anar.css' %}">
+	
+</head>
+<body>
+
+  {% block header %}
+
+	<ul id="nav">
+		<li><a href="/">Inicio</a></li>
+		<li><a href="quienes">Quienes Somos</a></li>
+		<li><a href="patrimonio">Patrimonio Cultural Arqueologico</a></li>
+		<li><a href="#programa">Programa de Educacion</a></li>
+		<li><a href="#otros">Otros Servicios</a></li>
+		<li><a href="#contacto">Contacto</a></li>
+	</ul>
+	{% endblock %}
+
+	  <div id="barralateral">
+	    {% block barralateral %}
+
+
+	      <a href="ley"><img src="{% static 'anarapp/ley-patrimonio-roll.jpg' %}"></a> <br />
+	      <a href="pinturas"><img src="{% static 'anarapp/pintura-rupestre-roll.jpg' %}"></a><br />
+	      <a href="geoglifos"><img src="{% static 'anarapp/geoglifos-roll.jpg' %}"></a><br />
+	      <a href="petroglifos"><img src="{% static 'anarapp/petroglifos-roll.jpg' %}"></a><br />
+	      <a href="amoladores"><img src="{% static 'anarapp/amoladores-roll.jpg' %}"></a><br />
+	      <a href="megaliticos"><img src="{% static 'anarapp/monumentos-roll.jpg' %}"></a><br />
+	      <a href="micropetroglifos"><img src="{% static 'anarapp/micropetroglifos-roll.jpg' %}"></a><br />
+	      <a href="miticos"><img src="{% static 'anarapp/piedras-cerros-roll.jpg' %}"></a><br />
+	      <a href="geografica"><img src="{% static 'anarapp/distribucion-geogra-roll.jpg' %}"></a><br />
+	      <a href="fotos"><img src="{% static 'anarapp/galeria-fotos-roll.jpg' %}"></a><br />
+	      {% endblock %}
+
+	  </div>
+
+
+
+	  <div id="contenido">
+	    {% block contenido %}{% endblock %}
+	  </div>
+
+</body>
+</html>
