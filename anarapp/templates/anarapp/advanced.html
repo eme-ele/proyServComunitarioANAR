@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		
-		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="{% static 'anarapp/jquery-1.10.1.min.js' %}"></script>
 		<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
 		<script>
 			$(document).ready(function(){$(".chzn-select").chosen({no_results_text: "Ningún resultado encontrado"})})
@@ -20,9 +20,6 @@
 			input[type="text"] { border: 1px solid #AAA; padding: 5px }
 			input[type="checkbox"] { margin-left: 100px !important }
 			.chzn-search input { height: 25px !important }
-			
-
-			
 		</style>
 	</head>
 <body>

@@ -1,13 +1,14 @@
 from django.conf.urls import patterns, include, url
 from haystack.views import SearchView,search_view_factory
 from haystack.forms import SearchForm
-from anarapp.forms import BasicForm, AdvancedForm, CrucesForm
+from anarapp.forms import BasicForm, AdvancedForm, PiedraForm
 from haystack.query import SearchQuerySet
-from anarapp.views import Cruces
 from anarapp import views
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
+from anarapp.models import Yacimiento, Piedra
 
-sqs = SearchQuerySet()
+yacimiento = SearchQuerySet().models(Yacimiento)
+piedra = SearchQuerySet().models(Piedra)
 
 urlpatterns = patterns('',
     # url(r'^$', views.index, name='index'),
@@ -23,7 +24,7 @@ urlpatterns = patterns('',
 
 	url(r'^results/', SearchView(
         template='anarapp/results.html',
-        searchqueryset=sqs,
+        searchqueryset=yacimiento,
         form_class=AdvancedForm,
 		results_per_page=10),
 		name='results'
@@ -33,16 +34,23 @@ urlpatterns = patterns('',
 		form_class=AdvancedForm,
 		template='anarapp/advanced.html'),
 	),
-	 url(r'^cruces/$',search_view_factory(
-	 	form_class=CrucesForm,
-	 	searchqueryset=sqs,
-	 	template='anarapp/cruces.html',
-	 	view_class=Cruces,
-	 	results_per_page=10),
-	 	name='cruces'
-	 ),
 
-         url(r'^patrimonio$', views.patrimonio),
+   	url(r'^advanced/$', SearchView(
+		form_class=AdvancedForm,
+		template='anarapp/advanced.html'),
+	),
+	
+    url(r'^yacimiento/(?P<pk>\d+)$', views.yacimiento , name='detail'),
+    url(r'^piedra/(?P<pk>\d+)$', views.piedra , name='piedra'),
+
+   	url(r'^piedras/$', SearchView(
+        searchqueryset=piedra,
+		form_class=PiedraForm,
+		template='anarapp/piedras.html'),
+		name='piedras'
+	),
+
+     url(r'^patrimonio$', views.patrimonio),
 
 
 )

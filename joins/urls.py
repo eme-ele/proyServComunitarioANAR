@@ -5,6 +5,8 @@ from joins import views
 
 urlpatterns = patterns('',    
     url(r'^$', views.index, name='index'),
+    url(r'^cruce8$', views.cruce8, name='cruce8'),
+    url(r'^cruce(?P<cruce_id>\d+)$', views.cruces, name='cruces'),
 
     # ex: /polls/5/
     #url(r'^(?P<poll_id>\d+)/$', views.detail, name='detail'),

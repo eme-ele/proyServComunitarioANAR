@@ -1,28 +1,48 @@
 from haystack import indexes
-from anarapp.models import Yacimiento
+from anarapp.models import Yacimiento, Piedra
 
-import anarapp.models
-import dynamic
-import inspect
+##################################################
+# Piedra Index
+##################################################
+
+class PiedraIndex(indexes.SearchIndex, indexes.Indexable):
+	#Busqueda General
+	text = indexes.CharField(document=True, use_template=True)
+	
+	#Piedra
+	codigo 			    = indexes.CharField(model_attr='codigo')
+	nombre 			= indexes.CharField(model_attr='nombre')
+	figuras 		        = indexes.CharField(model_attr='nombreFiguras')
+
+	def get_model(self):
+		return Piedra
+
+	def index_queryset(self, using=None):
+		return self.get_model().objects.all()
+
+##################################################
+# Yacimiento Index
+##################################################
 
 class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 	#Busqueda General
 	text = indexes.CharField(document=True, use_template=True)
 	
 	#Yacimiento
-	codigo 			= indexes.CharField(model_attr='codigo')
+	codigo 			    = indexes.CharField(model_attr='codigo')
+	pais                  = indexes.CharField(model_attr='pais')
 	municipio 		= indexes.CharField(model_attr='municipio')
 	estado 			= indexes.CharField(model_attr='estado')
 	nombre 			= indexes.CharField(model_attr='nombre')
 
-	localidad 		= indexes.CharField()
+	localidad 		    = indexes.CharField()
 	fotografia 		= indexes.CharField()
-	tipo 			= indexes.MultiValueField() 
+	tipo 			        = indexes.MultiValueField() 
 	exposicion 		= indexes.MultiValueField() 
 
 	manifestacion 	= indexes.MultiValueField() 	
 	ubicacion 		= indexes.MultiValueField() 
-	material 		= indexes.MultiValueField() 
+	material 		    = indexes.MultiValueField() 
 	conservacion 	= indexes.MultiValueField() 
 	
 	manifasociadas 	= indexes.MultiValueField()

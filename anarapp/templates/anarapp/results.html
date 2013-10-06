@@ -8,11 +8,17 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
 		<link rel="stylesheet" href="jquery-ui-1.10.1.custom/css/smoothness/jquery-ui-1.10.1.custom.css" />
 		
-		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="{% static 'anarapp/jquery-1.10.1.min.js' %}"></script>
 		<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
 		<script>
 			$(document).ready(function(){$(".chzn-select").chosen()})
 		</script>		
+		<style type="text/css">
+			.chzn-container { width: 80% !important }
+			input[type="text"] { border: 1px solid #AAA; padding: 5px }
+			input[type="checkbox"] { margin-left: 100px !important }
+			.chzn-search input { height: 25px !important }
+		</style>
 
 		<title>Archivo Nacional de Arte Rupestre</title>
 	</head>
@@ -37,7 +43,7 @@
 				<p style="color: #505050; font-size: 12pt">Nombre:</p> {{ form.nombre }}
 				<p style="color: #505050; font-size: 12pt">Municipio/Distrito:</p> {{ form.municipio }}
 				<p style="color: #505050; font-size: 12pt">Estado:</p> {{ form.estado }} 
-				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.fotografia }}
+				<p style="color: #505050; font-size: 12pt">Fotografia: {{ form.fotografia }}</p>
 				<p style="color: #505050; font-size: 12pt">Ubicaci&oacute;n:</p> {{ form.ubicacion }}
 				
 				<div style="display: none">
@@ -70,9 +76,9 @@
                 		<p>C&oacute;digo: {{ result.object.codigo }}</p>
 						<table>
 							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
-							<tr><td >Yacimiento</td></tr>
 							<tr><td >Municipio: {{ result.object.municipio }}</td></tr>
 							<tr><td >Estado: {{ result.object.estado }}</td></tr>
+							<tr><td ><a href='/yacimiento/{{ result.object.codigo }}'</td>Ver m&aacute;s detalles >></tr>
 						</table>
 					</div>
 					<br/>
