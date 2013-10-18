@@ -40,6 +40,15 @@ urlpatterns = patterns('',
 
 	url(r'^quienes/', TemplateView.as_view(template_name="informacion/quienes.html"),
 	),
+
+        url(r'^otros/productos', TemplateView.as_view(template_name="informacion/productos.html"),
+        ),
+        url(r'^otros/servicio', TemplateView.as_view(template_name="informacion/servicio.html"),
+        ),
+        url(r'^otros/visitas', TemplateView.as_view(template_name="informacion/visitas.html"),
+        ),
+        url(r'^otros/', TemplateView.as_view(template_name="informacion/otros.html"),
+        ),
                        
         url(r'^patrimonio/', TemplateView.as_view(template_name="informacion/patrimonio.html"),
         ),

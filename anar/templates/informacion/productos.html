@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	{% load url from future %}
+	<title>Archivo Nacional de Arte Rupestre</title>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'anarapp/anar.css' %}">
+	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
+	<script>
+		$(document).ready(function(){$(".chzn-select").chosen()})
+	</script>
+	
+</head>
+<body>
+
+	<ul id="nav">
+		<li><a href="/">Inicio</a></li>
+		<li><a href="/quienes">Quienes Somos</a></li>
+		<li><a href="/patrimonio">Patrimonio Cultural Arqueológico</a></li>
+		<li><a href="#programa">Programa de Educacion</a></li>
+		<li><a href="/otros">Otros Servicios</a></li>
+		<li><a href="#contacto">Contacto</a></li>
+	</ul>
+	<div id="logo">
+		<img src="{% static 'anarapp/logo.png' %}" height="100"><br/>
+	</div>
+
+	<table width="438" left-padding="100" border="0" cellspacing="0" cellpadding="0" align="left">
+		<tr align="center">
+			<td>
+				<img src="{% static 'images/botones-anar/productos/productos.png' %}" name="Image14" width="110" height="21" border="0">
+			</td>
+		</tr>
+		<tr align="center">
+			<td>
+				<a href="servicio" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image15','','images/botones-anar/productos/servicio-roll.jpg',1)">
+					<img src="{% static 'images/botones-anar/productos/servicio.png' %}" name="Image15" width="110" height="21" border="0">
+				</a>
+			</td>
+		</tr>
+		<tr align="center">
+			<td>
+				<a href="visitas" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image16','','images/botones-anar/productos/visitas-roll.jpg',1)">
+					<img src="{% static 'images/botones-anar/productos/visitas.png' %}"name="Image16" width="110" height="21" border="0">
+				</a>
+			</td>
+		</tr>
+	</table>
+	<table width="550" cellspacing="0" cellpadding="5" border="0">
+		<tr>
+			<td >
+				<div >
+					<b>EL DISEÑO EN LOS PETROGLIFOS VENEZOLANOS</b>
+				</div>
+				<p align="justify">
+					Ruby De Valencia &amp; Jeannine Sujo Edici&oacute;n triling&uuml;e, Fundaci&oacute;n Pampero, Caracas, 1.987. Presenta el primer y &uacute;nico inventario documentado fotogr&aacute;ficamente sobre la totalidad de estaciones rupestres registradas a nivel nacional hasta el momento, que conforman parte del patrimonio cultural arqueol&oacute;gico de Venezuela.
+				</p>
+			</td>
+			<td align="center">
+				<img src="{% static 'anarapp/libro.jpg' %}" border="0" alt=" ">
+			</td>
+		</tr>
+	</table>
+	<table width="550" cellspacing="0" cellpadding="5" border="0" align="center">
+		<tr>
+			<td >
+				<p align="justify"><br />
+					Sustenta importantes conclusiones en el campo de la investigaci&oacute;n antropol&oacute;gica referentes a Venezuela, en base al estudio e interrelaci&oacute;n de las caracter&iacute;sticas estil&iacute;sticas de estas estaciones; se formulan los horizontes estil&iacute;sticos que definen las diferentes zonas geogr&aacute;ficas del pa&iacute;s. Estos horizontes permitieron a su vez orientar varias hip&oacute;tesis referentes a algunas de las rutas migratorias m&aacute;s antiguas de nuestro pa&iacute;s.&nbsp;<br />
+					<br />
+					La publicaci&oacute;n fue acreedora de los siguientes reconocimientos nacionales e internacionales: Medalla de Bronce, Exposici&oacute;n Internacional del Arte del Libro, 1989, Leipzig, Alemania y Reconocimiento en la IX Exposici&oacute;n Anual del Libro Ilustrado y la Fotograf&iacute;a Documental, 1988, Instituto Aut&oacute;nomo Biblioteca Nacional, Caracas.
+				</p>
+						
+			</td>
+		</tr>
+	</table>
+	<table width="550" cellspacing="0" cellpadding="5" border="0" cellpadding="5" align="center">
+		<tr>
+			<td align="Left">
+				<b><br />KIU-PA Tapices</b>
+			</td>
+		</tr>
+		<tr>
+			<td >
+				<p align="justify"><br />
+					El grupo artesanal KIU-PA, un grupo de mujeres, centra su obra en la creaci&oacute;n de alfombras o tapices en formato grande, tejidos manualmente con una combinaci&oacute;n de lanas v&iacute;rgenes, trabajando alrededor del petroglifo, incluyendo la roca y el suelo, a veces con la veetaci&oacute;n del ambiente.<br />
+					<br />
+					</p>
+			</td>
+		</tr>
+	</table>
+	<div align="center">
+		<table width="50%" border="0" cellspacing="5" cellpadding="0" align="center">		
+			<tr>
+				<td align="center" valign="bottom">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="sz" align="center">
+								<img src="{% static 'anarapp/productos/tapiz1.gif' %}" border="1" style="border-color:000000;">
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td align="center" valign="bottom">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="sz" align="center">
+								<img src="{% static 'anarapp/productos/tapiz2.gif' %}" border="1" style="border-color:000000;">
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td align="center" valign="bottom">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="sz" align="center">
+								<img src="{% static 'anarapp/productos/tapiz3.gif' %}" border="1" style="border-color:000000;">
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<table width="550" cellspacing="0" cellpadding="5" border="0" align="center">
+		<tr>
+			<td align="Left">
+				<b></br>LEGOLASADDA – Arquitectura, Arte y diseño-</b>
+			</td>
+		</tr>
+		<tr>
+			<td >
+				<br /> Reproducciones de petroglifos a escala reducida, exclusivas y numeradas para ANAR.<br />
+				<br />
+			</td>
+		</tr>
+	</table>
+	<div align="center">
+		<table width="50%" border="0" cellspacing="5" cellpadding="0" align="center">
+			<tr>
+				<td align="center" valign="bottom">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="sz" align="center">
+								<img src="{% static 'anarapp/productos/Piezas2.gif' %}" border="1" style="border-color:000000;">
+							</td>
+						</tr>
+					</table>
+				</td>	
+				<td align="center" valign="bottom">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="sz" align="center">
+								<img src="{% static 'anarapp/productos/Piezas21.gif' %}" border="1" style="border-color:000000;">
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td class="sz" align="center" valign="bottom">
+					<table cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="sz" align="center">
+								<img src="{% static 'anarapp/productos/Piezas17.gif' %}" border="1" style="border-color:000000;">
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>	
+		<!-- Tomado de anar.org.ve -->
+</body>
+</html>
