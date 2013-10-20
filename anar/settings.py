@@ -75,8 +75,9 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
+
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',    
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
@@ -124,13 +125,16 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'nested_inlines',
     # Uncomment the next line to enable the admin:
+    'grappelli.dashboard',    
+    'grappelli', # Ambos antes del admin de django
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'anarapp',
     'south',
     'joins',
-    'haystack',
+    'haystack'
+    
 )
 
 # A sample logging configuration. The only tangible logging
@@ -171,3 +175,10 @@ HAYSTACK_CONNECTIONS = {
         'EXCLUDED_INDEXES': ['anarapp.search_indexes.BaseIndex'],
     },
 }
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.request",
+    "django.core.context_processors.i18n",
+    'django.contrib.messages.context_processors.messages',
+)

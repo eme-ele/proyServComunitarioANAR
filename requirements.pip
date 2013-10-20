@@ -25,5 +25,5 @@ django-stdimage==0.2.2
 django-floppyforms==1.0
 django-relationships==0.3.2
 django-mptt==0.5.4
-django-grappelli==2.4.6
+django-grappelli==2.4.7
 Whoosh==2.4

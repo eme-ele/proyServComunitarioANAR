@@ -28,7 +28,8 @@ class LocalidadYacInline(admin.StackedInline):
     model = LocalidadYacimiento
     extra = 1
     max_num = 1
-
+    classes = ('grp-collapse grp-open',)
+    
 class UsoActSueloYacInline(admin.StackedInline):
     model = UsoActSuelo
     extra = 1
@@ -362,6 +363,11 @@ class SupervisadaPorPiedraInline(admin.TabularInline):
 #Administrador del modelo de datos Yacimiento
 class YacimientoAdmin(admin.ModelAdmin):
     model = Yacimiento
+    list_display = ('codigo','nombre', 'pais','estado', 'municipio')
+    fieldsets = [        
+        ('Nº CÓDIGO', {'fields': ['codigo']}),
+        ('ESTADO', {'fields': ['pais','municipio', 'estado'], 'classes': ('grp-collapse grp-closed',)}),
+    ]
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
         PlanoYacInline,CoordenadasYacInline,DatumYacInline,AltitudYacInline,FotoYacInline,
@@ -376,16 +382,19 @@ class YacimientoAdmin(admin.ModelAdmin):
         ManifestacionesAsociadasYacInline,ObtenidaPorYacInline,OtrosValoresSitioYacInline,ObservacionYacInline,
         LlenadaPorYacInline,SupervisadaPorYacInline
     ]
-    list_display = ('codigo','nombre', 'pais','estado', 'municipio')
-    fieldsets = [        
-        ('Nº CÓDIGO', {'fields': ['codigo']}),
-        ('ESTADO', {'fields': ['pais','municipio', 'estado']})       
-    ]
- 
+
 
 #Administrador del modelo de datos Piedra
 class PiedraAdmin (admin.ModelAdmin):
     model = Piedra
+    list_display = ('codigo','nombre', 'yacimiento')
+    fieldsets = [        
+        ('Nº CÓDIGO', {'fields': ['yacimiento' , 'codigo']}),        
+        ('DATOS GENERALES DE LA ROCA', {'fields': ['nombre', 'manifiestacionAsociada',
+                                                   'nombreFiguras', 'estado', 'numeroCaras',
+                                                   'numeroCarasTrajabadas'],
+                                        'classes': ('grp-collapse grp-closed',)})        
+    ]
     inlines = [
         CaraTrabajadaInline, DimensionPiedraInline, UbicacionCarasInline, FigurasPorTipoInline,
         EsquemaPorCaraInline, ManifestacionesInline, TratFotoInline, FotoBibPiedraInline, FotoDigPiedraInline,
@@ -394,13 +403,6 @@ class PiedraAdmin (admin.ModelAdmin):
         MultimediaPiedraInline, ObtInfoPiedraInline, OtrosValPiedraInline, ObservacionPiedraInline,
         LlenadaPorPiedraInline, SupervisadaPorPiedraInline
     ] 
-    list_display = ('codigo','nombre', 'yacimiento')
-    fieldsets = [        
-        ('Nº CÓDIGO', {'fields': ['yacimiento' , 'codigo']}),        
-        ('DATOS GENERALES DE LA ROCA', {'fields': ['nombre', 'manifiestacionAsociada',
-                                                   'nombreFiguras', 'estado', 'numeroCaras', 'numeroCarasTrajabadas'], 'classes': ['collapse']} )
-        
-    ]
 
 admin.site.register(Yacimiento, YacimientoAdmin)
 admin.site.register(Piedra,PiedraAdmin)
