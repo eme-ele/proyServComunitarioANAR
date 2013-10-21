@@ -1027,8 +1027,8 @@ class UbicacionCaras(models.Model):
     abbr = 'uca'
     
     class Meta:
-        verbose_name = 'Ubicación de cara trabajada (Para cuevas y abrigos)'
-        verbose_name_plural = '8. Ubicación de caras trabajadas (Para cuevas y abrigos)'
+        verbose_name = 'Ubic. cara trab. (cuevas/abrigos)'
+        verbose_name_plural = '8. Ubic. caras trab. (cuevas/abrigos)'
         
 
 class FigurasPorTipo(models.Model):
@@ -1050,7 +1050,7 @@ class FigurasPorTipo(models.Model):
     )
 	
     piedra = models.ForeignKey(Piedra, related_name='FigurasPorTipo')    
-    numero =  models.CharField( '9a. Número de cara trabajada (Según punto 6)', max_length=40) 
+    numero =  models.CharField( '9a. Número de cara trabajada (Punto 6)', max_length=40) 
     tipoFigura = models.IntegerField('9b. Tipo de figura',choices = TIPO_FIGURA)	
     cantidad = models.CharField('9c. Cantidad', max_length=40)  
     esCantidadInexacta = models.BooleanField('9c-i. Cantidad Inexacta O Desconocida(i/i-25)')	
@@ -1067,7 +1067,7 @@ class EsquemaPorCara(models.Model):
     de la cara de la piedra"""
 
     piedra = models.ForeignKey(Piedra, related_name='EsquemaPorCara')    
-    numero =  models.CharField( '10a. Número de cara trabajada (Según punto 6)', max_length=40)  
+    numero =  models.CharField( '10a. Número de cara trabajada (Punto 6)', max_length=40)  
     textoCara = models.CharField('10b. Cara del Volumen',max_length=150) 
     posicion = models.CharField('10c. Posicion de las figuras', max_length=400) 
     
@@ -1178,8 +1178,8 @@ class FotoPiedra (Foto):
     abbr = 'fop'
     
     class Meta:
-        verbose_name = '13.1 Material de apoyo fotografico'
-        verbose_name_plural = '13.1 Material de apoyo fotografico'
+        verbose_name =  '13.1 Mat. de apoyo fotografico'
+        verbose_name_plural = '13.1 Mat. de apoyo fotografico'
 
 # Representación gráfica de la piedra
 
@@ -1229,7 +1229,7 @@ class EscRedPiedra(RepGrafPiedra):
     abbr = 'erp'
 
     class Meta:
-        verbose_name = 'Reproducción gráf. escala natural'
+        verbose_name = 'Reproducción gráf. escala reducida'
         verbose_name_plural = '13.3. Reproducción gráf. escala reducida'
 
 # Bibliografia
@@ -1295,7 +1295,7 @@ class FotoBibYac (FotoBibliografia):
     
     class Meta:
         verbose_name = 'Bibliografía con fotográf.'
-        verbose_name_plural = '31.1.7. Bibliografía con fotográf.'
+        verbose_name_plural = '31.1.7. Bibliografía fotográfica'
 
 class FotoBibPiedra (FotoBibliografia):
     

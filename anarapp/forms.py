@@ -176,7 +176,8 @@ FORM_ADVANCED = [
 	'TenenciaDeTierra',				#5
 	'FotografiaYac',				#11
 	'TipoYacimiento',				#12
-	'ManifestUbicacionYacimiento',	#13, 14
+	'ManifestacionYacimiento',	#13, 14
+	'UbicacionYacimiento', 
 	'OrientacionYacimiento',		#15
 	'HidrologiaYacimiento',			#19
 	'TipoExposicionYac',			#20
