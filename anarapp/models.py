@@ -121,8 +121,7 @@ class Croquis (models.Model):
 class Plano (models.Model):
     
     yacimiento = models.OneToOneField(Yacimiento, related_name='Plano')
-    numeroPlano = models.IntegerField('7. Número de plano', blank = True, null = True, )
-
+    numeroPlano = models.CharField('7. Número de plano', max_length = 250, blank = True)
     abbr = 'pln'
 
     class Meta:
@@ -139,6 +138,7 @@ class Coordenadas (models.Model):
     
     longitud = models.CharField('Long. O(W)', max_length = 400, blank = True)
     latitud = models.CharField('Lat. N', max_length = 400, blank = True)
+    utmAdicional = models.CharField('Utm Adicional', max_length = 400, blank = True)
     
     abbr = 'crd'
 
@@ -171,10 +171,12 @@ class Datum (models.Model):
 class Altitud (models.Model):
     
     yacimiento = models.OneToOneField(Yacimiento, related_name='Altitud')
-      
+
+    texto = models.CharField('10.0 Texto', max_length = 400, blank = True)   
     altura = models.CharField('10.1 Altura en mts', max_length = 400, blank = True)
     superficie = models.CharField('10.2 Superficie en m2', max_length = 400, blank = True)
-    
+    desarrollo = models.CharField('10.3 Desarrollo', max_length = 400, blank = True)
+    desnivel = models.CharField('10.4 Desnivel', max_length = 400, blank = True)
     abbr = 'atd'  
 
     class Meta:
@@ -226,7 +228,7 @@ class TipoYacimiento (models.Model):
         return 'Tipo de Yacimiento'
 
 
-class ManifestUbicacionYacimiento (models.Model):
+class ManifestacionYacimiento(models.Model):
 
     OPCIONES_TIPO_MANIFEST = (
         (1,'13.1 Geoglifo'),
@@ -251,7 +253,21 @@ class ManifestUbicacionYacimiento (models.Model):
         (20,'13.10 Puntos Acoplados'),
         (21,'13.11 Cupulas'),
         (22,'13.12 Mortero o Metate'),
-    )  
+    )
+    yacimiento = models.ForeignKey(Yacimiento, related_name='ManifestacionYacimiento')
+    tipoManifestacion = models.IntegerField('13. Tipo de Manifestacion',choices = OPCIONES_TIPO_MANIFEST, blank = True,null = True)
+
+    abbr = 'tmy'
+
+class Meta:
+    verbose_name = '13. Tipo de Manifestación'
+    verbose_name_plural = '13. Tipo de Manifestación'
+    
+    def __unicode__(self):
+        return 'Tipo - Ubicacion'
+
+    
+class UbicacionYacimiento(models.Model):
 
     OPCIONES_UBI_MANIFEST = (
         (1,'14.1 Cerro'),
@@ -269,20 +285,16 @@ class ManifestUbicacionYacimiento (models.Model):
         (13,'14.3.3 Río - Margen Izquierda'),
         (14,'14.3.4 Río - Isla'),
         (15,'14.3.5 Río - Raudal'),
-        (16,'14.4 Costa'),
-       
-    ) 
-    
-    yacimiento = models.ForeignKey(Yacimiento, related_name='ManifestUbicacionYacimiento')
-    
-    tipoManifestacion = models.IntegerField('13. Tipo de Manifestacion',choices = OPCIONES_TIPO_MANIFEST, blank = True,null = True)
+        (16,'14.4 Costa'),       
+    )
+    yacimiento = models.ForeignKey(Yacimiento, related_name='UbicacionYacimiento')
     ubicacionManifestacion = models.IntegerField('14. Ubicación de la Manifestacion',choices = OPCIONES_UBI_MANIFEST, blank = True,null = True)
 
-    abbr = 'muy'
+    abbr = 'ubm'
         
     class Meta:
-        verbose_name = '13. Tipo de Manifestación'
-        verbose_name_plural = '13. Tipo de Manifestación'
+        verbose_name = '14. Ubicación de la Manifestacion'
+        verbose_name_plural = '14. Ubicación de la Manifestacion'
     
     def __unicode__(self):
         return 'Tipo - Ubicacion'
@@ -384,7 +396,7 @@ class TipoExposicionYac(models.Model):
     yacimiento = models.OneToOneField(Yacimiento, related_name='TipoExposicionYac')
     
     expuesto = models.BooleanField('20.1 Expuesto')
-    expuesto = models.BooleanField('20.2 No Expuesto')
+    noExpuesto = models.BooleanField('20.2 No Expuesto')
     expuestoPeriodicamente = models.BooleanField('20.3 Expuesto Periódicamente')
     observaciones = models.CharField('20.4 Observaciones', max_length = 400, blank = True)
     
@@ -592,7 +604,8 @@ class CaracSurcoBateas(models.Model):
     
     largo = models.CharField('24.12 Largo (en cm)', max_length = 400, blank = True)
     ancho = models.CharField('24.13 Ancho (en cm)', max_length = 400, blank = True)
-    
+    diametro = models.CharField('24.13a Diametro (en cm)', max_length = 250, blank = True)
+    profundidad = models.CharField('24.1b Profundidad (en cm)', max_length = 250, blank = True)
     abbr = 'cba'
 
     class Meta:
@@ -607,6 +620,9 @@ class CaracSurcoPuntosAcopl (models.Model):
 
     yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoPuntosAcopl')
     esPunteado= models.BooleanField('24.14 Punteado')
+    diametro = models.CharField('24.14a Diametro (en cm)', max_length = 250, blank = True)
+    profundidad = models.CharField('24.14b Profundidad (en cm)', max_length = 250, blank = True)
+    otros = models.CharField('24.14c Otros', max_length = 250, blank = True)    
     
     abbr = 'cpa'
     
@@ -620,10 +636,11 @@ class CaracSurcoPuntosAcopl (models.Model):
 class CaracSurcoCupulas (models.Model):
     
     yacimiento = models.OneToOneField(Yacimiento, related_name='CaracSurcoCupulas')
-    
-    largo = models.CharField('24.9 Largo (en cm)', max_length = 400, blank = True)
-    ancho = models.CharField('24.10 Ancho (en cm)', max_length = 400, blank = True)
-    diametro = models.CharField('24.11 Diámetro(en cm)', max_length = 400, blank = True)
+    largo = models.CharField('24.15 Largo (en cm)', max_length = 400, blank = True)
+    ancho = models.CharField('24.16 Ancho (en cm)', max_length = 400, blank = True)
+    diametro = models.CharField('24.17 Diámetro(en cm)', max_length = 400, blank = True)
+    profundidad = models.CharField('24.17a Profundidad (en cm)', max_length = 250, blank = True)
+    otros = models.CharField('24.17b Otros', max_length = 250, blank = True)
     
     abbr = 'ccu'
 
@@ -660,11 +677,13 @@ class CaracDeLaPintura (models.Model):
     esTecnicaFibra = models.BooleanField('25.1 Técnica/ 25.1.2 Fibra')
     otros = models.CharField('25.1 Técnica/ 25.1.3 Otros', max_length = 400, blank = True)
     esLineaSencilla= models.BooleanField('25.2 Tipo de Línea/ 25.2.1 Línea Sencilla')
+
     anchoDe = models.CharField('25.2.1.1 Ancho de la Línea Sencilla/ Ancho de (en cm)', max_length = 400, blank = True)
     anchoA = models.CharField('25.2.1.1 Ancho de la Línea Sencilla/ Ancho a (en cm)', max_length = 400, blank = True)
     esLineaCompuesta= models.BooleanField('25.2 Tipo de Línea/ 25.2.1 Línea Compuesta')
     anchoDeComp = models.CharField('25.2.1.1 Ancho de la Línea Compuesta/ Ancho de (en cm)', max_length = 400, blank = True)
-    anchoAComp = models.CharField('25.2.1.1 Ancho de la Línea Compuesta/ Ancho a (en cm)', max_length = 400, blank = True)
+    anchoAComp = models.CharField('25.2.1.1 Ancho de la Línea Compuesta/ Ancho a (en cm)', max_length = 400, blank = True)  
+    esLineaCompuesta= models.BooleanField('25.3 Figura Rellena')
     esImpresionDeManos = models.BooleanField('25.4 Impresión de Manos')
     esImpresionDeManosPositivo = models.BooleanField('25.4 Impresión de Manos/ 25.4.1 Positivo')
     esImpresionDeManosNegativo = models.BooleanField('25.4 Impresión de Manos/ 25.4.2 Negativo')
@@ -729,7 +748,6 @@ class CaracDolmenArt(models.Model):
     cantidadConPetroglifo = models.IntegerField('26.8 Cantidad', blank = True, null = True, )
     conPinturas = models.BooleanField('13.7.3.2 Con Pinturas')
     cantidadConPinturas = models.IntegerField('26.9 Cantidad', blank = True, null = True, )
-    notas = models.CharField('26.10 Notas', max_length = 400, blank = True)
     
     abbr = 'dol'
 
@@ -739,6 +757,21 @@ class CaracDolmenArt(models.Model):
         
     def __unicode__(self):
         return 'Caracteristicas del Monumento Megalitico'
+
+class NotasYacimiento(models.Model) :
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='NotasYacimiento')
+    notas = models.CharField('26.10 Notas', max_length = 1000, blank = True)
+
+    abbr = 'dol'
+
+    class Meta:
+        verbose_name = '26.10 Notas'
+        verbose_name_plural = '26.10 Notas'
+        
+    def __unicode__(self):
+        return 'Caracteristicas del Monumento Megalitico'
+
 
 class EstadoConserYac(models.Model):
 
@@ -781,9 +814,9 @@ class EstadoConserYac(models.Model):
     especificar = models.CharField('27.4 Especificar Causa y Efecto', max_length = 400, blank = True)
     destruccionPotencial = models.BooleanField('27.5 Destrucción Potencial del Sitio')
     porAsentamientoHumand = models.BooleanField('27.5.1 Causas / 27.5.1.1 Asentamiento Humano')
-    porObraCortoPlazo = models.BooleanField('27.5.1 Causas / 27.5.1.2 Obra Infraestrucrura a Corto Plazo')
-    porObraMedianoPlazo = models.BooleanField('27.5.1 Causas / 27.5.1.3 Obra Infraestrucrura a Mediano Plazo')
-    porObraLargoPlazo = models.BooleanField('27.5.1 Causas / 27.5.1.4 Obra Infraestrucrura a Largo Plazo')
+    porObraCortoPlazo = models.BooleanField('27.5.1 Causas / 27.5.1.2 Obra Infraestructura a Corto Plazo')
+    porObraMedianoPlazo = models.BooleanField('27.5.1 Causas / 27.5.1.3 Obra Infraestructura a Mediano Plazo')
+    porObraLargoPlazo = models.BooleanField('27.5.1 Causas / 27.5.1.4 Obra Infraestructura a Largo Plazo')
     porNivelacion = models.BooleanField('27.5.1 Causas / 27.5.1.5 Nivelación del Terreno Como Obra Agrícola')
     porExtraccionFamiliar = models.BooleanField('27.5.1 Causas / 27.5.1.6 Extracción Como Actividad Familiar')
     porExtraccionMayor = models.BooleanField('27.5.1 Causas / 27.5.1.7 Extracción Como Actividad Mayor')
@@ -801,7 +834,7 @@ class EstadoConserYac(models.Model):
     dosAno = models.BooleanField('27.6.1.3  Dos Años')
     tresAno = models.BooleanField('27.6.1.4 Tres Años')
     cuatroAno = models.BooleanField('27.6.1.5 Cuatro Años')
-    cincoAno = models.BooleanField('27.6.1.6 Cindo Años')
+    cincoAno = models.BooleanField('27.6.1.6 Cinco Años')
     mas = models.CharField('27.6.1.7 Más', max_length = 400, blank = True)
     
     abbr = 'ecy'
@@ -950,11 +983,11 @@ class CaraTrabajada(models.Model):
         (7, '7 - Oeste'),
         (8, '8 - Noroeste'),
         (9, '9 - Piso o plano inclinado'),
+		(10, 'n - Desconocida')
     )
-
+	
     piedra = models.ForeignKey(Piedra, related_name='CaraTrabajada')
-    
-    numero = models.IntegerField('6a. Número de cara trabajada')
+    numero =  models.CharField('6a. Número de cara trabajada', max_length=40)
     orientacion = models.IntegerField('6b. Orientación de la cara', choices = ORIENTACION_CARA_TRABAJADA)
     alto = models.DecimalField('7.1. Alto',max_digits=6, decimal_places=3)
     ancho = models.DecimalField('7.2. Ancho',max_digits=6, decimal_places=3)
@@ -994,8 +1027,8 @@ class UbicacionCaras(models.Model):
     abbr = 'uca'
     
     class Meta:
-        verbose_name = 'Ubicación de cara trabajada'
-        verbose_name_plural = '8. Ubicación de caras trabajadas'
+        verbose_name = 'Ubicación de cara trabajada (Para cuevas y abrigos)'
+        verbose_name_plural = '8. Ubicación de caras trabajadas (Para cuevas y abrigos)'
         
 
 class FigurasPorTipo(models.Model):
@@ -1015,14 +1048,13 @@ class FigurasPorTipo(models.Model):
         (9, '9 - Amoladores'),
         (10, '10 - Bateas'),
     )
-
-    piedra = models.ForeignKey(Piedra, related_name='FigurasPorTipo')
-    
-    numero = models.IntegerField('9a. Número de cara trabajada')
-    tipoFigura = models.IntegerField('9b. Tipo de figura',choices = TIPO_FIGURA)
-    cantidad =  models.IntegerField('9c. Cantidad')
-    descripcion = models.CharField('9d. Descripcion',max_length=150) 
-    
+	
+    piedra = models.ForeignKey(Piedra, related_name='FigurasPorTipo')    
+    numero =  models.CharField( '9a. Número de cara trabajada (Según punto 6)', max_length=40) 
+    tipoFigura = models.IntegerField('9b. Tipo de figura',choices = TIPO_FIGURA)	
+    cantidad = models.CharField('9c. Cantidad', max_length=40)  
+    esCantidadInexacta = models.BooleanField('9c-i. Cantidad Inexacta O Desconocida(i/i-25)')	
+    descripcion = models.CharField('9d. Descripcion',max_length=150)
     abbr = 'fpt'    
     
     class Meta:
@@ -1034,11 +1066,10 @@ class EsquemaPorCara(models.Model):
     """Representa la información de la ficha pa, referente al esquema
     de la cara de la piedra"""
 
-    piedra = models.ForeignKey(Piedra, related_name='EsquemaPorCara')
-    
-    numero = models.IntegerField('10a. Número de cara trabajada')
-    textoCara = models.CharField('10b. Cara',max_length=150) 
-    posicion = models.CharField('10c. Posicion de las figuras en la cara',max_length=150) 
+    piedra = models.ForeignKey(Piedra, related_name='EsquemaPorCara')    
+    numero =  models.CharField( '10a. Número de cara trabajada (Según punto 6)', max_length=40)  
+    textoCara = models.CharField('10b. Cara del Volumen',max_length=150) 
+    posicion = models.CharField('10c. Posicion de las figuras', max_length=400) 
     
     abbr = 'epc'
 
@@ -1147,8 +1178,8 @@ class FotoPiedra (Foto):
     abbr = 'fop'
     
     class Meta:
-        verbose_name = 'Información de Fotografía'
-        verbose_name_plural = '13.1. Información de Fotografías'
+        verbose_name = '13.1 Material de apoyo fotografico'
+        verbose_name_plural = '13.1 Material de apoyo fotografico'
 
 # Representación gráfica de la piedra
 

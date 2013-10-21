@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
 # Django settings for anar project.
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 import os
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
@@ -31,7 +34,7 @@ TIME_ZONE = 'America/Caracas'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-VE'
 
 SITE_ID = 1
 
@@ -76,8 +79,8 @@ STATICFILES_DIRS = (
 # various locations.
 STATICFILES_FINDERS = (
 
+    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.FileSystemFinder',    
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
@@ -125,8 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'nested_inlines',
     # Uncomment the next line to enable the admin:
-    'grappelli.dashboard',    
-    'grappelli', # Ambos antes del admin de django
+    'suit',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
@@ -176,9 +178,27 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.request",
-    "django.core.context_processors.i18n",
-    'django.contrib.messages.context_processors.messages',
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    "django.core.context_processors.request",    
 )
+
+SUIT_CONFIG = {
+    # header
+     'ADMIN_NAME': 'Administración de Software ANAR',
+     'HEADER_DATE_FORMAT': 'l, j F Y',
+     'HEADER_TIME_FORMAT': 'h:i A',
+
+    # forms
+    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
+    'CONFIRM_UNSAVED_CHANGES': False, # Default True
+
+    # 'MENU_OPEN_FIRST_CHILD': True, # Default True
+    # 'MENU_EXCLUDE': ('auth.group',),
+     'MENU': (
+         {'app': 'anarapp', 'icon':'icon-globe', 'label': 'Software ANAR', 'models': ('yacimiento', 'piedra')},    
+         {'app': 'auth', 'icon':'icon-lock', 'label': 'Usuarios', 'models': ('user', 'group')}               
+     ),
+
+    # misc
+      'LIST_PER_PAGE': 50
+}
