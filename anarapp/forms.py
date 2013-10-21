@@ -5,6 +5,9 @@ from haystack.forms import SearchForm
 import anarapp.models
 import dynamic
 
+from django.forms import ModelForm
+from suit.widgets import LinkedSelect, AutosizedTextarea, TextInput, Select
+
 foreign = []
 
 class BaseForm(SearchForm):
@@ -701,9 +704,40 @@ class AdvancedForm(YacimientoForm):
 	tipoFigura.widget.attrs 	 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de figura'}	
 	conexionFiguras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de conexión'}	
 """	
+
+
+### Formularios utilizados por el backend
 class YacimientoForm(forms.ModelForm):
 	pass
+	
+# Figuras por Tipo	
+class FigurasPorTipoForm (ModelForm):
+    class Meta:
+        widgets = {
+            'numero': TextInput(attrs={'class': 'input-small'}),
+			'cantidad': TextInput(attrs={'class': 'input-small'}),
+			'tipoFigura': Select(attrs={'class': 'input-medium'}),
+            'numero': TextInput(attrs={'class': 'input-small'}),
+            'descripcion' : AutosizedTextarea(attrs={'rows': 2})
+        }
 
+# Figuras por Tipo	
+class CaraTrabajadaForm (ModelForm):
+    class Meta:
+        widgets = {
+            'numero': TextInput(attrs={'class': 'input-small'}),
+            'orientacion': Select(attrs={'class': 'input-medium'}),
+            'alto': TextInput(attrs={'class': 'input-small'}),
+            'ancho': TextInput(attrs={'class': 'input-small'}),
+            'largo': TextInput(attrs={'class': 'input-small'}),			
+        }
+		
+class PiedraForm(ModelForm) :
 
+    class Meta:
+        widgets = {
+            'yacimiento': LinkedSelect,
+			'manifiestacionAsociada' : AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xlarge'}),		
+        }
 
-
+		

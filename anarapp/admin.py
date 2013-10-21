@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from django.forms import TextInput, ModelForm, Textarea, Select
-from suit.widgets import LinkedSelect
+from anarapp.forms import PiedraForm, FigurasPorTipoForm, CaraTrabajadaForm
 
 # Importar los modelos necesarios empezando por los de yacimiento
 from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, TenenciaDeTierra, Indicaciones, Croquis, Plano , \
@@ -93,7 +92,6 @@ class TipoYacimientoYacInline(admin.StackedInline):
 class ManifestacionYacimientoInline(admin.TabularInline):
     model = ManifestacionYacimiento
     extra = 1
-    max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestacion'
     
 class UbicacionYacimientoInline(admin.TabularInline):
@@ -191,7 +189,7 @@ class CaracSurcoAmoladoresYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
-class CaracSurcoBateasYacInline(admin.TabularInline):
+class CaracSurcoBateasYacInline(admin.StackedInline):
     model = CaracSurcoBateas
     extra = 1
     max_num = 1
@@ -203,7 +201,7 @@ class CaracSurcoPuntosAcopladosYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
-class CaracSurcoCupulasYacInline(admin.TabularInline):
+class CaracSurcoCupulasYacInline(admin.StackedInline):
     model = CaracSurcoCupulas
     extra = 1
     max_num = 1
@@ -328,14 +326,6 @@ class SupervisadaPorYacInline(admin.TabularInline):
 # Declaracion de modelos inlines para piedra
 ########################################################################################
 
-class PiedraForm(ModelForm) :
-
-    class Meta:
-        widgets = {
-            'yacimiento': LinkedSelect
-        }
-
-
 class DimensionPiedraInline(admin.StackedInline):
     extra = 1
     max_num = 1    
@@ -346,12 +336,13 @@ class ManifestacionesInline(admin.StackedInline):
     extra = 1
     max_num = 1
     model =  Manifestaciones
-    suit_classes = 'suit-tab suit-tab-'
+    suit_classes = 'suit-tab suit-tab-manifestaciones'
 
 class CaraTrabajadaInline(admin.TabularInline):
     extra = 6
     max_num = 6
     model = CaraTrabajada
+    form = CaraTrabajadaForm
     suit_classes = 'suit-tab suit-tab-generales'
 
 class UbicacionCarasInline(admin.StackedInline):
@@ -364,8 +355,9 @@ class FigurasPorTipoInline(admin.TabularInline):
     extra = 10
     max_num = 60  
     model =  FigurasPorTipo
+    form = FigurasPorTipoForm
     suit_classes = 'suit-tab suit-tab-figuras'
-
+	
 class EsquemaPorCaraInline(admin.TabularInline):
     extra = 6
     max_num = 6
@@ -480,15 +472,7 @@ class YacimientoAdmin(admin.ModelAdmin):
 
     model = Yacimiento
     list_display = ('codigo','nombre', 'pais','estado', 'municipio')
-    suit_form_tabs = (('generales', 'Datos generales del Yacimiento'),
-                      ('estado', 'Estado'),
-                      ('manifestacion', 'La Manifestación'),
-                      ('tecnicas', 'Técnicas'),
-                      ('conservacion', 'Conservación'),
-                      ('manifestaciones', 'Manifestaciones Asociadas'),
-                      ('apoyos', 'Apoyos'),
-                      ('observaciones', 'Observaciones')                      
-                      )    
+    
     fieldsets = [
         ('Datos generales del Yacimiento', {
             'classes': ('suit-tab suit-tab-generales',),
@@ -513,6 +497,15 @@ class YacimientoAdmin(admin.ModelAdmin):
         VideoYacimientoInline, PeliYacimientoInline, PaginaWebYacInline, ObtenidaPorYacInline,
         OtrosValoresSitioYacInline,ObservacionYacInline, LlenadaPorYacInline,SupervisadaPorYacInline
     ]
+    suit_form_tabs = (('generales', 'Datos generales del Yacimiento'),
+                      ('estado', 'Estado'),
+                      ('manifestacion', 'La Manifestación'),
+                      ('tecnicas', 'Técnicas'),
+                      ('conservacion', 'Conservación'),
+                      ('manifestaciones', 'Manifestaciones Asociadas'),
+                      ('apoyos', 'Apoyos'),
+                      ('observaciones', 'Observaciones')                      
+                      )    
     
 #Administrador del modelo de datos Piedra
 #Usando los parametros de la extensión Suite, se mejora y organiza el admin
@@ -521,13 +514,7 @@ class PiedraAdmin (admin.ModelAdmin):
     model = Piedra
     form = PiedraForm
     list_display = ('codigo','nombre', 'yacimiento')
-    suit_form_tabs = (('generales', 'Datos Generales de la Roca'),
-                      ('figuras', 'Las Figuras'),
-                      ('tratamientos', 'Tratamiento de la Roca'),
-                      ('manifestaciones', 'Manifestaciones Asociadas'),
-                      ('apoyos', 'Apoyos'),
-                      ('observaciones', 'Observaciones')                        
-                      )
+
     fieldsets = [
         ('Datos generales de la Roca', {
             'classes': ('suit-tab suit-tab-generales',),
@@ -547,6 +534,13 @@ class PiedraAdmin (admin.ModelAdmin):
         MultimediaPiedraInline, ObtInfoPiedraInline, OtrosValPiedraInline, ObservacionPiedraInline,
         LlenadaPorPiedraInline, SupervisadaPorPiedraInline
     ] 
+    suit_form_tabs = (('generales', 'Datos Generales de la Roca'),
+                      ('figuras', 'Las Figuras'),
+                      ('tratamientos', 'Tratamiento de la Roca'),
+                      ('manifestaciones', 'Manifestaciones Asociadas'),
+                      ('apoyos', 'Apoyos'),
+                      ('observaciones', 'Observaciones')                        
+                      )
 
 
 admin.site.register(Yacimiento, YacimientoAdmin)
