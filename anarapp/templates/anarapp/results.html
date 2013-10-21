@@ -8,11 +8,17 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'anarapp/chosen.css' %}">
 		<link rel="stylesheet" href="jquery-ui-1.10.1.custom/css/smoothness/jquery-ui-1.10.1.custom.css" />
 		
-		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="{% static 'anarapp/jquery-1.10.1.min.js' %}"></script>
 		<script src="{% static 'anarapp/chosen.jquery.js' %}"></script>
 		<script>
 			$(document).ready(function(){$(".chzn-select").chosen()})
 		</script>		
+		<style type="text/css">
+			.chzn-container { width: 80% !important }
+			input[type="text"] { border: 1px solid #AAA; padding: 5px }
+			input[type="checkbox"] { margin-left: 100px !important }
+			.chzn-search input { height: 25px !important }
+		</style>
 
 		<title>Archivo Nacional de Arte Rupestre</title>
 	</head>
@@ -21,7 +27,7 @@
 	<ul id="nav">
 		<li><a href="/">Inicio</a></li>
 		<li><a href="#quienes">Quienes Somos</a></li>
-		<li><a href="#patrimonio">Patrimonio Rupestre Venezolano</a></li>
+		<li><a href="#patrimonio">Patrimonio Cultural Arqueológico</a></li>
 		<li><a href="#programa">Programa de Educacion</a></li>
 		<li><a href="#otros">Otros Servicios</a></li>
 		<li><a href="#contacto">Contacto</a></li>
@@ -37,8 +43,18 @@
 				<p style="color: #505050; font-size: 12pt">Nombre:</p> {{ form.nombre }}
 				<p style="color: #505050; font-size: 12pt">Municipio/Distrito:</p> {{ form.municipio }}
 				<p style="color: #505050; font-size: 12pt">Estado:</p> {{ form.estado }} 
-				<p style="color: #505050; font-size: 12pt">Fotografia:</p> {{ form.hayFotografia }}
-				<p style="color: #505050; font-size: 12pt">Orientacion:</p> {{ form.orientacion }}
+				<p style="color: #505050; font-size: 12pt">Fotografia: {{ form.fotografia }}</p>
+				<p style="color: #505050; font-size: 12pt">Ubicaci&oacute;n:</p> {{ form.ubicacion }}
+				
+				<div style="display: none">
+					{% if form.localidad.value %}{{ form.localidad }}{% endif %}
+					{% if form.tipo.value %}{{ form.tipo }}{% endif %}
+					{% if form.exposicion.value %}{{ form.exposicion }}{% endif %}
+					{% if form.manifestacion.value %}{{ form.manifestacion }}{% endif %}
+					{% if form.material.value %}{{ form.material }}{% endif %}
+					{% if form.conservacion.value %}{{ form.conservacion }}{% endif %}
+					{% if form.manifestasociadas.value %}{{ form.manifestasociadas }}{% endif %}
+				</div>
 			  </div>
 			<br/>
 			<input type="submit" class="button" value="Filtrar">
@@ -60,9 +76,9 @@
                 		<p>C&oacute;digo: {{ result.object.codigo }}</p>
 						<table>
 							<tr><td >Nombre: {{ result.object.nombre }}</td></tr>
-							<tr><td >Yacimiento</td></tr>
 							<tr><td >Municipio: {{ result.object.municipio }}</td></tr>
 							<tr><td >Estado: {{ result.object.estado }}</td></tr>
+							<tr><td ><a href='/yacimiento/{{ result.object.codigo }}'</td>Ver m&aacute;s detalles >></tr>
 						</table>
 					</div>
 					<br/>
