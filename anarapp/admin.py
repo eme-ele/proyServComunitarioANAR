@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from anarapp.forms import PiedraForm, FigurasPorTipoForm, CaraTrabajadaForm
+from anarapp import forms
 
 # Importar los modelos necesarios empezando por los de yacimiento
 from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, TenenciaDeTierra, Indicaciones, Croquis, Plano , \
@@ -10,7 +10,7 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
     ConstitucionYacimiento , MaterialYacimiento, TecnicaParaGeoglifo  , TecnicaParaPintura  , TecnicaParaPetroglifo ,\
     TecnicaParaMicroPetro , TecnicaParaMonumentos , CaracSurcoPetroglifo , CaracSurcoAmoladores , CaracSurcoBateas,\
     CaracSurcoPuntosAcopl , CaracSurcoCupulas , CaracSurcoMortero , CaracDeLaPintura , CaracMonolitos, \
-    CaracMenhires, CaracDolmenArt, EstadoConserYac, ConsiderTemp, CronologiaTentativa, ManifestacionesAsociadas, \
+    CaracMenhires, CaracDolmenArt, NotasYacimiento, EstadoConserYac, ConsiderTemp, CronologiaTentativa, ManifestacionesAsociadas, \
     BibYacimiento, FotoBibYac, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
     MultimediaYac , ObtInfoYac , OtrosValYac, ObservacionesYac, LlenadoYac, SupervisadoYac, \
     Piedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
@@ -18,7 +18,6 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
     BibPiedra, FotoBibPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, MultimediaPiedra, \
     ObtInfoPiedra, OtrosValPiedra, ObservacPiedra, LlenadoPiedra, SupervisadoPiedra
 
-from forms import YacimientoForm
 
 ########################################################################################
 # Declaracion de modelos inlines para yacimiento
@@ -27,6 +26,7 @@ from forms import YacimientoForm
 
 class LocalidadYacInline(admin.StackedInline):
     model = LocalidadYacimiento
+    form = forms.LocalidadYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
@@ -39,12 +39,14 @@ class UsoActSueloYacInline(admin.StackedInline):
 
 class TenenciaYacInline(admin.StackedInline):
     model = TenenciaDeTierra
+    form = forms.TenenciaDeTierraForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class IndicacionesYacInline(admin.StackedInline):
     model = Indicaciones
+    form = forms.IndicacionesForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
@@ -56,12 +58,14 @@ class CroquisYacInline(admin.TabularInline):
 
 class PlanoYacInline(admin.StackedInline):
     model = Plano
+    form = forms.PlanoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class CoordenadasYacInline(admin.TabularInline):
     model = Coordenadas
+    form = forms.CoordenadasForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
@@ -72,8 +76,9 @@ class DatumYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
-class AltitudYacInline(admin.TabularInline):
+class AltitudYacInline(admin.StackedInline):
     model = Altitud
+    form = forms.AltitudForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
@@ -87,227 +92,271 @@ class TipoYacimientoYacInline(admin.StackedInline):
     model = TipoYacimiento
     extra = 1
     max_num = 1
-    suit_classes = 'suit-tab suit-tab-manifestacion'
+    suit_classes = 'suit-tab suit-tab-generales'
     
 class ManifestacionYacimientoInline(admin.TabularInline):
     model = ManifestacionYacimiento
-    extra = 1
+    extra = 3
     suit_classes = 'suit-tab suit-tab-manifestacion'
     
 class UbicacionYacimientoInline(admin.TabularInline):
     model = UbicacionYacimiento
-    extra = 1
+    extra = 3
     suit_classes = 'suit-tab suit-tab-manifestacion'
 
 class OrientacionYacInline(admin.StackedInline):
     model = OrientacionYacimiento
+    form = forms.OrientacionYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestacion'
 
 class TexturaYacInline(admin.StackedInline):
     model = TexturaSuelo
+    form = forms.TexturaSueloForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class FloraYacInline(admin.StackedInline):
     model = FloraYacimiento
+    form = forms.FloraYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class FaunaYacInline(admin.StackedInline):
     model = FaunaYacimiento
+    form = forms.FaunaYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class HidrologiaYacInline(admin.StackedInline):
     model = HidrologiaYacimiento
+    form = forms.HidrologiaYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class TipoExposicionYacInline(admin.StackedInline):
     model = TipoExposicionYac
+    form = forms.TipoExposicionYacForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class ConstitucionYacInline(admin.StackedInline):
     model = ConstitucionYacimiento
+    form = forms.ConstitucionYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
 
 class MaterialYacInline(admin.StackedInline):
     model = MaterialYacimiento
+    form = forms.MaterialYacimientoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestacion'
 
 class TecnicaParaGeoglifoYacInline(admin.StackedInline):
     model = TecnicaParaGeoglifo
+    form = forms.TecnicaParaGeoglifoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class TecnicaParaPinturaYacInline(admin.StackedInline):
     model = TecnicaParaPintura
+    form = forms.TecnicaParaPinturaForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
     
 class TecnicaParaPetroglifoYacInline(admin.StackedInline):
     model = TecnicaParaPetroglifo
+    form = forms.TecnicaParaPetroglifoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class TecnicaParaMicroPetrYacInline(admin.StackedInline):
     model = TecnicaParaMicroPetro
+    form = forms.TecnicaParaMicroPetroForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class TecnicaParaMonumentosYacInline(admin.StackedInline):
     model = TecnicaParaMonumentos
+    form = forms.TecnicaParaMonumentosForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracSurcoPetroglifoYacInline(admin.StackedInline):
     model = CaracSurcoPetroglifo
+    form = forms.CaracSurcoPetroglifoForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracSurcoAmoladoresYacInline(admin.StackedInline):
     model = CaracSurcoAmoladores
+    form = forms.CaracSurcoAmoladoresForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracSurcoBateasYacInline(admin.StackedInline):
     model = CaracSurcoBateas
+    form = forms.CaracSurcoBateasForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracSurcoPuntosAcopladosYacInline(admin.StackedInline):
     model = CaracSurcoPuntosAcopl
+    form = forms.CaracSurcoPuntosAcoplForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracSurcoCupulasYacInline(admin.StackedInline):
     model = CaracSurcoCupulas
+    form = forms.CaracSurcoCupulasForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
-class CaracSurcoMorteroYacInline(admin.TabularInline):
+class CaracSurcoMorteroYacInline(admin.StackedInline):
     model = CaracSurcoMortero
+    form = forms.CaracSurcoMorteroForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracDeLaPinturaYacInline(admin.StackedInline):
     model = CaracDeLaPintura
+    form = forms.CaracDeLaPinturaForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracMonolitosYacInline(admin.StackedInline):
     model = CaracMonolitos
+    form = forms.CaracMonolitosForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracMenhiresYacInline(admin.StackedInline):
     model = CaracMenhires
+    form = forms.CaracMenhiresForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
 class CaracDolmenArtificialYacInline(admin.StackedInline):
     model = CaracDolmenArt
+    form = forms.CaracDolmenArtForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
+class NotasYacimientoInline(admin.StackedInline):
+    model = NotasYacimiento
+    form = forms.NotasYacimientoForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-tecnicas'
+    
 class EstadoConservacionYacimientoYacInline(admin.StackedInline):
     model = EstadoConserYac
+    form = forms.EstadoConserYacForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-conservacion'
 
-class ConsideracionesTemporalidadYacInline(admin.TabularInline):
+class ConsideracionesTemporalidadYacInline(admin.StackedInline):
     model = ConsiderTemp
+    form = forms.ConsiderTempForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-conservacion'
 
 class CronologiaTentativaYacInline(admin.StackedInline):
     model = CronologiaTentativa
+    form = forms.CronologiaTentativaForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-conservacion'
 
 class ManifestacionesAsociadasYacInline(admin.StackedInline):
     model = ManifestacionesAsociadas
+    form = forms.ManifestacionesAsociadasForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'
+
+class OtrosValoresSitioYacInline(admin.StackedInline):
+    model = OtrosValYac
+    form = forms.OtrosValForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestaciones'
 
 class BibYacimientoInline(admin.StackedInline):
     model = BibYacimiento
+    form = forms.BibliografiaForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class FotoBibYacInline(admin.StackedInline):
     model = FotoBibYac
     extra = 1
+    form = forms.FotoBibliografiaForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class MatAVYacimientoInline(admin.StackedInline):
     model = MatAVYacimiento
+    form = forms.MatAudioVisualForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class VideoYacimientoInline(admin.StackedInline):
     model = VideoYacimiento
+    form = forms.VideoForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class PeliYacimientoInline(admin.StackedInline):
     model = PeliYacimiento
+    form = forms.VideoForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class PaginaWebYacInline(admin.TabularInline):
     model = PaginaWebYac
+    form = forms.PaginaWebForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos'    
 
 class MultimediaYacInline(admin.StackedInline):
     model = MultimediaYac
+    form = forms.MultimediaForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos' 
    
 class ObtenidaPorYacInline(admin.StackedInline):
     model = ObtInfoYac
+    form = forms.ObtencionInfoForm
     extra = 1
-    suit_classes = 'suit-tab suit-tab-apoyos'
-
-class OtrosValoresSitioYacInline(admin.StackedInline):
-    model = OtrosValYac
-    extra = 1
-    max_num = 1
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class ObservacionYacInline(admin.StackedInline):
     model = ObservacionesYac
+    form = forms.ObservacionesForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-observaciones'
@@ -330,6 +379,7 @@ class DimensionPiedraInline(admin.StackedInline):
     extra = 1
     max_num = 1    
     model =  DimensionPiedra
+    form = forms.DimensionPiedraForm
     suit_classes = 'suit-tab suit-tab-generales'
 
 class ManifestacionesInline(admin.StackedInline):
@@ -342,20 +392,21 @@ class CaraTrabajadaInline(admin.TabularInline):
     extra = 6
     max_num = 6
     model = CaraTrabajada
-    form = CaraTrabajadaForm
+    form = forms.CaraTrabajadaForm
     suit_classes = 'suit-tab suit-tab-generales'
 
 class UbicacionCarasInline(admin.StackedInline):
     extra = 1
     max_num = 1
     model = UbicacionCaras
+    form = forms.UbicacionCarasForm
     suit_classes = 'suit-tab suit-tab-generales'
 
 class FigurasPorTipoInline(admin.TabularInline):
     extra = 10
     max_num = 60  
     model =  FigurasPorTipo
-    form = FigurasPorTipoForm
+    form = forms.FigurasPorTipoForm
     suit_classes = 'suit-tab suit-tab-figuras'
 	
 class EsquemaPorCaraInline(admin.TabularInline):
@@ -372,41 +423,45 @@ class EsquemaPorCaraInline(admin.StackedInline):
 	
 class TratFotoInline(admin.StackedInline):
     extra = 1
-    max_num = 1  
     model =  TratFotoPiedra
+    form = forms.TratFotoPiedraForm
     suit_classes = 'suit-tab suit-tab-tratamientos'
 
 class OtrosValPiedraInline(admin.StackedInline):
     model = OtrosValPiedra
+    form = forms.OtrosValForm
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestaciones'    
 
 class FotoBibPiedraInline(admin.StackedInline):
     extra = 1
-    max_num = 1  
     model =  FotoBibPiedra
+    form = forms.FotoBibliografiaForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class FotoDigPiedraInline(admin.StackedInline):
     extra = 1
-    max_num = 1
     model =  FotoPiedra
+    form = forms.FotoForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class EscalaNatPiedraInline(admin.TabularInline):
     extra = 1
     model =  EscNatPiedra
+    form = forms.RepGrafPiedraForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class EscalaRedPiedraInline(admin.TabularInline):
     extra = 1
     model =  EscRedPiedra
+    form = forms.RepGrafPiedraForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class BibPiedraInline(admin.StackedInline):
     extra = 1
     model =  BibPiedra
+    form = forms.BibliografiaForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class FotoBibPiedraInline(admin.StackedInline):
@@ -417,36 +472,43 @@ class FotoBibPiedraInline(admin.StackedInline):
 class MatAudioVisualInline(admin.StackedInline):
     extra = 1
     model =  MatAVPiedra
+    form = forms.MatAudioVisualForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class VideoPiedraInline(admin.StackedInline):
     extra = 1
     model =  VideoPiedra
+    form = forms.VideoForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class PeliculaPiedraInline(admin.StackedInline):
     extra = 1
     model =  PeliculaPiedra
+    form = forms.VideoForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class PaginaWebPiedraInline(admin.TabularInline):
     extra = 1 
     model =  PaginaWebPiedra
+    form = forms.PaginaWebForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class MultimediaPiedraInline(admin.StackedInline):
     extra = 1
     model =  MultimediaPiedra
+    form = forms.MultimediaForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 class ObtInfoPiedraInline(admin.StackedInline):
     extra = 1 
     model =  ObtInfoPiedra
+    form = forms.ObtencionInfoForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
 
 class ObservacionPiedraInline(admin.StackedInline):
     model = ObservacPiedra
+    form = forms.ObservacionesForm
     extra = 1
     suit_classes = 'suit-tab suit-tab-observaciones'
 
@@ -471,31 +533,32 @@ class SupervisadaPorPiedraInline(admin.TabularInline):
 class YacimientoAdmin(admin.ModelAdmin):
 
     model = Yacimiento
+    form = forms.YacimientoForm
     list_display = ('codigo','nombre', 'pais','estado', 'municipio')
     
     fieldsets = [
         ('Datos generales del Yacimiento', {
             'classes': ('suit-tab suit-tab-generales',),
-            'fields': ['codigo', 'pais', 'nombre']
+            'fields': ['codigo', 'nombre']
         }),
         ('Estado', {
             'classes': ('suit-tab suit-tab-estado',),
-            'fields': ['estado', 'municipio']}),
+            'fields': ['pais', 'municipio', 'estado']}),
     ]
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
         PlanoYacInline,CoordenadasYacInline,DatumYacInline,AltitudYacInline,FotoYacInline,
-        TipoYacimientoYacInline,ManifestacionYacimientoInline, UbicacionYacimientoInline, TexturaYacInline,
+        TipoYacimientoYacInline,ManifestacionYacimientoInline, UbicacionYacimientoInline, OrientacionYacInline, TexturaYacInline,
         FloraYacInline,FaunaYacInline, HidrologiaYacInline, TipoExposicionYacInline, ConstitucionYacInline,
         MaterialYacInline,TecnicaParaGeoglifoYacInline,TecnicaParaPinturaYacInline,TecnicaParaPetroglifoYacInline,
         TecnicaParaMicroPetrYacInline,TecnicaParaMonumentosYacInline,CaracSurcoPetroglifoYacInline,
         CaracSurcoAmoladoresYacInline,CaracSurcoBateasYacInline, CaracSurcoPuntosAcopladosYacInline,
         CaracSurcoCupulasYacInline,CaracSurcoMorteroYacInline,CaracDeLaPinturaYacInline,
-        CaracMonolitosYacInline,CaracMenhiresYacInline, CaracDolmenArtificialYacInline,
+        CaracMonolitosYacInline,CaracMenhiresYacInline, CaracDolmenArtificialYacInline, NotasYacimientoInline,
         EstadoConservacionYacimientoYacInline,ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,
-        ManifestacionesAsociadasYacInline, BibYacimientoInline,  FotoBibYacInline,  MatAVYacimientoInline,
-        VideoYacimientoInline, PeliYacimientoInline, PaginaWebYacInline, ObtenidaPorYacInline,
-        OtrosValoresSitioYacInline,ObservacionYacInline, LlenadaPorYacInline,SupervisadaPorYacInline
+        ManifestacionesAsociadasYacInline, OtrosValoresSitioYacInline, BibYacimientoInline,  FotoBibYacInline,  MatAVYacimientoInline,
+        VideoYacimientoInline, PeliYacimientoInline, PaginaWebYacInline, MultimediaYacInline, ObtenidaPorYacInline,
+        ObservacionYacInline, LlenadaPorYacInline,SupervisadaPorYacInline
     ]
     suit_form_tabs = (('generales', 'Datos generales del Yacimiento'),
                       ('estado', 'Estado'),
@@ -512,7 +575,7 @@ class YacimientoAdmin(admin.ModelAdmin):
 
 class PiedraAdmin (admin.ModelAdmin):
     model = Piedra
-    form = PiedraForm
+    form = forms.PiedraForm
     list_display = ('codigo','nombre', 'yacimiento')
 
     fieldsets = [
@@ -528,7 +591,7 @@ class PiedraAdmin (admin.ModelAdmin):
      ]
     inlines = [
         CaraTrabajadaInline, DimensionPiedraInline, UbicacionCarasInline, FigurasPorTipoInline,
-        EsquemaPorCaraInline, ManifestacionesInline, TratFotoInline, FotoBibPiedraInline, FotoDigPiedraInline,
+        EsquemaPorCaraInline, ManifestacionesInline, TratFotoInline, FotoDigPiedraInline,
         EscalaNatPiedraInline, EscalaRedPiedraInline, BibPiedraInline, FotoBibPiedraInline,
         MatAudioVisualInline, VideoPiedraInline, PeliculaPiedraInline, PaginaWebPiedraInline,
         MultimediaPiedraInline, ObtInfoPiedraInline, OtrosValPiedraInline, ObservacionPiedraInline,

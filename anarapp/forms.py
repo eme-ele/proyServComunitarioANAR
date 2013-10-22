@@ -10,6 +10,7 @@ from suit.widgets import LinkedSelect, AutosizedTextarea, TextInput, Select
 
 foreign = []
 
+
 class BaseForm(SearchForm):
 	""" Form con funciones basicas. 
 	Los nombres de los campos deben coincidir con los de SearchIndex """
@@ -705,27 +706,434 @@ class AdvancedForm(YacimientoForm):
 	conexionFiguras.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el tipo de conexión'}	
 """	
 
+shortTextField = {'class': 'input-small', 'style': 'width:75%'}
+regularTextField = {'class': 'input-medium', 'style': 'width:75%'}
+fullTextField = {'class': 'input-medium', 'style': 'width:95%'}
+regularTextArea = {'rows': 4, 'style': 'width:75%'}
+regularSelect = {'class': 'input-medium'}
 
-### Formularios utilizados por el backend
-class YacimientoForm(forms.ModelForm):
-	pass
-	
-# Figuras por Tipo	
+
+### Formularios utilizados por el backend para yacimiento
+class YacimientoForm(ModelForm) :
+
+    class Meta:
+        widgets = {
+                'codigo': TextInput(attrs=regularTextField),
+		'nombre': TextInput(attrs=regularTextField),
+		'pais': TextInput(attrs=regularTextField),
+		'municipio': TextInput(attrs=regularTextField),
+		'estado': TextInput(attrs=regularTextField),
+        }
+
+class LocalidadYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'nombrePoblado': TextInput(attrs=regularTextField),
+		'nombreNoPoblado': TextInput(attrs=regularTextField),
+        }	
+
+class TenenciaDeTierraForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'esTenenciaOtros': TextInput(attrs=regularTextField),
+        }
+
+class IndicacionesForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'direcciones': AutosizedTextarea(attrs=regularTextArea),
+                'puntoDatum': AutosizedTextarea(attrs=regularTextArea),
+        }
+            
+class PlanoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'numeroPlano': TextInput(attrs=regularTextField),
+        }
+        
+class CoordenadasForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'longitud': TextInput(attrs=fullTextField),
+                'latitud': TextInput(attrs=fullTextField),
+                'utmAdicional': TextInput(attrs=fullTextField),
+        }
+
+class AltitudForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'texto': TextInput(attrs=regularTextField),
+		'altura': TextInput(attrs=regularTextField),
+		'superficie': TextInput(attrs=regularTextField),
+		'desarrollo': TextInput(attrs=regularTextField),
+		'desnivel': TextInput(attrs=regularTextField),
+        }        
+
+class TexturaSueloForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'mixto': TextInput(attrs=regularTextField),            
+        }
+
+class FloraYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'flora': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class FaunaYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'fauna': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class HidrologiaYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'otros': TextInput(attrs=regularTextField),
+		'nombre': TextInput(attrs=regularTextField),
+		'distancia': TextInput(attrs=regularTextField),
+		'observaciones': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class TipoExposicionYacForm(ModelForm) :
+    class Meta:
+        widgets = {
+		'observaciones': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class ConstitucionYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'nroPiedras': TextInput(attrs=regularTextField),
+		'nroPiedrasGrabadas': TextInput(attrs=regularTextField),
+		'nroPiedrasPintadas': TextInput(attrs=regularTextField),
+                'nroPiedrasColocadas': TextInput(attrs=regularTextField),
+		'otros': TextInput(attrs=regularTextField)
+        }
+
+class OrientacionYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'otros': TextInput(attrs=regularTextField),
+		'orientacion': TextInput(attrs=regularTextField),
+        }
+
+class MaterialYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'tipo': TextInput(attrs=regularTextField),
+		'otros': TextInput(attrs=regularTextField),
+        }
+
+class TecnicaParaGeoglifoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'tecnicas': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class TecnicaParaPinturaForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'otros': AutosizedTextarea(attrs=regularTextArea),
+        }
+        
+class TecnicaParaPetroglifoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'otros': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class TecnicaParaMicroPetroForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'otros': AutosizedTextarea(attrs=regularTextArea),
+        }
+        
+class TecnicaParaMonumentosForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'tecnicas': AutosizedTextarea(attrs=regularTextArea),
+                'otros': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class CaracSurcoPetroglifoForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'anchoDe': TextInput(attrs=regularTextField),
+                'anchoA': TextInput(attrs=regularTextField),
+                'produndidadDe': TextInput(attrs=regularTextField),
+                'profundidadA': TextInput(attrs=regularTextField),
+        }
+        
+class CaracSurcoAmoladoresForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'largo': TextInput(attrs=regularTextField),
+                'ancho': TextInput(attrs=regularTextField),
+                'diametro': TextInput(attrs=regularTextField),                
+        }
+
+class CaracSurcoBateasForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'largo': TextInput(attrs=regularTextField),
+                'ancho': TextInput(attrs=regularTextField),
+                'diametro': TextInput(attrs=regularTextField),
+                'profundidad': TextInput(attrs=regularTextField),                
+        }
+
+class CaracSurcoPuntosAcoplForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'diametro': TextInput(attrs=regularTextField),
+                'profundidad': TextInput(attrs=regularTextField),
+                'otros': AutosizedTextarea(attrs=regularTextArea),                
+        }
+
+class CaracSurcoCupulasForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'largo': TextInput(attrs=regularTextField),
+                'ancho': TextInput(attrs=regularTextField),
+                'diametro': TextInput(attrs=regularTextField),
+                'profundidad': TextInput(attrs=regularTextField),
+                'otros': AutosizedTextarea(attrs=regularTextArea),                
+        }
+
+class CaracSurcoMorteroForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'largo': TextInput(attrs=regularTextField),
+                'ancho': TextInput(attrs=regularTextField),                
+        }
+
+class CaracDeLaPinturaForm(ModelForm) :
+    class Meta:
+        widgets = {
+                'otros': AutosizedTextarea(attrs=regularTextArea),                
+                'anchoDe': TextInput(attrs=regularTextField),
+                'anchoA': TextInput(attrs=regularTextField),
+                'anchoDeComp': TextInput(attrs=regularTextField),
+                'anchoAComp': TextInput(attrs=regularTextField),
+        }
+
+class CaracMonolitosForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'cantidad': TextInput(attrs=regularTextField),
+                'cantidadConGrabados': TextInput(attrs=regularTextField),
+        }
+
+class CaracMenhiresForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'cantidadPiedrasVerticales': TextInput(attrs=regularTextField),
+                'cantidadConPuntosAcoplados': TextInput(attrs=regularTextField),
+                'cantidadConPetroglifo': TextInput(attrs=regularTextField),
+                'cantidadConPinturas': TextInput(attrs=regularTextField),
+                'distanciamiento': TextInput(attrs=regularTextField),
+        }
+
+class CaracDolmenArtForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'cantidadConPetroglifo': TextInput(attrs=regularTextField),
+                'cantidadConPinturas': TextInput(attrs=regularTextField),                
+        }
+        
+class NotasYacimientoForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'notas': AutosizedTextarea(attrs=regularTextArea),                
+        }
+
+class EstadoConserYacForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'trasladado': TextInput(attrs=regularTextField),
+                'trasladadoPa': TextInput(attrs=regularTextField),
+                'sumergido': TextInput(attrs=regularTextField),
+                'sumergidoPa': TextInput(attrs=regularTextField),
+                'enterrado': TextInput(attrs=regularTextField),
+                'enterradoPa': TextInput(attrs=regularTextField),
+                'perdido': TextInput(attrs=regularTextField),
+                'perdidoPa': TextInput(attrs=regularTextField),
+                'destruido': TextInput(attrs=regularTextField),
+                'destruidoPa': TextInput(attrs=regularTextField),
+                'crecimientoVeg': TextInput(attrs=regularTextField),
+                'crecimientoVegPa': TextInput(attrs=regularTextField),
+                'patina': TextInput(attrs=regularTextField),
+                'patinaPa': TextInput(attrs=regularTextField),
+                'erosion': TextInput(attrs=regularTextField),
+                'erosionPa': TextInput(attrs=regularTextField),
+                'especificar': AutosizedTextarea(attrs=regularTextArea),
+                'otros': AutosizedTextarea(attrs=regularTextArea),
+                'observaciones': AutosizedTextarea(attrs=regularTextArea),
+                'mas': TextInput(attrs=regularTextField),
+        }
+        
+class ConsiderTempForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'otros': TextInput(attrs=regularTextField),
+        }
+
+class CronologiaTentativaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'autor': TextInput(attrs=regularTextField),
+                'fecha': TextInput(attrs=regularTextField),
+                'institucion': TextInput(attrs=regularTextField),
+                'pais': TextInput(attrs=regularTextField),
+                'direccion': AutosizedTextarea(attrs=regularTextArea),
+                'telefono': TextInput(attrs=regularTextField),
+                'mail': TextInput(attrs=regularTextField),
+                'tecnica':  AutosizedTextarea(attrs=regularTextArea),
+                'bibliografia': AutosizedTextarea(attrs=regularTextArea),
+                'twitter': TextInput(attrs=regularTextField),
+                'facebook': TextInput(attrs=regularTextField),
+        }
+
+
+class ManifestacionesAsociadasForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionLitica': TextInput(attrs=regularTextField),
+                'descripcionCeramica': TextInput(attrs=regularTextField),
+                'descripcionOseo': TextInput(attrs=regularTextField),
+                'descripcionConcha': TextInput(attrs=regularTextField),
+                'descripcionCarbon': TextInput(attrs=regularTextField),                'descripcionMito': TextInput(attrs=regularTextField),
+                'descripcionCementerio': TextInput(attrs=regularTextField),
+                'descripcionMonticulo': TextInput(attrs=regularTextField),                
+                'otros':  AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class OtrosValForm(ModelForm) :
+    class Meta:
+        widgets = {                               
+                'texto':  AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class ObservacionesForm(ModelForm) :
+    class Meta:
+        widgets = {                               
+                'texto':  AutosizedTextarea(attrs=regularTextArea),
+        }
+
+### Formularios para las clases de multimedia
+class FotoForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'negativo': TextInput(attrs=regularTextField),
+                'tipoFotografia': TextInput(attrs=regularTextField),
+                'fotografo': TextInput(attrs=regularTextField),
+                'institucion': TextInput(attrs=regularTextField),
+                'numReferencia': TextInput(attrs=regularTextField),                
+                'numRollo': TextInput(attrs=regularTextField),
+                'numFoto': TextInput(attrs=regularTextField),                
+                'numMarcaNegativo': TextInput(attrs=regularTextField),
+                'numCopiaAnar': TextInput(attrs=regularTextField),  
+        }
+        
+class BibliografiaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'codigo': TextInput(attrs=regularTextField),
+                'titulo': TextInput(attrs=regularTextField),
+                'autor': TextInput(attrs=regularTextField),
+                'ano': TextInput(attrs=regularTextField),
+                'institucion': TextInput(attrs=regularTextField),                
+                'conDibujo': TextInput(attrs=regularTextField),
+        }
+
+class FotoBibliografiaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcion': TextInput(attrs=regularTextField)
+        }
+
+
+class MatAudioVisualForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'formato': TextInput(attrs=regularTextField)
+        }
+
+class VideoForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'anio': TextInput(attrs=regularTextField),
+                'formato': TextInput(attrs=regularTextField),
+                'titulo': TextInput(attrs=regularTextField),
+                'autor': TextInput(attrs=regularTextField),
+                'institucion': TextInput(attrs=regularTextField),                
+                'numReferencia': TextInput(attrs=regularTextField),
+                'numCopia': TextInput(attrs=regularTextField),
+        }
+
+class PaginaWebForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'direccionURL': TextInput(attrs=regularTextField)
+        }
+
+class MultimediaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'tecnica': TextInput(attrs=regularTextField)
+        }
+
+class ObtencionInfoForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'nombre': TextInput(attrs=regularTextField),
+                'direccion':  AutosizedTextarea(attrs=regularTextArea),
+                'telefono': TextInput(attrs=regularTextField),
+                'telefonoCel': TextInput(attrs=regularTextField),
+                'mail': TextInput(attrs=regularTextField),
+                'paginaWeb': TextInput(attrs=regularTextField),                
+                'twitter': TextInput(attrs=regularTextField),
+                'nombreFacebook': TextInput(attrs=regularTextField),
+                'blog': TextInput(attrs=regularTextField)      
+        }
+        
+class RepGrafPiedraForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'numPiezas': TextInput(attrs=shortTextField),
+                'instituto': TextInput(attrs=fullTextField),
+                'persona': TextInput(attrs=fullTextField),
+                'tipoReproduccion' : Select(attrs=regularSelect)
+        }
+
+class TratFotoPiedraForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'limpiezaCon': AutosizedTextarea(attrs=regularTextArea),
+                'rellenoSurcos': AutosizedTextarea(attrs=regularTextArea),
+                'tratamientoDigital': AutosizedTextarea(attrs=regularTextArea),
+                'programaVersion' : AutosizedTextarea(attrs=regularTextArea),
+                'otrosTratamientos' : AutosizedTextarea(attrs=regularTextArea),
+                
+        }
+
+### Formularios utilizados por el backend para piedra        
+
 class FigurasPorTipoForm (ModelForm):
     class Meta:
         widgets = {
-            'numero': TextInput(attrs={'class': 'input-small'}),
-			'cantidad': TextInput(attrs={'class': 'input-small'}),
-			'tipoFigura': Select(attrs={'class': 'input-medium'}),
+            'numero': TextInput(attrs={'class': 'input-medium'}),
+            'cantidad': TextInput(attrs={'class': 'input-small'}),
+            'tipoFigura': Select(attrs={'class': 'input-medium'}),
             'numero': TextInput(attrs={'class': 'input-small'}),
             'descripcion' : AutosizedTextarea(attrs={'rows': 2})
         }
-
-# Figuras por Tipo	
+	
 class CaraTrabajadaForm (ModelForm):
     class Meta:
         widgets = {
-            'numero': TextInput(attrs={'class': 'input-small'}),
+            'numero': TextInput(attrs={'class': 'input-medium'}),
             'orientacion': Select(attrs={'class': 'input-medium'}),
             'alto': TextInput(attrs={'class': 'input-small'}),
             'ancho': TextInput(attrs={'class': 'input-small'}),
@@ -736,8 +1144,31 @@ class PiedraForm(ModelForm) :
 
     class Meta:
         widgets = {
-            'yacimiento': LinkedSelect,
-			'manifiestacionAsociada' : AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xlarge'}),		
+                'yacimiento': LinkedSelect,
+                'manifiestacionAsociada' :  AutosizedTextarea(attrs=regularTextArea),		             
+                'codigo': TextInput(attrs=regularTextField),
+                'nombreFiguras':  AutosizedTextarea(attrs=regularTextArea),
+                'nombre': TextInput(attrs=regularTextField),
+                'estado': TextInput(attrs=regularTextField),
+                'numeroCaras': TextInput(attrs=regularTextField),
+                'numeroCarasTrajabadas': TextInput(attrs=regularTextField),                     
         }
 
-		
+class DimensionPiedraForm(ModelForm) :
+
+    class Meta:
+        widgets = {                
+                'altoMaximo':  TextInput(attrs=regularTextField),
+                'largoMaximo': TextInput(attrs=regularTextField),
+                'anchoMaximo': TextInput(attrs=regularTextField),                    
+        }
+        
+class UbicacionCarasForm(ModelForm) :
+
+    class Meta:
+        widgets = {                
+                'bocaPrincipal':  TextInput(attrs=regularTextField),
+                'altura': TextInput(attrs=regularTextField),                 
+        }
+
+

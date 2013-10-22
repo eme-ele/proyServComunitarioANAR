@@ -856,15 +856,15 @@ class ConsiderTemp(models.Model):
     abbr = 'tem'
         
     class Meta:
-        verbose_name = '28. Consider. Sobre Temporaladidad'
-        verbose_name_plural = '28. Consider. Sobre Temporaladidad'
+        verbose_name = '28. Consider. sobre Temporalidad'
+        verbose_name_plural = '28. Consider. sobre Temporalidad'
     
     def __unicode__(self):
-        return 'Consideraciones Sobre Temporaladidad'
+        return 'Consideraciones sobre Temporalidad'
 
 class CronologiaTentativa(models.Model):
     
-    yacimiento = models.OneToOneField(Yacimiento, related_name='CronologiaTentativa')
+    yacimiento = models.ForeignKey(Yacimiento, related_name='CronologiaTentativa')
     
     esCrono1 = models.BooleanField('29.1 Anterior a 5000 a.p.')
     esCrono2 = models.BooleanField('29.2 5000 - 1500 a.p.')
@@ -1178,8 +1178,8 @@ class FotoPiedra (Foto):
     abbr = 'fop'
     
     class Meta:
-        verbose_name =  '13.1 Mat. de apoyo fotografico'
-        verbose_name_plural = '13.1 Mat. de apoyo fotografico'
+        verbose_name =  '13.1 Mat. de apoyo fotográfico'
+        verbose_name_plural = '13.1 Mat. de apoyo fotográfico'
 
 # Representación gráfica de la piedra
 
