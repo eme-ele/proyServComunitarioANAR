@@ -107,21 +107,25 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 		except:
 			pass
 			
-		#Manifestacion Ubicacion
-		manifestaciones = obj.ManifestUbicacionYacimiento.all()			
+		#Manifestaciones
+		manifestaciones = obj.ManifestacionYacimiento.all()			
 		self.prepare_data['manifestacion'] = []
-		self.prepare_data['ubicacion'] = []
 		
 		for m in manifestaciones:
 			self.prepare_data['manifestacion'].append(m.tipoManifestacion)
-			
-			if m.ubicacionManifestacion <= 8:
+
+		#Ubicacion de la manifestacion
+		ubicaciones = obj.UbicacionYacimiento.all()
+		self.prepare_data['ubicacion'] = []
+
+		for u in ubicaciones:
+			if u.ubicacionManifestacion <= 8:
 				self.prepare_data['ubicacion'].append(1)
-			elif m.ubicacionManifestacion == 9:
+			elif u.ubicacionManifestacion == 9:
 				self.prepare_data['ubicacion'].append(2)
-			elif m.ubicacionManifestacion > 9 and m.ubicacionManifestacion <= 15:
+			elif u.ubicacionManifestacion > 9 and u.ubicacionManifestacion <= 15:
 				self.prepare_data['ubicacion'].append(3)
-			elif m.ubicacionManifestacion == 16:
+			elif u.ubicacionManifestacion == 16:
 				self.prepare_data['ubicacion'].append(4)
 
 		#Material
