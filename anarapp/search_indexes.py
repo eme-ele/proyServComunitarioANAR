@@ -46,6 +46,9 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 	conservacion 	= indexes.MultiValueField() 
 	
 	manifasociadas 	= indexes.MultiValueField()
+	carasurcopetrotipo  = indexes.MultiValueField()
+	carasurcopetroancho = indexes.MultiValueField()
+	carasurcopetroprofun = indexes.MultiValueField()
 	
 
 	def get_model(self):
@@ -119,14 +122,8 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 		self.prepare_data['ubicacion'] = []
 
 		for u in ubicaciones:
-			if u.ubicacionManifestacion <= 8:
-				self.prepare_data['ubicacion'].append(1)
-			elif u.ubicacionManifestacion == 9:
-				self.prepare_data['ubicacion'].append(2)
-			elif u.ubicacionManifestacion > 9 and u.ubicacionManifestacion <= 15:
-				self.prepare_data['ubicacion'].append(3)
-			elif u.ubicacionManifestacion == 16:
-				self.prepare_data['ubicacion'].append(4)
+			self.prepare_data['ubicacion'].append(u.ubicacionManifestacion)
+
 
 		#Material
 		try:
@@ -182,7 +179,46 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 				self.prepare_data['manifasociadas'].append(8)
 		except:
 			pass
-			
+
+		#CaraSurcoPetroglifo
+
+		try:
+			caracpetro = obj.CaracSurcoPetroglifo
+			self.prepare_data['carasurcopetroancho'] = caracpetro.anchoDe + ' ' +caracpetro.anchoA
+			self.prepare_data['carasurcopetroprofun'] = caracpetro.produndidadDe + ' '+caracpetro.profundidadA
+			self.prepare_data['carasurcopetrotipo'] = []
+			if caracpetro.esBase:
+				self.prepare_data['carasurcopetrotipo'].append(1)
+			if caracpetro.esBaseRedonda:
+				self.prepare_data['carasurcopetrotipo'].append(2)
+			if caracpetro.esBaseAguda:
+				self.prepare_data['carasurcopetrotipo'].append(3)
+			if caracpetro.esBajoRelieve:
+				self.prepare_data['carasurcopetrotipo'].append(4)
+			if caracpetro.esBajoRelieveLineal:
+				self.prepare_data['carasurcopetrotipo'].append(5)
+			if caracpetro.esBajoRelievePlanar:
+				self.prepare_data['carasurcopetrotipo'].append(6)
+			if caracpetro.esAltoRelieve:
+				self.prepare_data['carasurcopetrotipo'].append(7)
+			if caracpetro.esAltoRelieveLineal:
+				self.prepare_data['carasurcopetrotipo'].append(8)
+			if caracpetro.esAltoRelievePlanar:
+				self.prepare_data['carasurcopetrotipo'].append(9)
+			if caracpetro.esAreaInterlineal:
+				self.prepare_data['carasurcopetrotipo'].append(10)
+			if caracpetro.esAreaInterlinealPulida:
+				self.prepare_data['carasurcopetrotipo'].append(11)
+			if caracpetro.esAreaInterlinealRebajada:
+				self.prepare_data['carasurcopetrotipo'].append(12)
+			if caracpetro.esGrabadoSuperpuesto:
+				self.prepare_data['carasurcopetrotipo'].append(13)
+			if caracpetro.esGrabadoRebajado:
+				self.prepare_data['carasurcopetrotipo'].append(14)
+
+		except:
+			pass
+
 		return self.prepare_data	
 
 """

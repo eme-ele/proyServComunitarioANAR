@@ -42,17 +42,21 @@
 		
     <div style="width: 70%; margin: auto">
 
-    <h1  id="titulo" style="font-size: 16pt">Listar todos los Dólmenes y Menhires de Venezuela y por estado</h1>
-    <h2>Total de Yacimientos: {{ total }}</h2>
-    {% for estado, lista in yacimientos.items %}
-    {%if lista|length > 0%}
-        <h3>{{ estado }}</h3>
-        <ul>
-        {% for yacimiento in lista %}
-            <li>{{ yacimiento.nombre }}</li>
-        {% endfor %}
-        </ul>
-        {%endif%}
-    {% endfor %}
+    <h1  id="titulo" style="font-size: 16pt"> Listar por estado el total de Geoglifos, Pinturas Rupestres, Micropetroglifos, Petroglifos, Petroglifos Pintados, Piedras Míticas Naturales, Cerros Miticos Naturales, Bateas, Menhires, Amoladores, Puntos Acoplados y Cúpulas en la siguiente ubicación</h1>
+    	<h1>{{ubi}}</h1>
+    
+    {% for esta,ubis in yacimientos.items%}
+    {%if ubis|length > 0%}
+		{{esta}}
+		<ul>
+		{% for ubica ,cant in ubis.items%}
+		<li>{{ubica}}:{{cant}}</li>
+		{%endfor%}
+		</ul>
+		{%endif%}
+    {%endfor%}
+
+
+
 </body>
 </html>

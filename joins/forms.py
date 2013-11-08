@@ -35,5 +35,7 @@ OPCIONES_ESTADO = (
 class CrucesYYForm(forms.Form):
     codigo 	= forms.CharField(required=False, max_length=20)
     estado = forms.ChoiceField(required=False, choices=OPCIONES_ESTADO)
+    ubicacion = forms.CharField(required=False, max_length=20)
+    carasurcopetrotipo = forms.CharField(required=False, max_length=50)
 
     estado.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el estado'}

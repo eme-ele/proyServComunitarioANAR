@@ -42,17 +42,14 @@
 		
     <div style="width: 70%; margin: auto">
 
-    <h1  id="titulo" style="font-size: 16pt">Listar todos los Dólmenes y Menhires de Venezuela y por estado</h1>
-    <h2>Total de Yacimientos: {{ total }}</h2>
-    {% for estado, lista in yacimientos.items %}
-    {%if lista|length > 0%}
-        <h3>{{ estado }}</h3>
-        <ul>
-        {% for yacimiento in lista %}
-            <li>{{ yacimiento.nombre }}</li>
-        {% endfor %}
-        </ul>
-        {%endif%}
-    {% endfor %}
+    <h1  id="titulo" style="font-size: 16pt"> Listar todos los Geoglifos, Pinturas Rupestres, Micropetroglifos, Petroglifos, Petroglifos Pintados, Piedras Míticas Naturales, Cerros Miticos Naturales, Bateas, Menhires, Amoladores, Puntos Acoplados y Cúpulas</h1>
+    <ul>
+    {% for yac in yacimientos%}
+		<li>{{yac.nombre}}</li>
+		<li>{{yac.manifestacion}}</li>
+    {%endfor%}
+</ul>
+
+
 </body>
 </html>
