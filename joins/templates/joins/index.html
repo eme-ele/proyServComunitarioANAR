@@ -184,6 +184,37 @@
                 </form>
             </p>
         </li>
+        <li>
+            <strong>Cruce 15:</strong><br/>
+            <p>
+                Lísteme por estado, cuántas y cuáles Pinturas 
+                Rupestres de todos los yacimientos tienen: <br/>
+                <form action="{% url 'joins:cruces' 15 %}">
+                    <label><input type="text"></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 16:</strong><br/>
+            <p>
+                Cuáles petroglifos tienen :<br/>
+                <form action="{% url 'joins:cruces' 16 %}">
+                    <label>Area/Grabado: {{form.carasurcopetrotipo}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 17:</strong><br/>
+            <p>
+                Lísteme por estado, los petroglifos con:<br/>
+                <form action="{% url 'joins:cruces' 17 %}">
+                    <label>piedra/erosión: {{form.material}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
     </ul>
     	</div>
 </body>

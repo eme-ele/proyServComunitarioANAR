@@ -42,7 +42,7 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 
 	manifestacion 	= indexes.MultiValueField() 	
 	ubicacion 		= indexes.MultiValueField() 
-	material 		    = indexes.MultiValueField() 
+	material 		= indexes.MultiValueField() 
 	conservacion 	= indexes.MultiValueField() 
 	
 	manifasociadas 	= indexes.MultiValueField()
@@ -130,16 +130,20 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 			material = obj.MaterialYacimiento
 			self.prepare_data['material'] = []			
 			
-			if material.esRoca or material.esIgnea or material.esMetamor or materia.esSedimentaria:
+			if material.esRoca and material.esIgnea :
 				self.prepare_data['material'].append(1)
-			if material.esTierra:
+			if material.esRoca and material.esMetamor:
 				self.prepare_data['material'].append(2)
-			if material.esHueso:
+			if material.esRoca and materia.esSedimentaria:
 				self.prepare_data['material'].append(3)
-			if material.esCorteza:
+			if material.esTierra:
 				self.prepare_data['material'].append(4)
+			if material.esHueso:
+				self.prepare_data['material'].append(5)
+			if material.esCorteza:
+				self.prepare_data['material'].append(6)
 			if material.esPiel:
-				self.prepare_data['material'].append(5)	
+				self.prepare_data['material'].append(7)	
 		except:
 			pass
 
@@ -152,6 +156,14 @@ class YacimientoIndex(indexes.SearchIndex, indexes.Indexable):
 				self.prepare_data['conservacion'].append(1)
 			if exposicion.estadoModificado:
 				self.prepare_data['conservacion'].append(2)
+			if conservacion.porErosion and conservacion.porErosionParModerada:
+				self.prepare_data['conservacion'].append(3)
+			if conservacion.porErosion and conservacion.porErosionParSevere:
+				self.prepare_data['conservacion'].append(4)
+			if conservacion.porErosion and conservacion.porErosionExtModerada:
+				self.prepare_data['conservacion'].append(5)
+			if conservacion.porErosion and conservacion.porErosionExtSevere:
+				self.prepare_data['conservacion'].append(6)
 		except:
 			pass
 			
