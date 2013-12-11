@@ -26,8 +26,8 @@
 
 	<ul id="nav">
 		<li><a href="/">Inicio</a></li>
-		<li><a href="#quienes">Quienes Somos</a></li>
-		<li><a href="#patrimonio">Patrimonio Cultural Arqueológico</a></li>
+		<li><a href="quienes">Quienes Somos</a></li>
+		<li><a href="patrimonio">Patrimonio Cultural Arqueológico</a></li>
 		<li><a href="#programa">Programa de Educacion</a></li>
 		<li><a href="#otros">Otros Servicios</a></li>
 		<li><a href="#contacto">Contacto</a></li>
@@ -211,6 +211,26 @@
                 Lísteme por estado, los petroglifos con:<br/>
                 <form action="{% url 'joins:cruces' 17 %}">
                     <label>piedra/erosión: {{form.material}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 18:</strong><br/>
+            <p>
+                Cuales pinturas rupestres por estado, con la siguiente combinacion tiene:<br/>
+                <form action="{% url 'joins:cruces' 18 %}">
+                    <label>piedra/erosión: {{form.material}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 19:</strong><br/>
+            <p>
+                Listema por codigo, estado y tipo de manifestacion los yacimientos que contengan manifestaciones asociadas de:<br/>
+                <form action="{% url 'joins:cruces' 19 %}">
+                    <label>Manifestacion asociada: {{form.manifasociadas}}</label></br></br>
                     <input type="submit" class="button" value="Consultar"/>
                 </form>
             </p>

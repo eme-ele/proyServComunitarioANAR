@@ -166,16 +166,16 @@ def cruce12(form):
         'yacimientos': yacimientos}
 
 def cruce14(form):
-    tipos = ['Bajo relieve lineal',
-    'Bajo relieve planar',
-    'Bajo relieve planar y lineal',
-    'Alto relieve lineal',
-    'Alto relieve planar',
-    'Alto relieve planar y lineal',
-    'Bajo relieve planar y alto relieve planar',
-    'Bajo relieve planar y alto relieve lineal ',
-    'Bajo relieve lineal y alto relieve planar',
-    'Bajo relieve lineal y alto relieve lineal'
+    tipos = ['bajo relieve lineal',
+    'bajo relieve planar',
+    'bajo relieve planar y lineal',
+    'alto relieve lineal',
+    'alto relieve planar',
+    'alto relieve planar y lineal',
+    'bajo relieve planar y alto relieve planar',
+    'bajo relieve planar y alto relieve lineal ',
+    'bajo relieve lineal y alto relieve planar',
+    'bajo relieve lineal y alto relieve lineal'
 
     ]
     list = []
@@ -219,21 +219,23 @@ def cruce14(form):
     'yacimientos': yacimientos}
 
 def cruce16(form):
-    area = ['Areas interlineales pulidas',
-    'Areas interlineales rebajadas',
-    'Grabados superpuestos',
-    'Grabados rebajados'
+    area = ['areas interlineales pulidas',
+    'areas interlineales rebajadas',
+    'grabados superpuestos',
+    'grabados rebajados'
     ]          
     list = []
 
-    if form.cleaned_data['carasurcopetrotipo'].lower() == area[0].lower():
+    list.append(area.index(form.cleaned_data['carasurcopetrotipo'].lower())+11)
+
+    '''if form.cleaned_data['carasurcopetrotipo'].lower() == area[0].lower():
             list.append(11)
     elif form.cleaned_data['carasurcopetrotipo'].lower() == area[1].lower():
             list.append(12)
     elif form.cleaned_data['carasurcopetrotipo'].lower() == area[2].lower():
             list.append(13)
     elif form.cleaned_data['carasurcopetrotipo'].lower() == area[3].lower():
-            list.append(14)
+            list.append(14)'''
     sqs = SearchQuerySet()
     sqs = sqs.filter(pais = 'Venezuela').filter(carasurcopetrotipo = list,manifestacion__in = [3,4,5])
     return {'cruce':form.cleaned_data['carasurcopetrotipo'],
@@ -251,7 +253,15 @@ def cruce17(form):
     ]
     list = []
 
-    if form.cleaned_data['material'].lower() == filters[0].lower:
+    list.append(filters.index(form.cleaned_data['material'].lower()) +1)
+
+    if list[0] <=3 and 1 <= list[0]:
+        value = 'material'
+    else:
+        value == 'conservacion'
+        list[0] = list[0] -1
+
+    '''if form.cleaned_data['material'].lower() == filters[0].lower:
         value = 'material'
         list.append(1)
     elif form.cleaned_data['material'].lower() == filters[1].lower:
@@ -271,7 +281,7 @@ def cruce17(form):
         list.append(5)
     elif form.cleaned_data['material'].lower() == filters[6].lower:
         value = 'conservacion'
-        list.append(6)
+        list.append(6)'''
 
     sqs = SearchQuerySet()
     sqs = sqs.filter(pais = 'Venezuela').filter(value = list,manifestacion__in = [3,4,5])
@@ -282,6 +292,35 @@ def cruce17(form):
     return {
     'tipo':form.cleaned_data['material'],
     'yacimientos': yacimientos}
+
+def cruce19(form):
+    filters = ['litica',
+    'ceramica',
+    'oseo',
+    'concha',
+    'carbon no superficial',
+    'mitos',
+    'cementerios',
+    'monticulos',
+    'otros'
+    ]
+    list = 0
+    try:
+        list = filters.index(form.cleaned_data['manifasociadas'].lower()) + 1
+        sqs = SearchQuerySet()
+        sqs = sqs.filter(pais = 'Venezuela').filter(manifasociadas = list)
+        yacimientos = {}
+        lista = []
+        for estado in ESTADOS:
+            lista = sqs.filter(estado = estado)
+            yacimientos[estado] = lista
+        return {
+        'manifa':form.cleaned_data['manifasociadas'],
+        'yacimientos': yacimientos}
+
+    except:
+        return {}
+
 
 
 
@@ -304,9 +343,11 @@ def cruces(request, cruce_id):
         14:cruce14,
         15:render(request, 'joins/index.html', {'form' : form}),
         16:cruce16,
-        17:cruce17
+        17:cruce17,
+        18:render(request, 'joins/index.html', {'form' : form}),
+        19:cruce19
         }
-        if(cruce_id == '13' or cruce_id == '15'):
+        if(cruce_id == '13' or cruce_id == '15' or cruce_id == 18):
            return render(request, 'joins/index.html', {'form' : form})
         func = functions[int(cruce_id)]
         dic = func(form)

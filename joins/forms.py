@@ -38,5 +38,6 @@ class CrucesYYForm(forms.Form):
     ubicacion = forms.CharField(required=False, max_length=20)
     carasurcopetrotipo = forms.CharField(required=False, max_length=50)
     material = forms.CharField(required=False, max_length=50)
+    manifasociadas = forms.CharField(required=False, max_length=50)
 
     estado.widget.attrs 	= {'class':'chzn-select', 'data-placeholder':'Seleccione el estado'}
