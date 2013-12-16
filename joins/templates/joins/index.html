@@ -26,8 +26,8 @@
 
 	<ul id="nav">
 		<li><a href="/">Inicio</a></li>
-		<li><a href="#quienes">Quienes Somos</a></li>
-		<li><a href="#patrimonio">Patrimonio Cultural Arqueológico</a></li>
+		<li><a href="quienes">Quienes Somos</a></li>
+		<li><a href="patrimonio">Patrimonio Cultural Arqueológico</a></li>
 		<li><a href="#programa">Programa de Educacion</a></li>
 		<li><a href="#otros">Otros Servicios</a></li>
 		<li><a href="#contacto">Contacto</a></li>
@@ -117,8 +117,9 @@
         <li>
             <strong>Cruce 8:</strong><br/>
             <p>
-                Listar todos los Dólmenes y Menhires en cueva, abrigo, terreno superficial y terreno profundo de Venezuela y por estado:<br/>
-                <form action="{% url 'joins:cruce8' %}">
+                Listar todos los Dólmenes y Menhires en Venezuela y por estado:
+                <br/>
+                <form action="{% url 'joins:cruces' 8 %}">
                     <input type="submit" class="button" value="Consultar"/>
                 </form>
             </p>
@@ -137,7 +138,7 @@
             <strong>Cruce 10:</strong><br/>
             <p>
                 Listar todos los Geoglifos, Pinturas Rupestres, Micropetroglifos, Petroglifos, Petroglifos Pintados, Piedras Míticas Naturales, Cerros Miticos Naturales, Bateas, Menhires, Amoladores, Puntos Acoplados y Cúpulas en el siguiente yacimiento y estado:<br/>
-                <form action="{% url 'joins:cruces' 10 %}">
+                <form action="{% url 'joins:cruces' 10%}">
                     <label>Código: {{ form.codigo }} </label></br>
                 <label>Estado: {{ form.estado }} </label></br></br>
                     <input type="submit" class="button" value="Consultar"/>
@@ -149,7 +150,7 @@
             <p>
                 Listar por estado el total de Geoglifos, Pinturas Rupestres, Micropetroglifos, Petroglifos, Petroglifos Pintados, Piedras Míticas Naturales, Cerros Miticos Naturales, Bateas, Menhires, Amoladores, Puntos Acoplados y Cúpulas en la siguiente ubicación:<br/>
                 <form action="{% url 'joins:cruces' 11 %}">
-                    <label>Ubicación: <input type="text"/></label></br></br>
+                    <label>Ubicación: {{form.ubicacion}}</label></br></br>
                     <input type="submit" class="button" value="Consultar"/>
                 </form>
             </p>
@@ -158,7 +159,7 @@
             <strong>Cruce 12:</strong><br/>
             <p>
                 Listar por estado el ancho y la profundidad del surco grabado para todos los yacimientos de Petroglifos<br/>
-                <form action="{% url 'joins:cruces' 13 %}">
+                <form action="{% url 'joins:cruces' 12%}">
                     <input type="submit" class="button" value="Consultar"/>
                 </form>
             </p>
@@ -173,6 +174,67 @@
                 </form>
             </p>
         </li> 
+        <li>
+            <strong>Cruce 14:</strong><br/>
+            <p>
+                Lísteme por estado cuántos y cuáles Petroglifos tienen :<br/>
+                <form action="{% url 'joins:cruces' 14 %}">
+                    <label>Caracteristica: {{form.carasurcopetrotipo}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 15:</strong><br/>
+            <p>
+                Lísteme por estado, cuántas y cuáles Pinturas 
+                Rupestres de todos los yacimientos tienen: <br/>
+                <form action="{% url 'joins:cruces' 15 %}">
+                    <label><input type="text"></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 16:</strong><br/>
+            <p>
+                Cuáles petroglifos tienen :<br/>
+                <form action="{% url 'joins:cruces' 16 %}">
+                    <label>Area/Grabado: {{form.carasurcopetrotipo}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 17:</strong><br/>
+            <p>
+                Lísteme por estado, los petroglifos con:<br/>
+                <form action="{% url 'joins:cruces' 17 %}">
+                    <label>piedra/erosión: {{form.material}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 18:</strong><br/>
+            <p>
+                Cuales pinturas rupestres por estado, con la siguiente combinacion tiene:<br/>
+                <form action="{% url 'joins:cruces' 18 %}">
+                    <label>piedra/erosión: {{form.material}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
+        <li>
+            <strong>Cruce 19:</strong><br/>
+            <p>
+                Listema por codigo, estado y tipo de manifestacion los yacimientos que contengan manifestaciones asociadas de:<br/>
+                <form action="{% url 'joins:cruces' 19 %}">
+                    <label>Manifestacion asociada: {{form.manifasociadas}}</label></br></br>
+                    <input type="submit" class="button" value="Consultar"/>
+                </form>
+            </p>
+        </li>
     </ul>
     	</div>
 </body>

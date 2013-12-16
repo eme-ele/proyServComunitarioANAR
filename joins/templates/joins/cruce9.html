@@ -43,10 +43,18 @@
     <div style="width: 70%; margin: auto">
 
     <h1  id="titulo" style="font-size: 16pt"> Listar la proporción de número de piedras trabajadas a número de piedras en el yacimiento original en el estado {{ estado }}</h1>
-    <h2>{{ total }}</h2>
     <ul>
-        <li>Longitud: {{ trabajadas }} </li>
-        <li>Latitud: {{ original }}</li>
+        <li>Grabadas: {{ grabadas }}/{{piedras}} </li>
+        <li>Pintadas: {{ pintadas }}/{{piedras}} </li>
+        <li>Colcadas: {{ colcadas }}/{{piedras}} </li>
     </ul>
+    <h2>De los yacimientos</h2>
+    <ul>
+    {% for yac in yacimientos%}
+    	<li>{{yac.nombre}}</li>
+    {%endfor%}
+	</ul>
+
+
 </body>
 </html>

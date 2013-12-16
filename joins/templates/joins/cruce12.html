@@ -42,17 +42,21 @@
 		
     <div style="width: 70%; margin: auto">
 
-    <h1  id="titulo" style="font-size: 16pt">Listar todos los Dólmenes y Menhires de Venezuela y por estado</h1>
-    <h2>Total de Yacimientos: {{ total }}</h2>
-    {% for estado, lista in yacimientos.items %}
-    {%if lista|length > 0%}
-        <h3>{{ estado }}</h3>
-        <ul>
-        {% for yacimiento in lista %}
-            <li>{{ yacimiento.nombre }}</li>
+    <h1  id="titulo" style="font-size: 16pt"> Listar por estado el ancho y la profundidad del surco grabado para todos los yacimientos de Petroglifos</h1>
+    
+    {% for esta, lista in yacimientos.items%}
+    	{%if lista|length > 0%}
+		<h3>{{esta}}</h3>
+		<ul>
+		{% for yacimiento in lista %}
+            <li>{{ yacimiento.carasurcopetroancho }}</li>
+            <li>{{ yacimiento.carasurcopetroprofun }}</li>
         {% endfor %}
-        </ul>
-        {%endif%}
-    {% endfor %}
+		</ul>
+		{%endif%}
+    {%endfor%}
+
+
+
 </body>
 </html>

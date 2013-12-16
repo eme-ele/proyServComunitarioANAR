@@ -1,17 +1,15 @@
 #coding: latin-1
 from django.conf.urls import patterns, url
+from django.views.generic import TemplateView, DetailView
 
 from joins import views
+import anarapp
 
 urlpatterns = patterns('',    
     url(r'^$', views.index, name='index'),
-    url(r'^cruce8$', views.cruce8, name='cruce8'),
     url(r'^cruce(?P<cruce_id>\d+)$', views.cruces, name='cruces'),
+    url(r'^patrimonio$', anarapp.views.patrimonio),
+    url(r'^quienes/', TemplateView.as_view(template_name="anarapp/quienes.html"),
+	),
 
-    # ex: /polls/5/
-    #url(r'^(?P<poll_id>\d+)/$', views.detail, name='detail'),
-    # ex: /polls/5/results/
-    #url(r'^(?P<poll_id>\d+)/results/$', views.results, name='results'),
-    # ex: /polls/5/vote/
-    #url(r'^(?P<poll_id>\d+)/vote/$', views.vote, name='vote'),
 )

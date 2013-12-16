@@ -24,18 +24,14 @@ urlpatterns = patterns('',
 
 	url(r'^results/', SearchView(
         template='anarapp/results.html',
-        searchqueryset=yacimiento,
+        searchqueryset=SearchQuerySet(),
         form_class=AdvancedForm,
 		results_per_page=10),
 		name='results'
 	),
 	
    	url(r'^advanced/$', SearchView(
-		form_class=AdvancedForm,
-		template='anarapp/advanced.html'),
-	),
-
-   	url(r'^advanced/$', SearchView(
+   		searchqueryset=SearchQuerySet(),
 		form_class=AdvancedForm,
 		template='anarapp/advanced.html'),
 	),
