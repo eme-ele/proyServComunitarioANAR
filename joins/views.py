@@ -53,6 +53,7 @@ MANIFESTACIONES = [
         'Mortero o Metate'
 ]
 
+#Cuentos y cuales yacimientos hay en estado
 def cruce1(form):
     sqs = SearchQuerySet()
     sqs = sqs.filter(estado = form.cleaned_data['estado'])
@@ -63,6 +64,7 @@ def cruce1(form):
         'total' : total, 
         'estado':estado, 
         'results':sqs}
+#Bibliografia
 def cruce27(form):
     yacimiento = Yacimiento.objects.get(codigo = form.cleaned_data['codigo'])
     codigo = form.cleaned_data['codigo'] 
@@ -70,6 +72,7 @@ def cruce27(form):
         'codigo': codigo,
         'yacimiento': yacimiento,
     }
+#Listar Dolmenes y menhires
 def cruce8(form):
     sqs = SearchQuerySet()
     sqs = sqs.filter(pais = 'Venezuela').filter(tipo__in = [4, 5, 6, 7, 8])
@@ -82,6 +85,7 @@ def cruce8(form):
         'total' : total, 
         'yacimientos': yacimientos}
 
+#Numero de piedras trabajadas a numeros de piedra en el yacimiento original
 def cruce9(form):
     sqs = SearchQuerySet()
     sqs = sqs.filter(estado = form.cleaned_data['estado'])
@@ -104,6 +108,7 @@ def cruce9(form):
         'colocadas': colocadas,
         'yacimientos': sqs,
     }
+#Listar la manifestacion por estado
 def cruce10(form):
     #Revizar que este en el estado seleccionado
     if form.cleaned_data['codigo'] != '':
@@ -135,6 +140,7 @@ def cruce10(form):
         return {
         'yacimientos': sqs}
 
+#Listar la manifestacion por ubicacion
 def cruce11(form):
     ubi = UBICACIONES.index(form.cleaned_data['ubicacion'])
     sqs = SearchQuerySet()
@@ -151,6 +157,7 @@ def cruce11(form):
             'ubi' : form.cleaned_data['ubicacion'],
             'yacimientos': yacimientos}
 
+#listar ancho y profundidad de surco grabado, de petroglifos
 def cruce12(form):
     sqs = SearchQuerySet()
     sqs = sqs.filter(pais = 'Venezuela').filter(manifestacion__in = [3, 4, 5])
@@ -165,6 +172,7 @@ def cruce12(form):
     return { 
         'yacimientos': yacimientos}
 
+#Listar por estado los petroglifos con relieve
 def cruce14(form):
     tipos = ['bajo relieve lineal',
     'bajo relieve planar',
@@ -218,6 +226,7 @@ def cruce14(form):
     'tipo':form.cleaned_data['carasurcopetrotipo'],
     'yacimientos': yacimientos}
 
+#petroglifos con aeras interlineadas
 def cruce16(form):
     area = ['areas interlineales pulidas',
     'areas interlineales rebajadas',
@@ -241,6 +250,7 @@ def cruce16(form):
     return {'cruce':form.cleaned_data['carasurcopetrotipo'],
             'yacimientos': sqs}
 
+#Roca del petroglifo
 def cruce17(form):
     value = ''
     filters = ['roca ignea',
@@ -293,6 +303,7 @@ def cruce17(form):
     'tipo':form.cleaned_data['material'],
     'yacimientos': yacimientos}
 
+#Mafinistacion asociada a litica,ceramica, osea,etc
 def cruce19(form):
     filters = ['litica',
     'ceramica',
@@ -321,7 +332,19 @@ def cruce19(form):
     except:
         return {}
 
-
+#proporcion de piedra en petroglifos y ubicacion
+def cruce20(form):
+  ubi = UBICACIONES.index(form.cleaned_data['ubicacion'])
+  sqs = SearchQuerySet()
+  sqs = sqs.filter(ubicacion = ubi, manifestacion__in = [3, 4, 5]).order_by('estado')
+  yacimientos = {}
+  for estado in ESTADOS:
+    lista = sqs.filter(estado = estado)
+    yacimientos[estado] = lista
+  return {
+    'yacimientos':yacimientos,
+    'ubica':form.cleaned_data['ubicacion']}
+  
 
 
 def cruces(request, cruce_id):
@@ -345,7 +368,8 @@ def cruces(request, cruce_id):
         16:cruce16,
         17:cruce17,
         18:render(request, 'joins/index.html', {'form' : form}),
-        19:cruce19
+        19:cruce19,
+        20:cruce20
         }
         if(cruce_id == '13' or cruce_id == '15' or cruce_id == 18):
            return render(request, 'joins/index.html', {'form' : form})
@@ -354,7 +378,3 @@ def cruces(request, cruce_id):
         return render(request,'joins/cruce'+cruce_id+'.html',dic)
 
     
-    
-
-
-        
