@@ -976,13 +976,14 @@ class CronologiaTentativaForm(ModelForm) :
 class ManifestacionesAsociadasForm(ModelForm) :
     class Meta:
         widgets = {                
-                'descripcionLitica': TextInput(attrs=regularTextField),
-                'descripcionCeramica': TextInput(attrs=regularTextField),
-                'descripcionOseo': TextInput(attrs=regularTextField),
-                'descripcionConcha': TextInput(attrs=regularTextField),
-                'descripcionCarbon': TextInput(attrs=regularTextField),                'descripcionMito': TextInput(attrs=regularTextField),
-                'descripcionCementerio': TextInput(attrs=regularTextField),
-                'descripcionMonticulo': TextInput(attrs=regularTextField),                
+                'descripcionLitica': AutosizedTextarea(attrs=regularTextArea),
+                'descripcionCeramica': AutosizedTextarea(attrs=regularTextArea),
+                'descripcionOseo': AutosizedTextarea(attrs=regularTextArea),
+                'descripcionConcha': AutosizedTextarea(attrs=regularTextArea),
+                'descripcionCarbon': AutosizedTextarea(attrs=regularTextArea),                
+				'descripcionMito': AutosizedTextarea(attrs=regularTextArea),
+                'descripcionCementerio': AutosizedTextarea(attrs=regularTextArea), 
+                'descripcionMonticulo': AutosizedTextarea(attrs=regularTextArea),         
                 'otros':  AutosizedTextarea(attrs=regularTextArea),
         }
 

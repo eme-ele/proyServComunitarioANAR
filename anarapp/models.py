@@ -32,7 +32,7 @@ class CharField(models.CharField):
 
 class Yacimiento(models.Model):
        
-    codigo = models.CharField('00. Código ANAR', max_length=20)
+    codigo = models.CharField('(00) Ficha Pb1 - Nº Código ANAR', max_length=20)
     pais = CharField('0. País')
     nombre = CharField('1. Nombre(s) del Yacimiento')
     municipio = CharField('2. Municipio')    
@@ -129,7 +129,7 @@ class Indicaciones(models.Model):
 class Croquis (models.Model):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='Croquis')
-    urlImagen = CharField('6.2.1 Url de la Imagen', blank = True)
+    archivo = models.ImageField('6.2.1 Archivo - Croquis', upload_to='croquis/%Y/%m/%d', null=True, blank=True)
     
     abbr = 'crq'
 
@@ -216,7 +216,7 @@ class FotografiaYac (models.Model):
     noEsAerea = models.BooleanField('No Aerea')
     esSatelital = models.BooleanField('Satelital')
     fecha = models.DateField('Fecha',blank = True, null= True)
-    urlImagen = CharField('11. Url de la Imagen', blank = True)
+    archivo = models.ImageField('11. Archivo - Fotografía', upload_to='yacimiento/%Y/%m/%d', null=True, blank=True)
     
     abbr = 'fty'  
 
@@ -959,7 +959,7 @@ class Piedra(models.Model):
     
     codigo = models.CharField('0. Codigo de la piedra', max_length=20)#, primary_key=True)        
     nombre = CharField('1. Nombre de la piedra', )
-    manifiestacionAsociada = CharField('1.1 Manifestaciones asociadas', )
+    manifiestacionAsociada = CharField('1.1 Manifestaciones asociadas', blank = True )
     nombreFiguras = CharField('2. Nombre de las figuras',)
     estado= CharField('3. Estado',)    
     numeroCaras = models.IntegerField('4. Numero de Caras')
@@ -1009,7 +1009,7 @@ class CaraTrabajada(models.Model):
     )
 	
     piedra = models.ForeignKey(Piedra, related_name='CaraTrabajada')
-    numero =  CharField('6a. Número de cara trabajada', )
+    numero =  CharField('6a. Número de cara trabajada' )
     orientacion = models.IntegerField('6b. Orientación de la cara', choices = ORIENTACION_CARA_TRABAJADA)
     alto = models.DecimalField('7.1. Alto',max_digits=6, decimal_places=3)
     ancho = models.DecimalField('7.2. Ancho',max_digits=6, decimal_places=3)
@@ -1089,9 +1089,9 @@ class EsquemaPorCara(models.Model):
     de la cara de la piedra"""
 
     piedra = models.ForeignKey(Piedra, related_name='EsquemaPorCara')    
-    numero =  CharField( '10a. Número de cara trabajada (Punto 6)', )  
-    textoCara = CharField('10b. Cara del Volumen',) 
-    posicion = CharField('10c. Posicion de las figuras', 0) 
+    numero =  CharField( '10a. Número de cara trabajada (Punto 6)')  
+    textoCara = CharField('10b. Cara del Volumen') 
+    posicion = CharField('10c. Posicion de las figuras') 
     
     abbr = 'epc'
 
@@ -1260,12 +1260,12 @@ class Bibliografia(models.Model):
 
     """Representa la bibliografia de un yacimiento o una piedra """
 
-    codigo = CharField('1. Código')
-    titulo = CharField('2. Título')
-    autor  = CharField('3. Autor ')
-    ano = models.IntegerField('4. Año')
-    institucion  = CharField('5. Institución')
-    conDibujo = CharField('6. Con dibujo')
+    codigo = CharField('1. Código', blank = True)
+    titulo = CharField('2. Título', blank = True)
+    autor  = CharField('3. Autor ', blank = True)
+    ano = CharField('4. Año', blank = True)
+    institucion  = CharField('5. Institución', blank = True)
+    conDibujo = CharField('6. Con dibujo', blank = True)
 
 class BibYacimiento(Bibliografia):
 
@@ -1334,7 +1334,7 @@ class FotoBibPiedra (FotoBibliografia):
 class MatAudioVisual (models.Model):
 
     formato = CharField('1. Formato', )
-    imagen = CharField('2. Archivo', blank = True)
+    archivo = models.FileField('2. Archivo - Material AV', upload_to='audiovisual/%Y/%m/%d', null=True, blank=True)
 
 class MatAVYacimiento(MatAudioVisual):
 
@@ -1368,6 +1368,8 @@ class Video (models.Model):
     numReferencia = models.IntegerField('5. Nro. de referencia')
     isFromAnar = models.BooleanField('6. ¿Es de ANAR?')
     numCopia = models.IntegerField('6.1 Nro. de copia')
+    archivo = models.FileField('Archivo - Video', upload_to='video/%Y/%m/%d', null=True, blank=True)
+    
 
 class VideoYacimiento (Video) :
 
@@ -1445,6 +1447,7 @@ class PaginaWebPiedra (PaginaWeb):
 class Multimedia (models.Model):
 
     tecnica = CharField('1. Técnica', )
+    archivo = models.FileField('Archivo - Multimedia', upload_to='multimedia/%Y/%m/%d', null=True, blank=True)
 
 class MultimediaYac (Multimedia):
 
