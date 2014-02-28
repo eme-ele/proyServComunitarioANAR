@@ -1,4 +1,4 @@
-
+﻿
 	INSERT INTO anarapp_yacimiento (id, codigo, pais, nombre, municipio, estado) 
 	VALUES (0, 0, 'Venezuela', 'Yacimiento 0', 'Municipio 13', 'Miranda'); 
 
@@ -7576,5 +7576,3 @@
 	VALUES (49, True, False, True, NULL, True, True, True, False);
 
 ---------- Fin Insert Piedra 49
->>> >>> >>> Use exit() or Ctrl-D (i.e. EOF) to exit
->>> 
