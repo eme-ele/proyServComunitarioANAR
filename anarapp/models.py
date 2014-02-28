@@ -973,6 +973,17 @@ class Piedra(models.Model):
     class Meta:
         verbose_name = 'Roca'
         verbose_name_plural = 'Rocas'
+		
+class FotografiaPiedra (models.Model):
+    
+    piedra = models.ForeignKey(Piedra, related_name='FotografiaPiedra')
+    archivo = models.ImageField('1.1. Archivo - Fotografía', upload_to='piedra/%Y/%m/%d', null=True, blank=True)
+    
+    abbr = 'ftp'  
+
+    class Meta:
+        verbose_name = '1.1. Fotografia'
+        verbose_name_plural = '1.1. Fotografias'
 
 class DimensionPiedra(models.Model):
 

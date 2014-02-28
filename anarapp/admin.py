@@ -13,7 +13,7 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
     CaracMenhires, CaracDolmenArt, NotasYacimiento, EstadoConserYac, ConsiderTemp, CronologiaTentativa, ManifestacionesAsociadas, \
     BibYacimiento, FotoBibYac, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
     MultimediaYac , ObtInfoYac , OtrosValYac, ObservacionesYac, LlenadoYac, SupervisadoYac, \
-    Piedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
+    Piedra, FotografiaPiedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
     Manifestaciones, TratFotoPiedra, FotoPiedra, EscNatPiedra, EscRedPiedra, \
     BibPiedra, FotoBibPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, MultimediaPiedra, \
     ObtInfoPiedra, OtrosValPiedra, ObservacPiedra, LlenadoPiedra, SupervisadoPiedra
@@ -375,6 +375,11 @@ class SupervisadaPorYacInline(admin.TabularInline):
 # Declaracion de modelos inlines para piedra
 ########################################################################################
 
+class FotografiaPiedraInline(admin.TabularInline):
+    extra = 3   
+    model =  FotografiaPiedra    
+    suit_classes = 'suit-tab suit-tab-generales'
+
 class DimensionPiedraInline(admin.StackedInline):
     extra = 1
     max_num = 1    
@@ -590,7 +595,7 @@ class PiedraAdmin (admin.ModelAdmin):
         }),
      ]
     inlines = [
-        CaraTrabajadaInline, DimensionPiedraInline, UbicacionCarasInline, FigurasPorTipoInline,
+        FotografiaPiedraInline, CaraTrabajadaInline, DimensionPiedraInline, UbicacionCarasInline, FigurasPorTipoInline,
         EsquemaPorCaraInline, ManifestacionesInline, TratFotoInline, FotoDigPiedraInline,
         EscalaNatPiedraInline, EscalaRedPiedraInline, BibPiedraInline, FotoBibPiedraInline,
         MatAudioVisualInline, VideoPiedraInline, PeliculaPiedraInline, PaginaWebPiedraInline,
