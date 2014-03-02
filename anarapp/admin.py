@@ -539,8 +539,12 @@ class YacimientoAdmin(admin.ModelAdmin):
 
     model = Yacimiento
     form = forms.YacimientoForm
-    list_display = ('codigo','nombre', 'pais','estado', 'municipio')
-    
+    list_display = ('codigo','nombre', 'pais','estado','municipio')
+    list_filter = ('codigo','pais', 'estado', 'municipio', 
+	'Datum__tipoDatum',
+	'ManifestacionYacimiento__tipoManifestacion',
+	)
+	
     fieldsets = [
         ('Datos generales del Yacimiento', {
             'classes': ('suit-tab suit-tab-generales',),
@@ -573,7 +577,12 @@ class YacimientoAdmin(admin.ModelAdmin):
                       ('manifestaciones', 'Manifestaciones Asociadas'),
                       ('apoyos', 'Apoyos'),
                       ('observaciones', 'Observaciones')                      
-                      )    
+                      ) 
+    class Media:
+        css = {
+            "all": ("anarapp/admin.css",)
+        }
+        js = ("anarapp/admin.js",)
     
 #Administrador del modelo de datos Piedra
 #Usando los parametros de la extensión Suite, se mejora y organiza el admin
@@ -581,7 +590,8 @@ class YacimientoAdmin(admin.ModelAdmin):
 class PiedraAdmin (admin.ModelAdmin):
     model = Piedra
     form = forms.PiedraForm
-    list_display = ('codigo','nombre', 'yacimiento')
+    list_display = ('yacimiento', 'codigo', 'nombre', 'manifiestacionAsociada', 'nombreFiguras', 'estado')	 
+    list_filter = ('yacimiento', 'codigo', 'estado', 'FigurasPorTipo__tipoFigura', 'ConexionFiguras__conexionFiguras',)
 
     fieldsets = [
         ('Datos generales de la Roca', {
@@ -608,7 +618,12 @@ class PiedraAdmin (admin.ModelAdmin):
                       ('manifestaciones', 'Manifestaciones Asociadas'),
                       ('apoyos', 'Apoyos'),
                       ('observaciones', 'Observaciones')                        
-                      )
+                      )	
+    class Media:
+        css = {
+            "all": ("anarapp/admin.css",)
+        }
+        js = ("anarapp/admin.js",)
 
 
 admin.site.register(Yacimiento, YacimientoAdmin)

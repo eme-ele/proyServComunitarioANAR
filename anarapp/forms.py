@@ -1098,6 +1098,24 @@ class TratFotoPiedraForm(ModelForm) :
 
 ### Formularios utilizados por el backend para piedra        
 
+class DimensionPiedraForm(ModelForm) :
+
+    class Meta:
+        widgets = {                
+                'altoMaximo':  TextInput(attrs=regularTextField),
+                'largoMaximo': TextInput(attrs=regularTextField),
+                'anchoMaximo': TextInput(attrs=regularTextField),                    
+        }
+        
+class UbicacionCarasForm(ModelForm) :
+
+    class Meta:
+        widgets = {                
+                'bocaPrincipal':  TextInput(attrs=regularTextField),
+                'altura': TextInput(attrs=regularTextField),                 
+        }
+
+
 class FigurasPorTipoForm (ModelForm):
     class Meta:
         widgets = {
@@ -1130,23 +1148,6 @@ class PiedraForm(ModelForm) :
                 'estado': TextInput(attrs=regularTextField),
                 'numeroCaras': TextInput(attrs=regularTextField),
                 'numeroCarasTrajabadas': TextInput(attrs=regularTextField),                     
-        }
-
-class DimensionPiedraForm(ModelForm) :
-
-    class Meta:
-        widgets = {                
-                'altoMaximo':  TextInput(attrs=regularTextField),
-                'largoMaximo': TextInput(attrs=regularTextField),
-                'anchoMaximo': TextInput(attrs=regularTextField),                    
-        }
-        
-class UbicacionCarasForm(ModelForm) :
-
-    class Meta:
-        widgets = {                
-                'bocaPrincipal':  TextInput(attrs=regularTextField),
-                'altura': TextInput(attrs=regularTextField),                 
         }
 
 

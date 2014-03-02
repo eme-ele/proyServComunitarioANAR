@@ -1,0 +1,18 @@
+/** Modificaciones a los estilos del admin que son generados por suit */
+
+.form-horizontal .control-label, .form-horizontal .control-group .control-label {	
+	text-align: left; /*Se alinearon a la izquierda todas las etiquetas*/	
+	min-width:180px;  /*Se aumentaron 30px de ancho para las etiquetas */	
+}
+.level1 {
+	padding-left:15px !important;
+}
+.level2 {
+	padding-left:35px !important;
+}
+.level3 {
+	padding-left:55px !important;
+}
+.level4{
+	padding-left:75px !important;
+}
