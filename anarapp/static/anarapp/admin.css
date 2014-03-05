@@ -16,3 +16,21 @@
 .level4{
 	padding-left:75px !important;
 }
+
+/** Modificaciones realizadas para generar una única barra **/
+
+#yacimiento_form  .nav-tabs-suit li a {	
+	max-width: 110px;
+	min-width: 60px;
+	height : 35px;
+	text-align : center;
+	padding: 8px 5px 7px;	
+}
+
+#piedra_form  .nav-tabs-suit li a {	
+	max-width: 110px;
+	min-width: 60px;
+	height : 35px;
+	text-align : center;
+	padding: 8px 10px 7px;		
+}

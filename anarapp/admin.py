@@ -94,14 +94,16 @@ class TipoYacimientoYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-generales'
     
-class ManifestacionYacimientoInline(admin.TabularInline):
+class ManifestacionYacimientoInline(admin.StackedInline):
     model = ManifestacionYacimiento
-    extra = 3
+    extra = 1
+    max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestacion'
     
-class UbicacionYacimientoInline(admin.TabularInline):
+class UbicacionYacimientoInline(admin.StackedInline):
     model = UbicacionYacimiento
-    extra = 3
+    extra = 1
+    max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestacion'
 
 class OrientacionYacInline(admin.StackedInline):
@@ -539,11 +541,8 @@ class YacimientoAdmin(admin.ModelAdmin):
 
     model = Yacimiento
     form = forms.YacimientoForm
-    list_display = ('codigo','nombre', 'pais','estado','municipio')
-    list_filter = ('codigo','pais', 'estado', 'municipio', 
-	'Datum__tipoDatum',
-	'ManifestacionYacimiento__tipoManifestacion',
-	)
+    list_display = ('codigo','nombre', 'pais','estado','municipio', 'tipos_de_manifestaciones')
+    list_filter = ('codigo','pais', 'estado', 'municipio')
 	
     fieldsets = [
         ('Datos generales del Yacimiento', {
@@ -552,7 +551,7 @@ class YacimientoAdmin(admin.ModelAdmin):
         }),
         ('Estado', {
             'classes': ('suit-tab suit-tab-estado',),
-            'fields': ['pais', 'municipio', 'estado']}),
+            'fields': ['pais', 'estado', 'municipio']}),
     ]
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
@@ -590,8 +589,8 @@ class YacimientoAdmin(admin.ModelAdmin):
 class PiedraAdmin (admin.ModelAdmin):
     model = Piedra
     form = forms.PiedraForm
-    list_display = ('yacimiento', 'codigo', 'nombre', 'manifiestacionAsociada', 'nombreFiguras', 'estado')	 
-    list_filter = ('yacimiento', 'codigo', 'estado', 'FigurasPorTipo__tipoFigura', 'ConexionFiguras__conexionFiguras',)
+    list_display = ('yacimiento', 'codigo', 'nombre', 'manifiestacionAsociada', 'estado')	 
+    list_filter = ('yacimiento', 'codigo', 'estado')
 
     fieldsets = [
         ('Datos generales de la Roca', {
@@ -613,7 +612,7 @@ class PiedraAdmin (admin.ModelAdmin):
         LlenadaPorPiedraInline, SupervisadaPorPiedraInline
     ] 
     suit_form_tabs = (('generales', 'Datos Generales de la Roca'),
-                      ('figuras', 'Las Figuras'),
+                      ('figuras', 'Figuras'),
                       ('tratamientos', 'Tratamiento de la Roca'),
                       ('manifestaciones', 'Manifestaciones Asociadas'),
                       ('apoyos', 'Apoyos'),

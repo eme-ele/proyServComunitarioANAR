@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ObjectDoesNotExist
 
 ########################################################################################
 # Clases modificadas
@@ -9,7 +10,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 def short_text(text):
 	""" Retorna un string limitado para evitar que los toString se vean muy largos"""
-	return text[0:50]
+	return text[0:100]
 
 class CharField(models.CharField):
 	
@@ -37,7 +38,7 @@ class CharField(models.CharField):
 class Yacimiento(models.Model):
        
     codigo = models.CharField('(00). Codigo ANAR', unique = True, max_length=20)
-    pais = CharField('0. Pais')
+    pais = CharField('0. Pais',  default = 'Venezuela')
     nombre = CharField('1. Nombre(s) del Yacimiento')
     municipio = CharField('2. Municipio')    
     estado = CharField('3. Estado')    
@@ -45,7 +46,18 @@ class Yacimiento(models.Model):
     #representacion en string de un objeto tipo Yacimiento
     def __unicode__(self):
         return short_text('PB1-' + self.codigo + '-' + self.nombre)
-    
+        
+    def _get_tipo_manifestaciones(self):
+	
+        "Determina los tipos de manifestaciones presentes en un yacimiento"
+        try :
+            manifestacion = ManifestacionYacimiento.objects.get(yacimiento=self.id)
+            return manifestacion.texto_descriptivo
+        except ObjectDoesNotExist:
+            return '';
+			
+    tipos_de_manifestaciones = property(_get_tipo_manifestaciones, '13. Tipo de Manifestación')
+	
     abbr = 'yac'
 
     class Meta:
@@ -255,65 +267,91 @@ class TipoYacimiento (models.Model):
 
 class ManifestacionYacimiento(models.Model):
 
-    OPCIONES_TIPO_MANIFEST = (
-        (1,'13.1 Geoglifo'),
-        (2,'13.2 Pintura Rupestre'),
-        (3,'13.3 Petroglifo'),
-        (4,'13.3.1 Petroglifo Pintado'),
-        (5,'13.4 Micro-Petroglifo'),
-        (6,'13.5 Piedra Mítica Natural'),
-        (7,'13.6 Cerro Mítico Natural'),
-        (8,'13.6.1 Cerro Mitico Natural con Petroglifo'),
-        (9,'13.6.2 Cerro Mitico Natural Con Pintura'),
-        (10,'13.6.3 Cerro Mitico Natural Con Dolmen'),
-        (11,'13.7 Monumentos Megalíticos'),
-        (12,'13.7.1 Monolitos'),
-        (13,'13.7.1.1 Monolitos Con Grabados'),
-        (14,'13.7.2 Menhires'),
-        (15,'13.7.2.1 Menhires Con Puntos Acoplados'),
-        (16,'13.7.2.2 Menhires Con Petroglifo'),
-        (17,'13.7.2.3 Menhires Con Pintura'),
-        (18,'13.8 Amolador'),
-        (19,'13.9 Batea'),
-        (20,'13.10 Puntos Acoplados'),
-        (21,'13.11 Cupulas'),
-        (22,'13.12 Mortero o Metate'),
-    )
-    yacimiento = models.ForeignKey(Yacimiento, related_name='ManifestacionYacimiento')
-    tipoManifestacion = models.IntegerField('13. Tipo de Manifestacion',choices = OPCIONES_TIPO_MANIFEST, blank = True,null = True)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionYacimiento')
+
+    esGeoglifo = models.BooleanField('13.1. Geoglifo')
+    esPintura = models.BooleanField('13.2. Pintura Rupestre')
+    esPetroglifo = models.BooleanField('13.3. Petroglifo')
+    esPetroglifoPintado = models.BooleanField('13.3.1. Petroglifo Pintado')
+    esMicroPetroglifo = models.BooleanField('13.4. Micro-Petroglifo')
+    esPiedraMiticaNatural = models.BooleanField('13.5. Piedra Mítica Natural')
+    esCerroMiticoNatural = models.BooleanField('13.6. Cerro Mítico Natural')
+    esCerroConPetroglifo = models.BooleanField('13.6.1. Con Petroglifo')
+    esCerroConPintura = models.BooleanField('13.6.2. Con Pintura')
+    esCerroConDolmen = models.BooleanField('13.6.3. Con Dolmen')
+    esMonumentosMegaliticos = models.BooleanField('13.7. Monumentos Megalíticos')
+    esMonolitos = models.BooleanField('13.7.1. Monolitos')
+    esMonolitoConGrabados = models.BooleanField('13.7.1.1. Con Grabados')
+    esMenhires = models.BooleanField('13.7.2. Menhires')
+    esMenhiresConPuntos = models.BooleanField('13.7.2.1. Con Puntos Acoplados')
+    esMenhiresConPetroglifo = models.BooleanField('13.7.2.2. Con Petroglifo')
+    esMenhiresConPintura = models.BooleanField('13.7.2.3. Con Pintura')
+    esAmolador = models.BooleanField('13.8. Amolador')
+    esBatea = models.BooleanField('13.9. Batea')
+    esPuntosAcoplados = models.BooleanField('13.10. Puntos Acoplados')
+    esCupulas = models.BooleanField('13.11. Cupulas')
+    esMortero = models.BooleanField('13.12. Mortero o Metate')
 	
     abbr = 'tmy'
 
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)
+	
+    def get_texto_descriptivo(self):
+	
+		"Genera un texto descriptivo de los tipos de manfestacion que representa el objeto"				
+		return  (
+			('Geoglifo, ' if self.esGeoglifo else '') +
+			('Pintura Rupestre, ' if self.esPintura else '') +
+			('Petroglifo, ' if self.esPetroglifo else '' ) +
+			('Petroglifo Pintado, ' if self.esPetroglifoPintado else '' ) +
+			('Micro-Petroglifo, ' if self.esMicroPetroglifo else '' ) +
+			('Piedra Mítica Natural, ' if self.esPiedraMiticaNatural else '' ) +
+			('Cerro Mítico Natural, ' if self.esCerroMiticoNatural else '' ) + 
+			('Cerro Mítico Natural Con Petroglifo, ' if self.esCerroConPetroglifo else '' ) +
+			('Cerro Mítico Natural Con Pintura, ' if self.esCerroConPintura else '' ) +
+			('Cerro Mítico Natural Con Dolmen, ' if self.esCerroConDolmen else '' ) +
+			('Monumentos Megalíticos, ' if self.esMonumentosMegaliticos else '' ) +
+			('Monolitos, ' if self.esMonolitos else '' ) +
+			('Monolitos Con Grabados, ' if self.esMonolitoConGrabados else '' ) +
+			('Menhires, ' if self.esMenhires else '' ) +
+			('Menhires Con Puntos Acoplados, ' if self.esMenhiresConPuntos else '' ) +
+			('Menhires Con Petroglifo, ' if self.esMenhiresConPetroglifo else '' ) + 
+			('Menhires Con Pintura, ' if self.esMenhiresConPintura else '' ) + 
+			('Amolador, ' if self.esAmolador else '' ) +
+			('Batea, ' if self.esBatea else '' ) +	
+			('Puntos Acoplados, ' if self.esPuntosAcoplados else '' ) +
+			('Cúpulas, ' if self.esCupulas else '' ) +
+			('Mortero o Metate ' if self.esMortero else '') 				
+		)
+	
+    texto_descriptivo = property(get_texto_descriptivo)
+	
     class Meta:
         verbose_name = '13. Tipo de Manifestación'
         verbose_name_plural = '13. Tipo de Manifestación'
-    
-    def __unicode__(self):
-        return '' # '# ' + str(self.id)
-
+	
     
 class UbicacionYacimiento(models.Model):
 
-    OPCIONES_UBI_MANIFEST = (
-        (1,'14.1 Cerro'),
-        (2,'14.1.1 Cerro - Cima'),
-        (3,'14.1.2 Cerro - Ladera'),
-        (4,'14.1.3 Cerro - Falda'),
-        (5,'14.1.4 Cerro - Fila'),
-        (6,'14.1.5 Cerro - Pie de Monte'),
-        (7,'14.1.6 Cerro - Barranco'),
-        (8,'14.1.7 Cerro - Acantilado'),
-        (9,'14.2 Valle'),
-        (10,'14.3 Río'),
-        (11,'14.3.1 Río - Lecho'),
-        (12,'14.3.2 Río - Margen Derecha'),
-        (13,'14.3.3 Río - Margen Izquierda'),
-        (14,'14.3.4 Río - Isla'),
-        (15,'14.3.5 Río - Raudal'),
-        (16,'14.4 Costa'),       
-    )
-    yacimiento = models.ForeignKey(Yacimiento, related_name='UbicacionYacimiento')
-    ubicacionManifestacion = models.IntegerField('14. Ubicacion de la Manifestacion',choices = OPCIONES_UBI_MANIFEST, blank = True,null = True)
+    yacimiento = models.OneToOneField(Yacimiento, related_name='UbicacionYacimiento')
+    
+    enCerro = models.BooleanField('14.1. Cerro')
+    enCerroCima = models.BooleanField('14.1.1. Cima')
+    enCerroLadera = models.BooleanField('14.1.2. Ladera')
+    enCerroFalda = models.BooleanField('14.1.3. Falda')
+    enCerroFila = models.BooleanField('14.1.4. Fila')
+    enCerroPieDeMonte = models.BooleanField('14.1.5. Pie de Monte')
+    enCerroBarranco = models.BooleanField('14.1.6. Barranco')
+    enCerroAcantilado = models.BooleanField('14.1.7. Acantilado')
+    enValle = models.BooleanField('14.2. Valle')
+    enRio = models.BooleanField('14.3. Río')
+    enRioLecho = models.BooleanField('14.3.1. Lecho')
+    enRioMargenDerecha = models.BooleanField('14.3.2. Margen Derecha')
+    enRioMargenIzquierda = models.BooleanField('14.3.3. Margen Izquierda')
+    enRioIsla = models.BooleanField('14.3.4. Isla')
+    enRioRaudal = models.BooleanField('14.3.5. Raudal')
+    enRioCosta = models.BooleanField('14.4. Costa')
 
     abbr = 'ubm'
         
@@ -485,8 +523,8 @@ class TecnicaParaGeoglifo (models.Model):
     abbr = 'tge'
     
     class Meta:
-        verbose_name = '23. Técnica-13.1 Geoglifo'
-        verbose_name_plural = '23. Técnica-13.1 Geoglifo'
+        verbose_name = '13.1. Geoglifo'
+        verbose_name_plural = '23. Técnica'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -503,8 +541,8 @@ class TecnicaParaPintura (models.Model):
     abbr = 'tpi'
 
     class Meta:
-        verbose_name = '23. Técnica-13.2 Pintura Rupestre'
-        verbose_name_plural = '23. Técnica-13.2 Pintura Rupestre'
+        verbose_name = '13.2. Pintura Rupestre'
+        verbose_name_plural = '23. Técnica'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)    
@@ -526,8 +564,8 @@ class TecnicaParaPetroglifo (models.Model):
     abbr = 'tpe'
 
     class Meta:
-        verbose_name = '23. Técnica-13.3 Petroglifo'
-        verbose_name_plural = '23. Técnica-13.3 Petroglifo'
+        verbose_name = '13.3. Petroglifo'
+        verbose_name_plural = '23. Técnica'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -549,8 +587,8 @@ class TecnicaParaMicroPetro (models.Model):
     abbr = 'tmi'
 
     class Meta:
-        verbose_name = '23. Técnica-13.4 Micro-Petroglifo'
-        verbose_name_plural = '23. Técnica-13.4 Micro-Petroglifo'
+        verbose_name = '13.4. Micro-Petroglifo'
+        verbose_name_plural = '23. Técnica'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -568,8 +606,8 @@ class TecnicaParaMonumentos (models.Model):
     abbr = 'tmo'
 
     class Meta:
-        verbose_name = '23. Técnica-13.7 Monumentos '
-        verbose_name_plural = '23. Técnica-13.7 Monumentos'
+        verbose_name = '13.7. Monumentos Megalíticos'
+        verbose_name_plural = '23. Técnica'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -600,8 +638,8 @@ class CaracSurcoPetroglifo (models.Model):
     abbr = 'cpe'
 
     class Meta:
-        verbose_name = '24. Caract. Surco - 13.3 Petroglifo'
-        verbose_name_plural = '24. Caract. Surco - 13.3 Petroglifo'
+        verbose_name = '13.3. Petroglifo'
+        verbose_name_plural = '24. Características del Surco Grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -617,8 +655,8 @@ class CaracSurcoAmoladores(models.Model):
     abbr = 'cam'
 
     class Meta:
-        verbose_name = '24. Caract. Surco - 13.9 Amoladores'
-        verbose_name_plural = '24. Caract. Surco - 13.9 Amoladores'
+        verbose_name = '13.9. Amoladores'
+        verbose_name_plural = '24. Características del Surco Grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -630,12 +668,12 @@ class CaracSurcoBateas(models.Model):
     largo = CharField('24.12. Largo (en cm)', blank = True)
     ancho = CharField('24.13. Ancho (en cm)', blank = True)
     diametro = CharField('24.13a. Diametro (en cm)',  blank = True)
-    profundidad = CharField('24.1b. Profundidad (en cm)',  blank = True)
+    profundidad = CharField('24.13b. Profundidad (en cm)',  blank = True)
     abbr = 'cba'
 
     class Meta:
-        verbose_name = '24. Caract. Surco - 13.10 Bateas'
-        verbose_name_plural = '24. Caract. Surco - 13.10 Bateas'
+        verbose_name = '13.10. Bateas'
+        verbose_name_plural = '24. Características del Surco Grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -652,8 +690,8 @@ class CaracSurcoPuntosAcopl (models.Model):
     abbr = 'cpa'
     
     class Meta:
-        verbose_name = '24. Car. Surco - 13.11 Puntos Acoplados'
-        verbose_name_plural = '24. Car. Surco - 13.11 Puntos Acoplados'
+        verbose_name = '13.11. Puntos Acoplados'
+        verbose_name_plural = '24. Características del Surco Grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -664,14 +702,14 @@ class CaracSurcoCupulas (models.Model):
     largo = CharField('24.15. Largo (en cm)', blank = True)
     ancho = CharField('24.16. Ancho (en cm)', blank = True)
     diametro = CharField('24.17. Diámetro (en cm)', blank = True)
-    profundidad = CharField('24.17.1. Profundidad (en cm)',  blank = True)
-    otros = CharField('24.17.2. Otros',  blank = True)
+    profundidad = CharField('24.17a Profundidad (en cm)',  blank = True)
+    otros = CharField('24.17b. Otros',  blank = True)
     
     abbr = 'ccu'
 
     class Meta:
-        verbose_name = '24. Caract. Surco - 13.12 Cúpula'
-        verbose_name_plural = '24. Caract. Surco - 13.12 Cúpula'
+        verbose_name = '13.12. Cúpula'
+        verbose_name_plural = '24. Características del Surco Grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -686,8 +724,8 @@ class CaracSurcoMortero (models.Model):
     abbr = 'cmr'
 
     class Meta:
-        verbose_name = '24. Caract. Surco - 13.13 Mortero'
-        verbose_name_plural = '24. Caract. Surco - 13.13 Mortero'
+        verbose_name = '13.13. Mortero o Metate'
+        verbose_name_plural = '24. Características del Surco Grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -959,7 +997,7 @@ class Piedra(models.Model):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='Yacimiento')
     
-    codigo = models.CharField('0 - Codigo de la piedra', unique = True, max_length=20)#, primary_key=True)        
+    codigo = models.CharField('0 - Codigo de la roca', unique = True, max_length=20)#, primary_key=True)        
     nombre = CharField('1 - Nombre de la piedra', )
     manifiestacionAsociada = CharField('1.1 Manifestaciones asociadas', blank = True )
     nombreFiguras = CharField('2 - Nombre de las figuras',)

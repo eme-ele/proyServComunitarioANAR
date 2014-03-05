@@ -7576,3 +7576,10 @@
 	VALUES (49, True, False, True, NULL, True, True, True, False);
 
 ---------- Fin Insert Piedra 49
+
+
+---------- La sequencia de yacimiento y piedra no se actualiza, y por tanto no permite insertar registros.
+
+	SELECT setval('anarapp_yacimiento_id_seq', (SELECT MAX(id) FROM anarapp_yacimiento)+1);
+
+	SELECT setval('anarapp_piedra_id_seq', (SELECT MAX(id) FROM anarapp_piedra)+1);
