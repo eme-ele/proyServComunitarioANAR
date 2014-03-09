@@ -10,7 +10,8 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
     ConstitucionYacimiento , MaterialYacimiento, TecnicaParaGeoglifo  , TecnicaParaPintura  , TecnicaParaPetroglifo ,\
     TecnicaParaMicroPetro , TecnicaParaMonumentos , CaracSurcoPetroglifo , CaracSurcoAmoladores , CaracSurcoBateas,\
     CaracSurcoPuntosAcopl , CaracSurcoCupulas , CaracSurcoMortero , CaracDeLaPintura , CaracMonolitos, \
-    CaracMenhires, CaracDolmenArt, NotasYacimiento, EstadoConserYac, ConsiderTemp, CronologiaTentativa, ManifestacionesAsociadas, \
+    CaracMenhires, CaracDolmenArt, NotasYacimiento, EstadoConserYac, ConsiderTemp, \
+	CausasDestruccionYac, IntensidadDestruccionYac, CronologiaTentativa, ManifestacionesAsociadas, \
     BibYacimiento, FotoBibYac, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
     MultimediaYac , ObtInfoYac , OtrosValYac, ObservacionesYac, LlenadoYac, SupervisadoYac, \
     Piedra, FotografiaPiedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
@@ -281,6 +282,20 @@ class EstadoConservacionYacimientoYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-conservacion'
 
+class CausasDestruccionYacInline(admin.StackedInline):
+    model = CausasDestruccionYac
+    form = forms.CausasDestruccionYacForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-conservacion'
+
+class IntensidadDestruccionYacInline(admin.StackedInline):
+    model = IntensidadDestruccionYac
+    form = forms.IntensidadDestruccionYacForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-conservacion' 
+
 class ConsideracionesTemporalidadYacInline(admin.StackedInline):
     model = ConsiderTemp
     form = forms.ConsiderTempForm
@@ -541,17 +556,14 @@ class YacimientoAdmin(admin.ModelAdmin):
 
     model = Yacimiento
     form = forms.YacimientoForm
-    list_display = ('codigo','nombre', 'pais','estado','municipio', 'tipos_de_manifestaciones')
-    list_filter = ('codigo','pais', 'estado', 'municipio')
+    list_display = ('codigo','nombre', 'pais','estado', 'tipos_de_manifestaciones')
+    list_filter = ('codigo','pais', 'estado',)
 	
     fieldsets = [
         ('Datos generales del Yacimiento', {
             'classes': ('suit-tab suit-tab-generales',),
-            'fields': ['codigo', 'nombre']
-        }),
-        ('Estado', {
-            'classes': ('suit-tab suit-tab-estado',),
-            'fields': ['pais', 'estado', 'municipio']}),
+            'fields': ['codigo', 'pais', 'nombre', 'estado', 'municipio']
+        }),                    
     ]
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
@@ -563,13 +575,13 @@ class YacimientoAdmin(admin.ModelAdmin):
         CaracSurcoAmoladoresYacInline,CaracSurcoBateasYacInline, CaracSurcoPuntosAcopladosYacInline,
         CaracSurcoCupulasYacInline,CaracSurcoMorteroYacInline,CaracDeLaPinturaYacInline,
         CaracMonolitosYacInline,CaracMenhiresYacInline, CaracDolmenArtificialYacInline, NotasYacimientoInline,
-        EstadoConservacionYacimientoYacInline,ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,
+        EstadoConservacionYacimientoYacInline,CausasDestruccionYacInline, IntensidadDestruccionYacInline, 
+		ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,
         ManifestacionesAsociadasYacInline, OtrosValoresSitioYacInline, BibYacimientoInline,  FotoBibYacInline,  MatAVYacimientoInline,
         VideoYacimientoInline, PeliYacimientoInline, PaginaWebYacInline, MultimediaYacInline, ObtenidaPorYacInline,
         ObservacionYacInline, LlenadaPorYacInline,SupervisadaPorYacInline
     ]
     suit_form_tabs = (('generales', 'Datos generales del Yacimiento'),
-                      ('estado', 'Estado'),
                       ('manifestacion', 'La Manifestación'),
                       ('tecnicas', 'Técnicas'),
                       ('conservacion', 'Conservación'),

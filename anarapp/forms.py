@@ -944,16 +944,27 @@ class EstadoConserYacForm(ModelForm) :
                 'patinaPa': TextInput(attrs=regularTextField),
                 'erosion': TextInput(attrs=regularTextField),
                 'erosionPa': TextInput(attrs=regularTextField),
-                'especificar': AutosizedTextarea(attrs=regularTextArea),
-                'otros': AutosizedTextarea(attrs=regularTextArea),
-                'observaciones': AutosizedTextarea(attrs=regularTextArea),
-                'mas': TextInput(attrs=regularTextField),
+                'especificar': AutosizedTextarea(attrs=regularTextArea),                
         }
+
+
+class CausasDestruccionYacForm(ModelForm) :
+    class Meta:
+        widgets = {   
+				'otros': AutosizedTextarea(attrs=regularTextArea),
+        }		
+
+class IntensidadDestruccionYacForm(ModelForm) :
+    class Meta:
+        widgets = {   
+		        'observaciones': AutosizedTextarea(attrs=regularTextArea),
+                'mas': TextInput(attrs=regularTextField),		
+        }			
         
 class ConsiderTempForm(ModelForm) :
     class Meta:
         widgets = {                
-                'otros': TextInput(attrs=regularTextField),
+                'otros': AutosizedTextarea(attrs=regularTextArea),
         }
 
 class CronologiaTentativaForm(ModelForm) :

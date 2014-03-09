@@ -41,7 +41,7 @@ class Yacimiento(models.Model):
     pais = CharField('0. Pais',  default = 'Venezuela')
     nombre = CharField('1. Nombre(s) del Yacimiento')
     municipio = CharField('2. Municipio')    
-    estado = CharField('3. Estado')    
+    estado = CharField('3. Estado/Provincia')    
      
     #representacion en string de un objeto tipo Yacimiento
     def __unicode__(self):
@@ -135,8 +135,8 @@ class Indicaciones(models.Model):
     abbr = 'ind'
     
     class Meta:
-        verbose_name = '6. Indicaciones para llegar al Lugar'
-        verbose_name_plural = '6. Indicaciones para llegar al Lugar'
+        verbose_name = '6. Indicaciones para llegar al Yac.'
+        verbose_name_plural = '6. Indicaciones para llegar al Yac.'
 
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -144,13 +144,13 @@ class Indicaciones(models.Model):
 class Croquis (models.Model):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='Croquis')
-    archivo = models.ImageField('6.2.1 Archivo - Croquis', upload_to='croquis/%Y_%m', null=True, blank=True)
+    archivo = models.ImageField('6.2.1. Archivo - Esquema de llegada', upload_to='esquema/%Y_%m', null=True, blank=True)
     
     abbr = 'crq'
 
     class Meta:
-        verbose_name = '6.2 Croquis y Esquema'
-        verbose_name_plural = '6.2 Croquis para Llegar al Sitio'
+        verbose_name = '6.2.1. Esquema de llegada. Archivo'
+        verbose_name_plural = ''
 
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -356,8 +356,8 @@ class UbicacionYacimiento(models.Model):
     abbr = 'ubm'
         
     class Meta:
-        verbose_name = '14. Ubicación de la Manifestacion'
-        verbose_name_plural = '14. Ubicación de la Manifestacion'
+        verbose_name = '14. Ubicación'
+        verbose_name_plural = '14. Ubicación'
     
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -524,7 +524,7 @@ class TecnicaParaGeoglifo (models.Model):
     
     class Meta:
         verbose_name = '13.1. Geoglifo'
-        verbose_name_plural = '23. Técnica'
+        verbose_name_plural = '23. Técnicas'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -542,7 +542,7 @@ class TecnicaParaPintura (models.Model):
 
     class Meta:
         verbose_name = '13.2. Pintura Rupestre'
-        verbose_name_plural = '23. Técnica'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)    
@@ -565,7 +565,7 @@ class TecnicaParaPetroglifo (models.Model):
 
     class Meta:
         verbose_name = '13.3. Petroglifo'
-        verbose_name_plural = '23. Técnica'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -588,7 +588,7 @@ class TecnicaParaMicroPetro (models.Model):
 
     class Meta:
         verbose_name = '13.4. Micro-Petroglifo'
-        verbose_name_plural = '23. Técnica'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -597,9 +597,9 @@ class TecnicaParaMonumentos (models.Model):
 
     yacimiento = models.OneToOneField(Yacimiento, related_name='TecnicaParaMonumentos')
     
-    esMonolito = models.BooleanField('13.7.1. Monolitos')
-    esMenhir = models.BooleanField('13.7.2. Menhires')
-    esDolmen = models.BooleanField('13.7.3. Dolmen (artificial)')
+    esMonolito = models.BooleanField('13.7.1 Monolitos')
+    esMenhir = models.BooleanField('13.7.2 Menhires')
+    esDolmen = models.BooleanField('13.7.3 Dolmen (artificial)')
     tecnicas = CharField('23.7. Técnicas de Construcción', blank = True)
     otros = CharField('23.8. Otros', blank = True)
     
@@ -607,7 +607,7 @@ class TecnicaParaMonumentos (models.Model):
 
     class Meta:
         verbose_name = '13.7. Monumentos Megalíticos'
-        verbose_name_plural = '23. Técnica'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -639,7 +639,7 @@ class CaracSurcoPetroglifo (models.Model):
 
     class Meta:
         verbose_name = '13.3. Petroglifo'
-        verbose_name_plural = '24. Características del Surco Grabado'
+        verbose_name_plural = '24. Características del surco grabado'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -656,7 +656,7 @@ class CaracSurcoAmoladores(models.Model):
 
     class Meta:
         verbose_name = '13.9. Amoladores'
-        verbose_name_plural = '24. Características del Surco Grabado'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -673,7 +673,7 @@ class CaracSurcoBateas(models.Model):
 
     class Meta:
         verbose_name = '13.10. Bateas'
-        verbose_name_plural = '24. Características del Surco Grabado'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -691,7 +691,7 @@ class CaracSurcoPuntosAcopl (models.Model):
     
     class Meta:
         verbose_name = '13.11. Puntos Acoplados'
-        verbose_name_plural = '24. Características del Surco Grabado'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -702,14 +702,14 @@ class CaracSurcoCupulas (models.Model):
     largo = CharField('24.15. Largo (en cm)', blank = True)
     ancho = CharField('24.16. Ancho (en cm)', blank = True)
     diametro = CharField('24.17. Diámetro (en cm)', blank = True)
-    profundidad = CharField('24.17a Profundidad (en cm)',  blank = True)
+    profundidad = CharField('24.17a. Profundidad (en cm)',  blank = True)
     otros = CharField('24.17b. Otros',  blank = True)
     
     abbr = 'ccu'
 
     class Meta:
         verbose_name = '13.12. Cúpula'
-        verbose_name_plural = '24. Características del Surco Grabado'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -725,7 +725,7 @@ class CaracSurcoMortero (models.Model):
 
     class Meta:
         verbose_name = '13.13. Mortero o Metate'
-        verbose_name_plural = '24. Características del Surco Grabado'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -739,12 +739,12 @@ class CaracDeLaPintura (models.Model):
     esTecnicaDactilar = models.BooleanField('25.1.1. Técnica - Dactilar')
     esTecnicaFibra = models.BooleanField('25.1.2. Técnica - Fibra')
     otros = CharField('25.1.3. Técnica - Otros', blank = True)
-    esLineaSencilla= models.BooleanField('25.2.1. Tipo de Línea - Sencilla')
-    anchoDe = CharField('25.2.1.1. Ancho desde (en cm)', blank = True)
-    anchoA = CharField('25.2.1.2. Ancho hasta (en cm)', blank = True)
-    esLineaCompuesta= models.BooleanField('25.2.2. Tipo de Línea - Compuesta')
-    anchoDeComp = CharField('25.2.2.1. Ancho desde (en cm)', blank = True)
-    anchoAComp = CharField('25.2.2.2. Ancho hasta (en cm)', blank = True)  
+    esLineaSencilla= models.BooleanField('25.2.1 Tipo de Línea - Sencilla')
+    anchoDe = CharField('25.2.1.1 Ancho desde (en cm)', blank = True)
+    anchoA = CharField('25.2.1.2 Ancho hasta (en cm)', blank = True)
+    esLineaCompuesta= models.BooleanField('25.2.2 Tipo de Línea - Compuesta')
+    anchoDeComp = CharField('25.2.2.1 Ancho desde (en cm)', blank = True)
+    anchoAComp = CharField('25.2.2.2 Ancho hasta (en cm)', blank = True)  
     esFiguraRellena = models.BooleanField('25.3. Figura Rellena')
     esImpresionDeManos = models.BooleanField('25.4. Impresión de Manos')
     esImpresionDeManosPositivo = models.BooleanField('25.4.1. Positivo')
@@ -756,8 +756,8 @@ class CaracDeLaPintura (models.Model):
     abbr = 'pin'
     
     class Meta:
-        verbose_name = '25. Caract. - 13.2 Pintura Rupestre'
-        verbose_name_plural = '25. Caract. - 13.2 Pintura Rupestre'
+        verbose_name = '13.2. Pintura Rupestre'
+        verbose_name_plural = '25. Características de la Pintura'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -767,14 +767,14 @@ class CaracMonolitos(models.Model):
     yacimiento = models.OneToOneField(Yacimiento, related_name='CaracMonolitos')
     
     cantidad = models.IntegerField('26.1. Cantidad ', blank = True, null = True, )
-    esPinturaRupestre = models.BooleanField('13.7.1.1. Con Grabados')
+    esPinturaRupestre = models.BooleanField('13.7.1.1 Con Grabados')
     cantidadConGrabados = models.IntegerField('26.2. Cantidad con Grabados', blank = True, null = True, )
     
     abbr = 'mon'
 
     class Meta:
-        verbose_name = '26. Caract. MM - 13.7.1 Monolitos'
-        verbose_name_plural = '26. Caract. MM - 13.7.1 Monolitos'
+        verbose_name = '13.7.1. Monolitos'
+        verbose_name_plural = '26. Caract. Monumentos Megalíticos'
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -796,8 +796,8 @@ class CaracMenhires(models.Model):
     abbr = 'men'
 
     class Meta:
-        verbose_name = '26. Caract. MM - 13.7.2 Menhires'
-        verbose_name_plural = '26. Caract. MM - 13.7.2 Menhires'
+        verbose_name = '13.7.2. Menhires'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -814,8 +814,8 @@ class CaracDolmenArt(models.Model):
     abbr = 'dol'
 
     class Meta:
-        verbose_name = '26. Caract. MM - 13.7.3 Dolmen'
-        verbose_name_plural = '26. Caract. MM - 13.7.3 Dolmen'
+        verbose_name = '13.7.3. Dolmen'
+        verbose_name_plural = ''
         
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -875,29 +875,6 @@ class EstadoConserYac(models.Model):
     enPorCausaHumanaAguda = models.BooleanField('27.3.2.1. Aguda')
     especificar = CharField('27.4. Especificar Causa y Efecto', blank = True)
     destruccionPotencial = models.BooleanField('27.5. Destrucción Potencial del Sitio')
-    porAsentamientoHumand = models.BooleanField('27.5.1.1 Causa - Asentamiento Humano')
-    porObraCortoPlazo = models.BooleanField('27.5.1.2 Causa - Obra Infraestructura a Corto Plazo')
-    porObraMedianoPlazo = models.BooleanField('27.5.1.3 Causa - Obra Infraestructura a Mediano Plazo')
-    porObraLargoPlazo = models.BooleanField('27.5.1.4 Causa - Obra Infraestructura a Largo Plazo')
-    porNivelacion = models.BooleanField('27.5.1.5 Causa - Nivelación del Terreno Como Obra Agrícola')
-    porExtraccionFamiliar = models.BooleanField('27.5.1.6 Causa - Extracción Como Actividad Familiar')
-    porExtraccionMayor = models.BooleanField('27.5.1.7 Causa - Extracción Como Actividad Mayor')
-    porVandalismo = models.BooleanField('27.5.1.8 Causa - Vandalismo')
-    porErosion = models.BooleanField('27.5.1.9 Causa - Erosión')
-    porErosionParModerada = models.BooleanField('27.5.1.9.1 Erosión Parcial Moderada')
-    porErosionParSevera = models.BooleanField('27.5.1.9.2 Erosión Parcial Severa')
-    porErosionExtModerada = models.BooleanField('27.5.1.9.3 Erosión Extensiva Moderada')
-    porErosionExtSevera = models.BooleanField('27.5.1.9.4 Erosión Extensiva Severa')
-    otros = CharField('27.5.1.10 Causa - Otros', blank = True)
-    observaciones = CharField('27.6. Observaciones Sobre Intensidad de Destrucción del Sitio, y Otros Procesos No Descritos', blank = True)
-    esDeTiempo = models.BooleanField('27.6.1. Tiempo')
-    esInmediato = models.BooleanField('27.6.1.1. Inmediato')
-    unAno = models.BooleanField('27.6.1.2. Un Año')
-    dosAno = models.BooleanField('27.6.1.3.  Dos Años')
-    tresAno = models.BooleanField('27.6.1.4. Tres Años')
-    cuatroAno = models.BooleanField('27.6.1.5. Cuatro Años')
-    cincoAno = models.BooleanField('27.6.1.6. Cinco Años')
-    mas = CharField('27.6.1.7. Más', blank = True)
     
     abbr = 'ecy'
 
@@ -908,6 +885,56 @@ class EstadoConserYac(models.Model):
     def __unicode__(self):
         return '' # '# ' + str(self.id)
 
+class CausasDestruccionYac(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='CausasDestruccionYac')
+	
+    porAsentamientoHumand = models.BooleanField('27.5.1.1 Asentamiento Humano')
+    porObraCortoPlazo = models.BooleanField('27.5.1.2 Obra Infraestructura a Corto Plazo')
+    porObraMedianoPlazo = models.BooleanField('27.5.1.3 Obra Infraestructura a Mediano Plazo')
+    porObraLargoPlazo = models.BooleanField('27.5.1.4 Obra Infraestructura a Largo Plazo')
+    porNivelacion = models.BooleanField('27.5.1.5 Nivelación del Terreno Como Obra Agrícola')
+    porExtraccionFamiliar = models.BooleanField('27.5.1.6 Extracción Como Actividad Familiar')
+    porExtraccionMayor = models.BooleanField('27.5.1.7 Extracción Como Actividad Mayor')
+    porVandalismo = models.BooleanField('27.5.1.8 Vandalismo')
+    porErosion = models.BooleanField('27.5.1.9 Erosión')
+    porErosionParModerada = models.BooleanField('27.5.1.9.1 Erosión Parcial Moderada')
+    porErosionParSevera = models.BooleanField('27.5.1.9.2 Erosión Parcial Severa')
+    porErosionExtModerada = models.BooleanField('27.5.1.9.3 Erosión Extensiva Moderada')
+    porErosionExtSevera = models.BooleanField('27.5.1.9.4 Erosión Extensiva Severa')
+    otros = CharField('27.5.1.10  Otros', blank = True)
+	
+    abbr = 'cdy'
+
+    class Meta:
+        verbose_name = '27.5.1. Causas'
+        verbose_name_plural = '27.5.1. Causas'
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)
+
+class IntensidadDestruccionYac(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='IntensidadDestruccionYac')
+    observaciones = CharField('27.6. Observaciones Sobre Intensidad de Destrucción del Sitio, y Otros Procesos No Descritos', blank = True)	
+    esDeTiempo = models.BooleanField('27.6.1. Tiempo')
+    esInmediato = models.BooleanField('27.6.1.1. Inmediato')
+    unAno = models.BooleanField('27.6.1.2. Un Año')
+    dosAno = models.BooleanField('27.6.1.3.  Dos Años')
+    tresAno = models.BooleanField('27.6.1.4. Tres Años')
+    cuatroAno = models.BooleanField('27.6.1.5. Cuatro Años')
+    cincoAno = models.BooleanField('27.6.1.6. Cinco Años')
+    mas = CharField('27.6.1.7. Más', blank = True)
+	
+    abbr = 'idy'
+
+    class Meta:
+        verbose_name = '27.6.1. Tiempo'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)
+	
 class ConsiderTemp(models.Model):
     
     yacimiento = models.OneToOneField(Yacimiento, related_name='ConsiderTemp')

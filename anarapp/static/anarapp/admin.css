@@ -19,18 +19,23 @@
 
 /** Modificaciones realizadas para generar una única barra **/
 
-#yacimiento_form  .nav-tabs-suit li a {	
+#yacimiento_form  .nav-tabs-suit li a, #piedra_form  .nav-tabs-suit li a  {	
 	max-width: 110px;
 	min-width: 60px;
 	height : 35px;
 	text-align : center;
 	padding: 8px 5px 7px;	
+
 }
 
-#piedra_form  .nav-tabs-suit li a {	
-	max-width: 110px;
-	min-width: 60px;
-	height : 35px;
-	text-align : center;
-	padding: 8px 10px 7px;		
+#yacimiento_form div.inline-related  b, 
+#yacimiento_form  #CaracDeLaPintura-0 b,
+#yacimiento_form  #NotasYacimiento-0 b
+{
+	display : none;
+}
+
+#yacimiento_form div.suit-tab-tecnicas b 
+{
+	display : inline-block;
 }

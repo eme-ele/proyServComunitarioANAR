@@ -22,24 +22,36 @@
 				$("fieldset").each(
 					function (indexlol) {	
 						
-						var first_index = null;				
-											
-						//Para cada uno de los items del fieldset, se buscan sus etiquetas para identarlas						
-						$(this).find(".control-label label").each(
-							function(index){
+						var min_index = null;				
+						var current_index = null;
+						var name = null;
+						var $labels = $(this).find(".control-label label");
+						
+						//Para cada uno de los items del fieldset, se busca el menor indice
+						$labels.each(
+							function(){
 															
-								var name = $(this).html();									
+								name = $(this).html();									
 								name = name.substring(0, name.indexOf(' ')); //Se toman en cuanta sólo los puntos antes del espacio 2.3 a.aa
-								var current_index = (name.match(/\./g)||[]).length;									
-								if (first_index == null) {										
-									first_index = current_index;																			
+								current_index = (name.match(/\./g)||[]).length;									
+								if (min_index == null || current_index < min_index ) {										
+									min_index = current_index;
 								}
-								//Se agregan clases que permiten identar: level1, level2, level3, level4
-								if (current_index > first_index) {									
-									$(this).addClass('level' + (current_index - first_index) );
-								}								
+								$(this).attr('suit-level', current_index);								
 							}						
 						);
+						
+						$labels.each(
+							function(){
+								
+								//Se agregan clases que permiten identar: level1, level2, level3, level4 dependiendo del indice minimo
+								current_index = $(this).attr('suit-level');
+								if (current_index > min_index) {									
+									$(this).addClass('level' + (current_index - min_index) );
+								}							
+							}						
+						);
+						
 					}		
 				);
 			}
