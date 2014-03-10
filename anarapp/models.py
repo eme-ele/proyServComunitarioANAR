@@ -982,13 +982,13 @@ class CronologiaTentativa(models.Model):
     
     def __unicode__(self):
         return '' # '# ' + str(self.id)
-
+	
 class ManifestacionesAsociadas(models.Model):
 
     yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesAsociadas')
-    
+	 
     esLitica = models.BooleanField('30.1. Lítica')
-    descripcionLitica = CharField('30.1. Descripción Lítica', blank = True)
+    descripcionLitica = CharField('30.1. Descripció Lítica', blank = True)
     esCeramica = models.BooleanField('30.2. Cerámica')
     descripcionCeramica = CharField('30.2. Descripción Cerámica', blank = True)
     esOseo = models.BooleanField('30.3. Oseo')
@@ -1004,16 +1004,150 @@ class ManifestacionesAsociadas(models.Model):
     esMonticulo = models.BooleanField('30.8. Montículos')
     descripcionMonticulo = CharField('30.8. Descripción Montículos', blank = True)
     otros = CharField('30.9. Otros', blank = True)
-    
+     
     abbr = 'mso'
+ 
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = '30. Manifestaciones Asociadas'
+         
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)
+		 
+class ManifestacionesLitica(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesLitica')    
+    esLitica = models.BooleanField('30.1. Lítica')
+    descripcionLitica = CharField('Descripción', blank = True)
+    
+    abbr = 'mal'
 
     class Meta:
         verbose_name = '30. Manifestaciones Asociadas'
         verbose_name_plural = '30. Manifestaciones Asociadas'
         
     def __unicode__(self):
-        return '' # '# ' + str(self.id)
+        return '' # '# ' + str(self.id)		
 
+class ManifestacionesCeramica(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesCeramica')    
+    esCeramica = models.BooleanField('30.2. Cerámica')
+    descripcionCeramica = CharField('Descripción', blank = True)    
+    
+    abbr = 'mac'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)	
+
+class ManifestacionesOseo(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesOseo')    
+    esOseo = models.BooleanField('30.3. Oseo')
+    descripcionOseo = CharField('Descripción', blank = True)
+
+    abbr = 'mao'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)	
+		
+class ManifestacionesConcha(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesConcha')    
+    esConcha = models.BooleanField('30.4. Concha')
+    descripcionConcha = CharField('Descripción', blank = True)
+
+    abbr = 'mco'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)	
+		
+class ManifestacionesCarbon(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesCarbon')    
+    esCarbon = models.BooleanField('30.5. Carbón No Superficial')
+    descripcionCarbon = CharField('Descripción', blank = True)
+
+    abbr = 'mcar'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)	
+
+class ManifestacionesMito(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesMito')    
+    esMito = models.BooleanField('30.6. Mitos')
+    descripcionMito = CharField('Descripción', blank = True)
+
+    abbr = 'mami'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)			
+
+class ManifestacionesCementerio(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesCementerio')    
+    esCementerio = models.BooleanField('30.7. Cementerios')
+    descripcionCementerio = CharField('Descripción', blank = True)
+
+    abbr = 'macm'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)	
+
+class ManifestacionesMonticulo(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesMonticulo')    
+    esMonticulo = models.BooleanField('30.8. Montículos')
+    descripcionMonticulo = CharField('Descripción', blank = True)
+
+    abbr = 'mamn'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)	
+
+class ManifestacionesOtros(models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesOtros')    
+    otros = CharField('30.9. Otros', blank = True)
+
+    abbr = 'maot'
+
+    class Meta:
+        verbose_name = '30. Manifestaciones Asociadas'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)		
+		
 ########################################################################################
 # Diagrama de piedra
 ########################################################################################

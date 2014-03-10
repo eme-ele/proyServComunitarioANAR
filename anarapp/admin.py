@@ -11,7 +11,10 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
     TecnicaParaMicroPetro , TecnicaParaMonumentos , CaracSurcoPetroglifo , CaracSurcoAmoladores , CaracSurcoBateas,\
     CaracSurcoPuntosAcopl , CaracSurcoCupulas , CaracSurcoMortero , CaracDeLaPintura , CaracMonolitos, \
     CaracMenhires, CaracDolmenArt, NotasYacimiento, EstadoConserYac, ConsiderTemp, \
-	CausasDestruccionYac, IntensidadDestruccionYac, CronologiaTentativa, ManifestacionesAsociadas, \
+	CausasDestruccionYac, IntensidadDestruccionYac, CronologiaTentativa, \
+	ManifestacionesAsociadas, ManifestacionesLitica, ManifestacionesCeramica, ManifestacionesOseo, \
+	ManifestacionesConcha, ManifestacionesCarbon, ManifestacionesMito, \
+	ManifestacionesCementerio, ManifestacionesMonticulo, ManifestacionesOtros, \
     BibYacimiento, FotoBibYac, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
     MultimediaYac , ObtInfoYac , OtrosValYac, ObservacionesYac, LlenadoYac, SupervisadoYac, \
     Piedra, FotografiaPiedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
@@ -316,6 +319,69 @@ class ManifestacionesAsociadasYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestaciones'
 
+class ManifestacionesLiticaInline(admin.TabularInline):
+    model = ManifestacionesLitica
+    form = forms.ManifestacionesLiticaForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'
+
+class ManifestacionesCeramicaInline(admin.TabularInline):
+    model = ManifestacionesCeramica
+    form = forms.ManifestacionesCeramicaForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'
+
+class ManifestacionesOseoInline(admin.TabularInline):
+    model = ManifestacionesOseo
+    form = forms.ManifestacionesOseoForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'	
+
+class ManifestacionesConchaInline(admin.TabularInline):
+    model = ManifestacionesConcha
+    form = forms.ManifestacionesConchaForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'	
+
+class ManifestacionesCarbonInline(admin.TabularInline):
+    model = ManifestacionesCarbon
+    form = forms.ManifestacionesCarbonForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'		
+
+class ManifestacionesMitoInline(admin.TabularInline):
+    model = ManifestacionesMito
+    form = forms.ManifestacionesMitoForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'	
+
+class ManifestacionesCementerioInline(admin.TabularInline):
+    model = ManifestacionesCementerio
+    form = forms.ManifestacionesCementerioForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'		
+
+class ManifestacionesMonticuloInline(admin.TabularInline):
+    model = ManifestacionesMonticulo
+    form = forms.ManifestacionesMonticuloForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'		
+
+class ManifestacionesOtrosInline(admin.StackedInline):
+    model = ManifestacionesOtros
+    form = forms.ManifestacionesOtrosForm
+    extra = 1
+    max_num = 1
+    suit_classes = 'suit-tab suit-tab-manifestaciones'		
+	
 class OtrosValoresSitioYacInline(admin.StackedInline):
     model = OtrosValYac
     form = forms.OtrosValForm
@@ -577,7 +643,11 @@ class YacimientoAdmin(admin.ModelAdmin):
         CaracMonolitosYacInline,CaracMenhiresYacInline, CaracDolmenArtificialYacInline, NotasYacimientoInline,
         EstadoConservacionYacimientoYacInline,CausasDestruccionYacInline, IntensidadDestruccionYacInline, 
 		ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,
-        ManifestacionesAsociadasYacInline, OtrosValoresSitioYacInline, BibYacimientoInline,  FotoBibYacInline,  MatAVYacimientoInline,
+		#ManifestacionesAsociadasYacInline,
+		ManifestacionesLiticaInline, ManifestacionesCeramicaInline, ManifestacionesOseoInline, 
+		ManifestacionesConchaInline, ManifestacionesCarbonInline, ManifestacionesMitoInline, 
+		ManifestacionesCementerioInline, ManifestacionesMonticuloInline, ManifestacionesOtrosInline,		
+		OtrosValoresSitioYacInline, BibYacimientoInline,  FotoBibYacInline,  MatAVYacimientoInline,
         VideoYacimientoInline, PeliYacimientoInline, PaginaWebYacInline, MultimediaYacInline, ObtenidaPorYacInline,
         ObservacionYacInline, LlenadaPorYacInline,SupervisadaPorYacInline
     ]

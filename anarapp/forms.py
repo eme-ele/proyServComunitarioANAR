@@ -998,6 +998,60 @@ class ManifestacionesAsociadasForm(ModelForm) :
                 'otros':  AutosizedTextarea(attrs=regularTextArea),
         }
 
+class ManifestacionesLiticaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+				'descripcionLitica': AutosizedTextarea(attrs=regularTextArea),
+        }
+
+class ManifestacionesCeramicaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionCeramica': AutosizedTextarea(attrs=regularTextArea),        
+        }
+
+class ManifestacionesOseoForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionOseo': AutosizedTextarea(attrs=regularTextArea),        
+        }
+
+class ManifestacionesConchaForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionConcha': AutosizedTextarea(attrs=regularTextArea),        
+        }
+
+class ManifestacionesCarbonForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionCarbon': AutosizedTextarea(attrs=regularTextArea),                        
+        }
+
+class ManifestacionesMitoForm(ModelForm) :
+    class Meta:
+        widgets = {                
+				'descripcionMito': AutosizedTextarea(attrs=regularTextArea),        
+        }
+
+class ManifestacionesCementerioForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionCementerio': AutosizedTextarea(attrs=regularTextArea),         
+        }
+
+class ManifestacionesMonticuloForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'descripcionMonticulo': AutosizedTextarea(attrs=regularTextArea),         
+        }
+
+class ManifestacionesOtrosForm(ModelForm) :
+    class Meta:
+        widgets = {                
+                'otros':  AutosizedTextarea(attrs=regularTextArea),
+        }
+				
 class OtrosValForm(ModelForm) :
     class Meta:
         widgets = {                               
