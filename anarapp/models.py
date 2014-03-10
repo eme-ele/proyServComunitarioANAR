@@ -988,7 +988,7 @@ class ManifestacionesAsociadas(models.Model):
     yacimiento = models.OneToOneField(Yacimiento, related_name='ManifestacionesAsociadas')
 	 
     esLitica = models.BooleanField('30.1. Lítica')
-    descripcionLitica = CharField('30.1. Descripció Lítica', blank = True)
+    descripcionLitica = CharField('30.1. Descripción Lítica', blank = True)
     esCeramica = models.BooleanField('30.2. Cerámica')
     descripcionCeramica = CharField('30.2. Descripción Cerámica', blank = True)
     esOseo = models.BooleanField('30.3. Oseo')
@@ -1502,14 +1502,12 @@ class EscRedPiedra(RepGrafPiedra):
 
 class Bibliografia(models.Model):
 
-    """Representa la bibliografia de un yacimiento o una piedra """
+    TIPO_MAPA = (
+        (1, '1 - Radar'),
+        (2, '2 - Satelital'),
+    )
 
-    codigo = CharField('1. Código', blank = True)
-    titulo = CharField('2. Título', blank = True)
-    autor  = CharField('3. Autor ', blank = True)
-    ano = CharField('4. Año', blank = True)
-    institucion  = CharField('5. Institución', blank = True)
-    conDibujo = CharField('6. Con dibujo', blank = True)
+    """Representa la bibliografia de un yacimiento o una piedra """
 	
     def __unicode__(self):
         return '' # '# ' + str(self.id)
@@ -1517,7 +1515,24 @@ class Bibliografia(models.Model):
 class BibYacimiento(Bibliografia):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='BibYacimiento')
+    codigo = CharField('31.1.1. Código', blank = True)
+    titulo = CharField('31.1.2. Título', blank = True)
+    autor  = CharField('31.1.3. Autor ', blank = True)
+    ano = CharField('31.1.4. Fecha', blank = True)
+    institucion  = CharField('31.1.5. Institución', blank = True)
+    conDibujo = models.BooleanField('31.1.6. Con dibujo',)
+    archivo = models.ImageField('31.1.6.1. Archivo - Dibujo', upload_to='bibliografia_yac/%Y_%m', null=True, blank=True)
     
+    esFotografia = models.BooleanField('31.1.7. Con fotografía')
+    escolor = models.BooleanField('31.1.7.1. Color')
+    esBlancoYNegro = models.BooleanField('31.1.7.2. B/N')
+    esDiapositiva = models.BooleanField('31.1.7.3. Diapositiva')
+    esPapel = models.BooleanField('31.1.7.4. Papel')
+    esDigital = models.BooleanField('31.1.7.5. Digital')
+    esNegativo = models.BooleanField('31.1.7.6. Negativo')
+    descripcion  = CharField('31.1.7.7. Con mapa ', blank = True)
+    tipoMapa = models.IntegerField('31.1.7.8. Tipo de mapa', choices = Bibliografia.TIPO_MAPA, blank = True,null = True)
+	
     abbr = 'biy'
     
     class Meta:
@@ -1527,57 +1542,32 @@ class BibYacimiento(Bibliografia):
 class BibPiedra(Bibliografia):
 
     piedra = models.ForeignKey(Piedra, related_name='BibPiedra')
+    codigo = CharField('13.4.1. Código', blank = True)
+    titulo = CharField('13.4.2. Título', blank = True)
+    autor  = CharField('13.4.3. Autor ', blank = True)
+    ano = CharField('13.4.4. Fecha', blank = True)	
+    institucion  = CharField('13.4.5. Institución', blank = True)
+    conDibujo = models.BooleanField('13.4.6. Con dibujo')
+    archivo = models.ImageField('13.4.6.1. Archivo - Dibujo', upload_to='bibliografia_pie/%Y_%m', null=True, blank=True)
     
+    esFotografia = models.BooleanField('13.4.7. Con fotografía')
+    escolor = models.BooleanField('13.4.7.1. Color')
+    esBlancoYNegro = models.BooleanField('13.4.7.2. B/N')
+    esDiapositiva = models.BooleanField('13.4..7.3. Diapositiva')
+    esPapel = models.BooleanField('13.4.7.4. Papel')
+    esDigital = models.BooleanField('13.4.7.5. Digital')
+    esNegativo = models.BooleanField('13.4.7.6. Negativo')
+    descripcion  = CharField('13.4.7.7. Con mapa ', blank = True)
+    tipoMapa = models.IntegerField('13.4.7.8. Tipo de mapa', choices = Bibliografia.TIPO_MAPA,blank = True,null = True)
+	
     abbr = 'bip'
     
     class Meta:
         verbose_name = 'Bibliografía'
         verbose_name_plural = '13.4. Bibliografía'
 
-# Foto de bibliografia
 
-class FotoBibliografia (models.Model):
 
-    """Representa la información de la ficha pa, con respecto a
-    las fotografías incluidas en la bibliografia"""
-
-    TIPO_MAPA = (
-        (1, '1 - Radar'),
-        (2, '2 - Satelital'),
-    )
-        
-    esFotografia = models.BooleanField('a. Con fotografía')
-    escolor = models.BooleanField('b. Color')
-    esBlancoYNegro = models.BooleanField('c. Blanco y Negro')
-    esDiapositiva = models.BooleanField('d. Diapositiva')
-    esPapel = models.BooleanField('e. Papel')
-    esDigital = models.BooleanField('f. Digital')
-    esNegativo = models.BooleanField('g. Negativo')
-    descripcion  = CharField('h. Con mapa ')
-    tipoMapa = models.IntegerField('i. Tipo de mapa', choices = TIPO_MAPA)
-    
-    def __unicode__(self):
-        return '' # '# ' + str(self.id)	
-	 
-class FotoBibYac (FotoBibliografia):
-    
-    yacimiento = models.ForeignKey(Yacimiento, related_name='FotoBibYac')
-    
-    abbr = 'fby'   
-    
-    class Meta:
-        verbose_name = 'Bibliografía con fotográf.'
-        verbose_name_plural = '31.1.7. Bibliografía fotográfica'
-
-class FotoBibPiedra (FotoBibliografia):
-    
-    piedra = models.ForeignKey(Piedra, related_name='FotoBibPiedra')
-    
-    abbr = 'fbp'
-    
-    class Meta:
-        verbose_name = 'Bibliografía con fotográf.'
-        verbose_name_plural = '13.4.6. Bibliografía fotográfica'   
 
 # Material audiovisual     
 
@@ -1777,25 +1767,23 @@ class ObtInfoPiedra (ObtencionInfo):
 
 class OtrosValores(models.Model):
 
-    texto = CharField('0. Otros valores',)
-	
     def __unicode__(self):
         return '' # '# ' + str(self.id)	
 
 class OtrosValYac(OtrosValores):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='OtrosValYac')
-    
+    texto = CharField('33. Otros valores del sitio', blank = True)
     abbr = 'ovy'
     
     class Meta:
         verbose_name = 'Otros valores del sitio'
-        verbose_name_plural = '33. Otros valores del sitio'
+        verbose_name_plural = ''
 
 class OtrosValPiedra(OtrosValores):
 
     piedra = models.ForeignKey(Piedra, related_name='OtrosValPiedra')
-    
+    texto = CharField('0. Otros valores', blank = True)
     abbr = 'ovp'
     
     class Meta:

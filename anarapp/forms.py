@@ -1086,16 +1086,9 @@ class BibliografiaForm(ModelForm) :
                 'titulo': TextInput(attrs=regularTextField),
                 'autor': TextInput(attrs=regularTextField),
                 'ano': TextInput(attrs=regularTextField),
-                'institucion': TextInput(attrs=regularTextField),                
-                'conDibujo': TextInput(attrs=regularTextField),
+                'institucion': TextInput(attrs=regularTextField),                                
+				'descripcion': TextInput(attrs=regularTextField)
         }
-
-class FotoBibliografiaForm(ModelForm) :
-    class Meta:
-        widgets = {                
-                'descripcion': TextInput(attrs=regularTextField)
-        }
-
 
 class MatAudioVisualForm(ModelForm) :
     class Meta:

@@ -15,11 +15,11 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
 	ManifestacionesAsociadas, ManifestacionesLitica, ManifestacionesCeramica, ManifestacionesOseo, \
 	ManifestacionesConcha, ManifestacionesCarbon, ManifestacionesMito, \
 	ManifestacionesCementerio, ManifestacionesMonticulo, ManifestacionesOtros, \
-    BibYacimiento, FotoBibYac, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
+    BibYacimiento, MatAVYacimiento, VideoYacimiento, PeliYacimiento , PaginaWebYac, \
     MultimediaYac , ObtInfoYac , OtrosValYac, ObservacionesYac, LlenadoYac, SupervisadoYac, \
     Piedra, FotografiaPiedra, DimensionPiedra, CaraTrabajada, UbicacionCaras, FigurasPorTipo, EsquemaPorCara, ConexionFiguras, \
     Manifestaciones, TratFotoPiedra, FotoPiedra, EscNatPiedra, EscRedPiedra, \
-    BibPiedra, FotoBibPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, MultimediaPiedra, \
+    BibPiedra, MatAVPiedra, VideoPiedra, PeliculaPiedra, PaginaWebPiedra, MultimediaPiedra, \
     ObtInfoPiedra, OtrosValPiedra, ObservacPiedra, LlenadoPiedra, SupervisadoPiedra
 
 
@@ -395,12 +395,6 @@ class BibYacimientoInline(admin.StackedInline):
     extra = 1
     suit_classes = 'suit-tab suit-tab-apoyos'
 
-class FotoBibYacInline(admin.StackedInline):
-    model = FotoBibYac
-    extra = 1
-    form = forms.FotoBibliografiaForm
-    suit_classes = 'suit-tab suit-tab-apoyos'
-
 class MatAVYacimientoInline(admin.StackedInline):
     model = MatAVYacimiento
     form = forms.MatAudioVisualForm
@@ -521,13 +515,7 @@ class OtrosValPiedraInline(admin.StackedInline):
     extra = 1
     max_num = 1
     suit_classes = 'suit-tab suit-tab-manifestaciones'    
-
-class FotoBibPiedraInline(admin.StackedInline):
-    extra = 1
-    model =  FotoBibPiedra
-    form = forms.FotoBibliografiaForm
-    suit_classes = 'suit-tab suit-tab-apoyos'
-
+	
 class FotoDigPiedraInline(admin.StackedInline):
     extra = 1
     model =  FotoPiedra
@@ -552,10 +540,6 @@ class BibPiedraInline(admin.StackedInline):
     form = forms.BibliografiaForm
     suit_classes = 'suit-tab suit-tab-apoyos'
 
-class FotoBibPiedraInline(admin.StackedInline):
-    extra = 1
-    model =  FotoBibPiedra
-    suit_classes = 'suit-tab suit-tab-apoyos'
 
 class MatAudioVisualInline(admin.StackedInline):
     extra = 1
@@ -647,7 +631,7 @@ class YacimientoAdmin(admin.ModelAdmin):
 		ManifestacionesLiticaInline, ManifestacionesCeramicaInline, ManifestacionesOseoInline, 
 		ManifestacionesConchaInline, ManifestacionesCarbonInline, ManifestacionesMitoInline, 
 		ManifestacionesCementerioInline, ManifestacionesMonticuloInline, ManifestacionesOtrosInline,		
-		OtrosValoresSitioYacInline, BibYacimientoInline,  FotoBibYacInline,  MatAVYacimientoInline,
+		OtrosValoresSitioYacInline, BibYacimientoInline,  MatAVYacimientoInline,
         VideoYacimientoInline, PeliYacimientoInline, PaginaWebYacInline, MultimediaYacInline, ObtenidaPorYacInline,
         ObservacionYacInline, LlenadaPorYacInline,SupervisadaPorYacInline
     ]
@@ -688,7 +672,7 @@ class PiedraAdmin (admin.ModelAdmin):
     inlines = [
         FotografiaPiedraInline, CaraTrabajadaInline, DimensionPiedraInline, UbicacionCarasInline, FigurasPorTipoInline,
         EsquemaPorCaraInline, ManifestacionesInline, TratFotoInline, FotoDigPiedraInline,
-        EscalaNatPiedraInline, EscalaRedPiedraInline, BibPiedraInline, FotoBibPiedraInline,
+        EscalaNatPiedraInline, EscalaRedPiedraInline, BibPiedraInline,
         MatAudioVisualInline, VideoPiedraInline, PeliculaPiedraInline, PaginaWebPiedraInline,
         MultimediaPiedraInline, ObtInfoPiedraInline, OtrosValPiedraInline, ObservacionPiedraInline,
         LlenadaPorPiedraInline, SupervisadaPorPiedraInline
