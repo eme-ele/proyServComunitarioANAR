@@ -72,8 +72,7 @@ class Yacimiento(models.Model):
     codigo = models.CharField('(00). Codigo ANAR', unique = True, max_length=20)
     pais = CharField('0. Pais',  default = 'Venezuela')
     nombre = CharField('1. Nombre(s) del Yacimiento')
-    estado = models.ForeignKey(Estado, related_name='EstadoYac', blank = True, null = True)		
-    municipio = models.ForeignKey(Municipio, )	
+    estado = models.ForeignKey(Estado, related_name='EstadoYac', blank = True, null = True)		    
     municipio = ChainedForeignKey(Municipio, related_name='MunicipioYac', blank = True, null = True,
 					chained_field = 'estado', chained_model_field = 'estado', show_all = False, auto_choose = True)
 	     

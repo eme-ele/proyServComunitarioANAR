@@ -11,6 +11,8 @@ INSERT INTO anarapp_estado (id,nombre,activo) VALUES
  (7,'CARABOBO',1),
  (8,'COJEDES',1),
  (9,'DELTA AMACURO',1),
+ (25,'DEPENDENCIAS FEDERALES',1),
+ (24,'DISTRITO CAPITAL',1),
  (10,'FALCÓN',1),
  (11,'GUÁRICO',1),
  (12,'LARA',1),
@@ -24,9 +26,7 @@ INSERT INTO anarapp_estado (id,nombre,activo) VALUES
  (20,'TRUJILLO',1),
  (21,'VARGAS',1),
  (22,'YARACUY',1),
- (23,'ZULIA',1),
- (24,'DISTRITO CAPITAL',1),
- (25,'DEPENDENCIAS FEDERALES',1);
+ (23,'ZULIA',1);
 
 --
 -- Dumping data for table `municipio`
