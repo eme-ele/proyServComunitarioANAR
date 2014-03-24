@@ -135,8 +135,8 @@ INSTALLED_APPS = (
     'anarapp',
     'south',
     'joins',
-    'haystack'
-    
+    'haystack',
+	'smart_selects'
 )
 
 # A sample logging configuration. The only tangible logging

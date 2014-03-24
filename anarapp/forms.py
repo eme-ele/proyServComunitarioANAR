@@ -698,8 +698,6 @@ class YacimientoForm(ModelForm) :
                 'codigo': TextInput(attrs=regularTextField),
 		'nombre': TextInput(attrs=regularTextField),
 		'pais': TextInput(attrs=regularTextField),
-		'municipio': TextInput(attrs=regularTextField),
-		'estado': TextInput(attrs=regularTextField),
         }
 
 class LocalidadYacimientoForm(ModelForm) :
@@ -1203,7 +1201,6 @@ class PiedraForm(ModelForm) :
                 'codigo': TextInput(attrs=regularTextField),
                 'nombreFiguras':  AutosizedTextarea(attrs=regularTextArea),
                 'nombre': TextInput(attrs=regularTextField),
-                'estado': TextInput(attrs=regularTextField),
                 'numeroCaras': TextInput(attrs=regularTextField),
                 'numeroCarasTrajabadas': TextInput(attrs=regularTextField),                     
         }

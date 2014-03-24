@@ -3,6 +3,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ObjectDoesNotExist
+from smart_selects.db_fields import ChainedForeignKey
 
 ########################################################################################
 # Clases modificadas
@@ -34,6 +35,70 @@ class CharField(models.CharField):
 ########################################################################################
 # Diagrama de yacimiento
 ########################################################################################
+
+class Estado(models.Model):
+        
+    nombre = CharField('3. Estado/Provincia')
+    activo = models.IntegerField('Activo', validators=[MinValueValidator(0), MaxValueValidator(1)])
+     
+    #representacion en string de un objeto de tipo estado
+    def __unicode__(self):
+        return self.nombre
+        	
+    abbr = 'edo'
+
+    class Meta:
+        verbose_name = '3. Estado/Provincia'
+        verbose_name_plural = '3. Estado/Provincia'
+
+class Municipio(models.Model):
+        
+    nombre = CharField('2. Municipio')
+    estado = models.ForeignKey(Estado, related_name='Municipio')	
+    activo = models.IntegerField('Activo', validators=[MinValueValidator(0), MaxValueValidator(1)])
+    
+    #representacion en string de un objeto de tipo municipio
+    def __unicode__(self):
+        return self.nombre
+        	
+    abbr = 'mpio'
+
+    class Meta:
+        verbose_name = '2. Municipio'
+        verbose_name_plural = '2. Municipios'		
+		
+class Yacimiento(models.Model):
+       
+    codigo = models.CharField('(00). Codigo ANAR', unique = True, max_length=20)
+    pais = CharField('0. Pais',  default = 'Venezuela')
+    nombre = CharField('1. Nombre(s) del Yacimiento')
+    estado = models.ForeignKey(Estado, related_name='EstadoYac', blank = True, null = True)		
+    municipio = models.ForeignKey(Municipio, )	
+    municipio = ChainedForeignKey(Municipio, related_name='MunicipioYac', blank = True, null = True,
+					chained_field = 'estado', chained_model_field = 'estado', show_all = False, auto_choose = True)
+	     
+    #representacion en string de un objeto tipo Yacimiento
+    def __unicode__(self):
+        return short_text('PB1-' + self.codigo + '-' + self.nombre)
+        
+    def _get_tipo_manifestaciones(self):
+	
+        "Determina los tipos de manifestaciones presentes en un yacimiento"
+        try :
+            manifestacion = ManifestacionYacimiento.objects.get(yacimiento=self.id)
+            return manifestacion.texto_descriptivo
+        except ObjectDoesNotExist:
+            return '';
+			
+    tipos_de_manifestaciones = property(_get_tipo_manifestaciones, '13. Tipo de Manifestación')
+	
+    abbr = 'yac'
+
+    class Meta:
+        verbose_name = 'Yacimiento'
+        verbose_name_plural = 'Yacimientos'
+
+
 
 class Yacimiento(models.Model):
        
@@ -129,7 +194,7 @@ class Indicaciones(models.Model):
  
     yacimiento = models.OneToOneField(Yacimiento, related_name='Indicaciones')
     
-    direcciones = CharField('6.0. Indicaciones', blank = True) 
+    direcciones = CharField('6.0. Indicaciones para llegar al Yacimiento', blank = True) 
     puntoDatum = CharField('6.1. Punto Datum ', blank = True)
     
     abbr = 'ind'
@@ -144,12 +209,12 @@ class Indicaciones(models.Model):
 class Croquis (models.Model):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='Croquis')
-    archivo = models.ImageField('6.2.1. Archivo - Esquema de llegada', upload_to='esquema/%Y_%m', null=True, blank=True)
+    archivo = models.ImageField('6.2. Esquema de llegada - Archivo', upload_to='esquema/%Y_%m', null=True, blank=True)
     
     abbr = 'crq'
 
     class Meta:
-        verbose_name = '6.2.1. Esquema de llegada. Archivo'
+        verbose_name = '..'
         verbose_name_plural = ''
 
     def __unicode__(self):
@@ -231,7 +296,7 @@ class FotografiaYac (models.Model):
     noEsAerea = models.BooleanField('11. No Aerea')
     esSatelital = models.BooleanField('11. Satelital')
     fecha = models.DateField('11. Fecha',blank = True, null= True)
-    archivo = models.ImageField('11. Archivo - Fotografía', upload_to='yacimiento/%Y_%m', null=True, blank=True)
+    archivo = models.ImageField('11. Fotografía - Archivo', upload_to='yacimiento/%Y_%m', null=True, blank=True)
     
     abbr = 'fty'  
 
@@ -1161,8 +1226,8 @@ class Piedra(models.Model):
     codigo = models.CharField('0 - Codigo de la roca', unique = True, max_length=20)#, primary_key=True)        
     nombre = CharField('1 - Nombre de la piedra', )
     manifiestacionAsociada = CharField('1.1 Manifestaciones asociadas', blank = True )
-    nombreFiguras = CharField('2 - Nombre de las figuras',)
-    estado= CharField('3 - Estado',)    
+    nombreFiguras = CharField('2 - Nombre de las figuras',)    
+    estado = models.ForeignKey(Estado, related_name='EstadoPied', blank = True, null = True)		
     numeroCaras = models.IntegerField('4 - Numero de Caras')
     numeroCarasTrajabadas = models.IntegerField('5 - Numero de caras trabajadas')
     
@@ -1178,7 +1243,7 @@ class Piedra(models.Model):
 class FotografiaPiedra (models.Model):
     
     piedra = models.ForeignKey(Piedra, related_name='FotografiaPiedra')
-    archivo = models.ImageField('1.1. Archivo - Fotografía', upload_to='piedra/%Y_%m', null=True, blank=True)
+    archivo = models.ImageField('1.1. Fotografía - Archivo', upload_to='piedra/%Y_%m', null=True, blank=True)
     
     abbr = 'ftp'  
 
@@ -1521,7 +1586,7 @@ class BibYacimiento(Bibliografia):
     ano = CharField('31.1.4. Fecha', blank = True)
     institucion  = CharField('31.1.5. Institución', blank = True)
     conDibujo = models.BooleanField('31.1.6. Con dibujo',)
-    archivo = models.ImageField('31.1.6.1. Archivo - Dibujo', upload_to='bibliografia_yac/%Y_%m', null=True, blank=True)
+    archivo = models.ImageField('31.1.6.1. Dibujo - Archivo', upload_to='bibliografia_yac/%Y_%m', null=True, blank=True)
     
     esFotografia = models.BooleanField('31.1.7. Con fotografía')
     escolor = models.BooleanField('31.1.7.1. Color')
@@ -1548,7 +1613,7 @@ class BibPiedra(Bibliografia):
     ano = CharField('13.4.4. Fecha', blank = True)	
     institucion  = CharField('13.4.5. Institución', blank = True)
     conDibujo = models.BooleanField('13.4.6. Con dibujo')
-    archivo = models.ImageField('13.4.6.1. Archivo - Dibujo', upload_to='bibliografia_pie/%Y_%m', null=True, blank=True)
+    archivo = models.ImageField('13.4.6.1. Dibujo - Archivo', upload_to='bibliografia_pie/%Y_%m', null=True, blank=True)
     
     esFotografia = models.BooleanField('13.4.7. Con fotografía')
     escolor = models.BooleanField('13.4.7.1. Color')
@@ -1574,7 +1639,7 @@ class BibPiedra(Bibliografia):
 class MatAudioVisual (models.Model):
 
     formato = CharField('1. Formato', )
-    archivo = models.FileField('2. Archivo - Material AV', upload_to='audiovisual/%Y_%m', null=True, blank=True)
+    archivo = models.FileField('2. Material AV - Archivo', upload_to='audiovisual/%Y_%m', null=True, blank=True)
 	
     def __unicode__(self):
         return '' # '# ' + str(self.id)	
@@ -1611,7 +1676,7 @@ class Video (models.Model):
     numReferencia = models.IntegerField('5. Nro de referencia')
     isFromAnar = models.BooleanField('6. ¿Es de ANAR?')
     numCopia = models.IntegerField('6.1. Nro de copia')
-    archivo = models.FileField('7. Archivo - Video', upload_to='video/%Y_%m', null=True, blank=True)
+    archivo = models.FileField('7. Video - Archivo', upload_to='video/%Y_%m', null=True, blank=True)
 	
     def __unicode__(self):
         return '' # '# ' + str(self.id)	
@@ -1697,7 +1762,7 @@ class PaginaWebPiedra (PaginaWeb):
 class Multimedia (models.Model):
 
     tecnica = CharField('1. Técnica', )
-    archivo = models.FileField('2. Archivo - Multimedia', upload_to='multimedia/%Y_%m', null=True, blank=True)
+    archivo = models.FileField('2. Multimedia - Archivo', upload_to='multimedia/%Y_%m', null=True, blank=True)
     def __unicode__(self):
         return '' # '# ' + str(self.id)	
 
