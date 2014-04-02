@@ -72,8 +72,8 @@ class Yacimiento(models.Model):
     codigo = models.CharField('(00). Codigo ANAR', unique = True, max_length=20)
     pais = CharField('0. Pais',  default = 'Venezuela')
     nombre = CharField('1. Nombre(s) del Yacimiento')
-    estado = models.ForeignKey(Estado, related_name='EstadoYac', blank = True, null = True)		    
-    municipio = ChainedForeignKey(Municipio, related_name='MunicipioYac', blank = True, null = True,
+    estado = models.ForeignKey(Estado, related_name='EstadoYac', verbose_name = '3. Estado/Provincia', blank = True, null = True)		    
+    municipio = ChainedForeignKey(Municipio, related_name='MunicipioYac', verbose_name = '2. Municipio', blank = True, null = True,
 					chained_field = 'estado', chained_model_field = 'estado', show_all = False, auto_choose = True)
 	     
     #representacion en string de un objeto tipo Yacimiento
@@ -294,7 +294,7 @@ class FotografiaYac (models.Model):
     esAerea = models.BooleanField('11. Aerea')
     noEsAerea = models.BooleanField('11. No Aerea')
     esSatelital = models.BooleanField('11. Satelital')
-    fecha = models.DateField('11. Fecha',blank = True, null= True)
+    fecha = models.CharField('11. Fecha', blank = True, null= True, max_length=100)	
     archivo = models.ImageField('11. Fotografía - Archivo', upload_to='yacimiento/%Y_%m', null=True, blank=True)
     
     abbr = 'fty'  
@@ -1222,13 +1222,13 @@ class Piedra(models.Model):
 
     yacimiento = models.ForeignKey(Yacimiento, related_name='Yacimiento')
     
-    codigo = models.CharField('0 - Codigo de la roca', unique = True, max_length=20)#, primary_key=True)        
-    nombre = CharField('1 - Nombre de la piedra', )
+    codigo = models.CharField('0- Codigo de la roca', unique = True, max_length=20)#, primary_key=True)        
+    nombre = CharField('1- Nombre de la piedra', )
     manifiestacionAsociada = CharField('1.1 Manifestaciones asociadas', blank = True )
-    nombreFiguras = CharField('2 - Nombre de las figuras',)    
-    estado = models.ForeignKey(Estado, related_name='EstadoPied', blank = True, null = True)		
-    numeroCaras = models.IntegerField('4 - Numero de Caras')
-    numeroCarasTrajabadas = models.IntegerField('5 - Numero de caras trabajadas')
+    nombreFiguras = CharField('2- Nombre de las figuras',)    
+    estado = models.ForeignKey(Estado, related_name='EstadoPied', verbose_name = '3- Estado/Provincia', blank = True, null = True)		
+    numeroCaras = models.IntegerField('4- Numero de Caras')
+    numeroCarasTrajabadas = models.IntegerField('5- Numero de caras trabajadas')
     
     def __unicode__(self):
         return short_text('Pa-' + self.codigo + '-' + self.nombre)
@@ -1484,7 +1484,7 @@ class Foto (models.Model):
 
     negativo =  CharField('0a. Negativo', )
     tipoFotografia = models.IntegerField('0b. Tipo fotografia', choices = TIPO_FOTOGRAFIA)
-    fecha = models.DateField('1. Fecha')
+    fecha = models.CharField('1. Fecha', blank = True, null= True, max_length=100)
     fotografo  = CharField('2. Fotógrafo')
     institucion  = CharField('3. Institucion ')
     numReferencia = CharField('4. Nro de referencia')
@@ -1800,7 +1800,7 @@ class ObtencionInfo (models.Model):
     twitter = CharField('2.7. Twitter',  blank = True)
     nombreFacebook = CharField('2.8. Perfil Facebook',  blank = True)
     blog = models.URLField('2.9. Blog', blank = True)
-    fecha = models.DateField('2.10. Fecha')
+    fecha = models.CharField('2.10. Fecha', blank = True, null= True, max_length=100)
     verificado = models.BooleanField('2.3. Verificado en el campo')
 
     def __unicode__(self):
@@ -1888,7 +1888,7 @@ class ObservacPiedra(Observaciones):
 class LlenadoPor(models.Model):
 
     nombre = CharField('1. Llenada por: ', blank = True)
-    fecha = models.DateField('2. Fecha',blank = True, null= True)
+    fecha = models.CharField('2. Fecha', blank = True, null= True, max_length=100)
     def __unicode__(self):
         return '' # '# ' + str(self.id)	
 
@@ -1917,7 +1917,7 @@ class LlenadoPiedra(LlenadoPor):
 class SupervisadoPor(models.Model):
 
     nombre = CharField('1. Supervisada por: ', blank = True)
-    fecha = models.DateField('2. Fecha', blank = True, null= True)
+    fecha = models.CharField('2. Fecha', blank = True, null= True, max_length=100)
 	
     def __unicode__(self):
         return '' # '# ' + str(self.id)	
