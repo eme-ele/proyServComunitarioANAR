@@ -606,15 +606,20 @@ class YacimientoAdmin(admin.ModelAdmin):
 
     model = Yacimiento
     form = forms.YacimientoForm
-    list_display = ('codigo','nombre', 'pais','estado', 'tipos_de_manifestaciones')
+    list_display = ('codigo','nombre', 'pais','estado', 'manifestaciones',)
     list_filter = ('codigo','pais', 'estado',)
-	
+    
     fieldsets = [
         ('Datos generales del Yacimiento', {
-            'classes': ('suit-tab suit-tab-generales',),
+            'classes': ('suit-tab suit-tab-generales',),	
             'fields': ['codigo', 'pais', 'nombre', 'estado', 'municipio']
         }),                    
     ]
+	
+    def manifestaciones(self, object):
+        return object.tipos_de_manifestaciones    
+    manifestaciones.short_description = "13. Tipos de Manifestaciones"
+	
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
         PlanoYacInline,CoordenadasYacInline,DatumYacInline,AltitudYacInline,FotoYacInline,

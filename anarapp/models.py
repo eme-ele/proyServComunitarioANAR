@@ -89,7 +89,7 @@ class Yacimiento(models.Model):
         except ObjectDoesNotExist:
             return '';
 			
-    tipos_de_manifestaciones = property(_get_tipo_manifestaciones, '13. Tipo de Manifestación')
+    tipos_de_manifestaciones = property(_get_tipo_manifestaciones)
 	
     abbr = 'yac'
 
