@@ -9,7 +9,7 @@ from anarapp.models import Yacimiento, LocalidadYacimiento, UsoActSuelo, Tenenci
     TexturaSuelo , FloraYacimiento , FaunaYacimiento , HidrologiaYacimiento , TipoExposicionYac,\
     ConstitucionYacimiento , MaterialYacimiento, TecnicaParaGeoglifo  , TecnicaParaPintura  , TecnicaParaPetroglifo ,\
     TecnicaParaMicroPetro , TecnicaParaMonumentos , CaracSurcoPetroglifo , CaracSurcoAmoladores , CaracSurcoBateas,\
-    CaracSurcoPuntosAcopl , CaracSurcoCupulas , CaracSurcoMortero , CaracDeLaPintura , CaracMonolitos, \
+    CaracSurcoPuntosAcopl , CaracSurcoCupulas , CaracSurcoMortero , CaracDeLaPintura , Colores, DescColores, CaracMonolitos, \
     CaracMenhires, CaracDolmenArt, NotasYacimiento, EstadoConserYac, ConsiderTemp, \
 	CausasDestruccionYac, IntensidadDestruccionYac, CronologiaTentativa, \
 	ManifestacionesAsociadas, ManifestacionesLitica, ManifestacionesCeramica, ManifestacionesOseo, \
@@ -250,6 +250,19 @@ class CaracDeLaPinturaYacInline(admin.StackedInline):
     max_num = 1
     suit_classes = 'suit-tab suit-tab-tecnicas'
 
+class ColoresInline(admin.TabularInline):
+    model = Colores  
+    form = forms.ColoresForm	
+    extra = 6    
+    suit_classes = 'suit-tab suit-tab-tecnicas'	
+	
+class DescColoresInline(admin.StackedInline):
+    model =DescColores  
+    #form = forms.DescColoresForm	
+    extra = 1
+    max_num = 1    
+    suit_classes = 'suit-tab suit-tab-tecnicas'	
+	
 class CaracMonolitosYacInline(admin.StackedInline):
     model = CaracMonolitos
     form = forms.CaracMonolitosForm
@@ -618,7 +631,7 @@ class YacimientoAdmin(admin.ModelAdmin):
 	
     def manifestaciones(self, object):
         return object.tipos_de_manifestaciones    
-    manifestaciones.short_description = "13. Tipos de Manifestaciones"
+    manifestaciones.short_description = "13. Tipo de Manifestacion"
 	
     inlines = [
         LocalidadYacInline,UsoActSueloYacInline,TenenciaYacInline,IndicacionesYacInline,CroquisYacInline,
@@ -629,10 +642,10 @@ class YacimientoAdmin(admin.ModelAdmin):
         TecnicaParaMicroPetrYacInline,TecnicaParaMonumentosYacInline,CaracSurcoPetroglifoYacInline,
         CaracSurcoAmoladoresYacInline,CaracSurcoBateasYacInline, CaracSurcoPuntosAcopladosYacInline,
         CaracSurcoCupulasYacInline,CaracSurcoMorteroYacInline,CaracDeLaPinturaYacInline,
-        CaracMonolitosYacInline,CaracMenhiresYacInline, CaracDolmenArtificialYacInline, NotasYacimientoInline,
+        ColoresInline, DescColoresInline,
+		CaracMonolitosYacInline,CaracMenhiresYacInline, CaracDolmenArtificialYacInline, NotasYacimientoInline,
         EstadoConservacionYacimientoYacInline,CausasDestruccionYacInline, IntensidadDestruccionYacInline, 
-		ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,
-		#ManifestacionesAsociadasYacInline,
+		ConsideracionesTemporalidadYacInline,CronologiaTentativaYacInline,		
 		ManifestacionesLiticaInline, ManifestacionesCeramicaInline, ManifestacionesOseoInline, 
 		ManifestacionesConchaInline, ManifestacionesCarbonInline, ManifestacionesMitoInline, 
 		ManifestacionesCementerioInline, ManifestacionesMonticuloInline, ManifestacionesOtrosInline,		

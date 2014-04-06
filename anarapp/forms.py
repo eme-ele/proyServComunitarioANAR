@@ -893,6 +893,17 @@ class CaracDeLaPinturaForm(ModelForm) :
                 'anchoAComp': TextInput(attrs=regularTextField),
         }
 
+class ColoresForm(ModelForm) :
+
+    class Meta:
+        widgets = {                
+                'c':  TextInput(attrs=shortTextField),
+                'm': TextInput(attrs=shortTextField),
+                'y': TextInput(attrs=shortTextField),                    
+                'k': TextInput(attrs=shortTextField),                    
+        }
+        		
+		
 class CaracMonolitosForm(ModelForm) :
     class Meta:
         widgets = {                

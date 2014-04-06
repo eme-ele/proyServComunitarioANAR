@@ -193,8 +193,8 @@ class Indicaciones(models.Model):
  
     yacimiento = models.OneToOneField(Yacimiento, related_name='Indicaciones')
     
-    direcciones = CharField('6.0. Indicaciones para llegar al Yacimiento', blank = True) 
-    puntoDatum = CharField('6.1. Punto Datum ', blank = True)
+    direcciones = CharField('6. Indicaciones para llegar al Yacimiento', blank = True) 
+    puntoDatum = CharField('6.1 Punto Datum ', blank = True)
     
     abbr = 'ind'
     
@@ -688,11 +688,11 @@ class CaracSurcoPetroglifo (models.Model):
     esBaseRedonda = models.BooleanField('24.3.1. Redonda')
     esBaseAguda = models.BooleanField('24.3.2. Aguda')
     esBajoRelieve = models.BooleanField('24.4. Bajo Relieve')
-    esBajoRelieveLineal = models.BooleanField('24.5.1. Lineal')
-    esBajoRelievePlanar = models.BooleanField('24.5.2. Planar')
-    esAltoRelieve = models.BooleanField('24.4.1. Alto Relieve')
-    esAltoRelieveLineal = models.BooleanField('24.4.1. Lineal')
-    esAltoRelievePlanar = models.BooleanField('24.4.2. Planar')
+    esBajoRelieveLineal = models.BooleanField('24.4.1. Lineal')
+    esBajoRelievePlanar = models.BooleanField('24.4.2. Planar')
+    esAltoRelieve = models.BooleanField('24.5. Alto Relieve')
+    esAltoRelieveLineal = models.BooleanField('24.5.1. Lineal')
+    esAltoRelievePlanar = models.BooleanField('24.5.2. Planar')
     esAreaInterlineal = models.BooleanField('24.6. Áreas Interlineales')
     esAreaInterlinealPulida = models.BooleanField('24.6.1. Pulidas')
     esAreaInterlinealRebajada = models.BooleanField('24.6.2. Rebajadas')
@@ -814,9 +814,7 @@ class CaracDeLaPintura (models.Model):
     esImpresionDeManosPositivo = models.BooleanField('25.4.1. Positivo')
     esImpresionDeManosNegativo = models.BooleanField('25.4.2. Negativo')
     tienesFigurasSuperpuestas = models.BooleanField('25.5. Figuras Superpuestas')
-
-    ###IMPORTANTE FALTA 25.6 COLORES ------ PREGUNTAR A RUBY .... 25.6.2 y 25.6.1
-    
+ 
     abbr = 'pin'
     
     class Meta:
@@ -826,6 +824,53 @@ class CaracDeLaPintura (models.Model):
     def __unicode__(self):
         return '' # '# ' + str(self.id)
 
+class Colores (models.Model):
+
+    yacimiento = models.ForeignKey(Yacimiento, related_name='Colores')
+    c = CharField('C', blank = True)
+    m = CharField('M', blank = True)
+    y = CharField('Y', blank = True)
+    k = CharField('K', blank = True)
+
+    abbr = 'col'
+    
+    class Meta:
+        verbose_name = '25.6. Colores'
+        verbose_name_plural = '25.6. Colores'
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)
+		
+class DescColores (models.Model):
+
+    yacimiento = models.OneToOneField(Yacimiento, related_name='ColoresPositiva')
+    
+    esPositiva = models.BooleanField('25.6.1 Positiva')
+    posNegro = CharField('25.6.1.1 Negro', blank = True)
+    posBlanco = CharField('25.6.1.2 Blanco', blank = True)
+    posAmarillo = CharField('25.6.1.3 Amarillo', blank = True)
+    posUnRojo = CharField('25.6.1.4 Un rojo', blank = True)
+    posDosRojos = CharField('25.6.1.5 Dos rojos', blank = True)
+    posTresRojos = CharField('25.6.1.6 Tres rojos', blank = True)	
+	
+    esNegativa = models.BooleanField('25.6.2 Negativa')
+    negNegro = CharField('25.6.2.1 Negro', blank = True)
+    negBlanco = CharField('25.6.2.2 Blanco', blank = True)
+    negAmarillo = CharField('25.6.2.3 Amarillo', blank = True)
+    negUnRojo = CharField('25.6.2.4 Un rojo', blank = True)
+    negDosRojos = CharField('25.6.2.5 Dos rojos', blank = True)
+    negTresRojos = CharField('25.6.2.6 Tres rojos', blank = True)	
+	
+    colorBase = CharField('25.6.3 Color base (áreas interlineales)', blank = True)	
+    abbr = 'dco'
+    
+    class Meta:
+        verbose_name = '25.6. Colores'
+        verbose_name_plural = ''
+        
+    def __unicode__(self):
+        return '' # '# ' + str(self.id)
+		
 class CaracMonolitos(models.Model):
 
     yacimiento = models.OneToOneField(Yacimiento, related_name='CaracMonolitos')
@@ -1582,7 +1627,7 @@ class BibYacimiento(Bibliografia):
     codigo = CharField('31.1.1. Código', blank = True)
     titulo = CharField('31.1.2. Título', blank = True)
     autor  = CharField('31.1.3. Autor ', blank = True)
-    ano = CharField('31.1.4. Fecha', blank = True)
+    ano = CharField('31.1.4. Año', blank = True)
     institucion  = CharField('31.1.5. Institución', blank = True)
     conDibujo = models.BooleanField('31.1.6. Con dibujo',)
     archivo = models.ImageField('31.1.6.1. Dibujo - Archivo', upload_to='bibliografia_yac/%Y_%m', null=True, blank=True)
